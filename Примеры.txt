@@ -1,0 +1,125 @@
+Примеры на языке Тест-Скрипт
+
+
+-------------------------------------------
+test #uspn40										Тест "УСПН-40. Исключение документов"
+
+1:											Шаг 1:
+execute #uspn79										Выполняем тест "УСПН-79. Загрузка документа"		
+2:											Шаг 2:
+click #upload_btn									Нажимаем на элемент "Кнопка "Загрузить""
+select #iskl_upload_year "год 2015"							Выбираем в выпадающем списке "Выбор года при загрузке файла в исключении" значение "год 2015"
+fill #iskl_file_name @filePath								Заполняем поле "Путь к файлу при загрузке в исключении" значением @filePath
+click #iskl_upload_submit								Нажимаем на элемент "Кнопка "Подтвердить" при загрузке в исключении"
+wait #message.isDisplayed with "Процесс поставлен в очередь" for @timeout_notify sec	Ожидаем появление элемента "Всплывающее сообщение" с текстом "Процесс поставлен в очередь" в течение @timeout_notify секунд
+3:											Шаг 3:
+execute #uspn114 with :									Выполняем тест "УСПН-114. Просмотр задачи в очереди" с параметрами:
+	task114 : "Исключение документов"						task114 - "Исключение документов"
+4:											Шаг 4:
+click #perekhodnaya_kampaniya								Нажимаем на элемент "Переходная кампания"
+click #zayava_ob_investirovanii								Нажимаем на элемент "Заявления об инвестировании"
+click #exclusion									Нажимаем на элемент "Исключение документов"
+wait #iskl_table for @timeout sec							Ожидаем появление элемента "Таблица исключений" в течение @timeout секунд
+assert #iskl_table[1, "Статус"] contains "Документы исключены"				Проверяем, что ячейка элемента "Таблица исключений" (1 строка, столбец "Статус") содержит "Документы исключены"
+5:											Шаг 5:
+create uspndb _db									Создаем объект класса UspnDBClient
+_db.query "select * from uspn.jrn_opr_md where blabla" > _result			Вызываем метод query() c параметрами ("select * from uspn.jrn_opr_md where blabla") и получаем объект DBResult
+assert _result.rows > 0									Проверяем, что результат выполнения метода getRowCount() больше 0
+assert _result["CLS_ID_CHECKS", $Integer.class] = 12					Проверяем, что результат выполнения метода getValue() c параметрами ("CLS_ID_CHECKS", Integer.class) равен 12
+-------------------------------------------
+test #uspn114 with :
+	task114 : ""
+	timeout114 : @max_timeout
+	mustExist114 : true
+	successMessage114 : ""
+
+1:
+execute #uspn1
+2:
+click #admin
+click #queue
+3:
+assert _mustExist114 = find #process contains _task114
+if (_mustExist114) :
+	wait #message.isDisplayed with _successMessage114 for _timeout114 sec
+-------------------------------------------
+test #uspn1
+
+1:
+go config.link
+2:
+if (!@loginDone) :
+	fill #username config.login
+	fill #password config.password
+	click #login_btn
+	@loginDone = true
+
+-------------------------------------------
+test #uspn79 with :									Тест "УСПН-79. Загрузка заявления на исключение" с параметрами:
+	incorrectSurname : false								incorrectSurname : false
+	incorrectSnils : false									incorrectSnils : false
+	outerSnils : ""										outerSnils : ""
+
+1:											Шаг 1:
+create uspndb _db									Создаем объект класса UspnDBClient
+if (_outerSnils.length > 0) :								Если длина строки outerSnils больше 0, то
+	_query = "select * from uspn.init_doc_inv where insnmb = ?;"				присваиваем переменной query значение "select * from uspn.init_doc_inv where insnmb = ?;",
+	_db.query _query _outerSnils > _result							выполняем метод query() c параметрами (query, outerSnils) и получаем объект DBResult
+else											иначе
+	_db.query "select * from uspn.init_doc_inv where blablabla" > _result			выполняем метод query() c параметрами ("select * from uspn.init_doc_inv where blablabla") и получаем объект DBResult
+assert _results.rows > 0								Проверяем, что результат выполнения метода getRowCount() больше 0
+_insnmb = _result["INSNMB", $Integer.class]						Запоминаем результат выполнения метода getValue() c параметрами ("INSNMB", Integer.class) в переменную insnmb
+_chsClcDate = _result["CHSCLC_DAT", $Date.class]					Запоминаем результат выполнения метода getValue() с параметрами ("CHSCLC_DAT", Date.class) в переменную chsClcDate 
+_surname = _result["SURNAME", String.class]						Запоминаем результат выполнения метода getValue() с параметрами ["SURNAME", Date.class) в переменную surname
+2:											Шаг 2:
+execute #uspn1										Выполняем тест "УСПН-1. Вход в систему"
+3:											Шаг 3:
+click #perekhodnaya_kampaniya								Нажимаем на элемент "Переходная кампания"
+click #zayava_ob_investirovanii								Нажимаем на элемент "Заявления об инвестировании"
+click #exclusion									Нажимаем на элемент "Исключение документов"
+4:											Шаг 4:
+if (!#filter_window.isDisplayed) :							Если не отображен элемент "Окно фильтра"
+	click #filter										нажимаем на элемент "Фильтр"
+repeat while !#iskl_table.isEmpty :							Повторяем пока не пуст элемент "Таблица исключений"
+	_documentNumber = rand(numeric, 5)							запоминаем случайное число из 5 символов в переменную documentNumber
+	fill #doc_number_input _documentNumber							заполняем поле "Ввод номера документа в фильтре" значением documentNumber
+	click #filter_search									нажимаем на элемент "Поиск в фильтре"
+click #filter_close									Нажимаем на элемент "Закрыть окно фильтра"
+5:											Шаг 5:
+create xml _xml										Создаем объект класса XmlManager
+_xmlName = "PFR-blablabal.xml"								Запоминаем строку "PFR-blablabal.xml" в переменную xmlName
+_xml.load expr(config.uspnDataPath + _xmlName)						Выполняем метод load() с параметрами (выражение(путь к папке с данными + xmlName))
+if (_incorrectSurname) :								Если параметр incorrectSurname - ложь,
+	_xml.set $UspnXmlXPath.FIO_SURNAME expr(_surname + "И")					выполняем метод setTagVal() с параметрами (UspnXmlXPath.FIO_SURNAME, выражение(surname + "И"))
+else											иначе
+	_xml.set $UspnXmlXPath.FIO_SURNAME _surname						выполняем метод setTagVal() с параметрами (UspnXmlXPath.FIO_SURNAME, surname)
+_xml.set $UspnXmlXPath.DOCUMENT_NUMBER _documentNumber					Выполняем метод setTagVal() с параметрами (UspnXmlXPath.DOCUMENT_NUMBER, documentNumber)
+6:											Шаг 6:
+@filePath = expr(@temp_dir + _xmlName)							Запоминаем выражение(@temp_dir + xmlName) в контекстную переменную @filePath
+_xml.save @filePath									Выполняем метод save() с параметрами (@filePath)
+
+----------------------------------------------------
+binding-UspnDBClient
+
+class : USPNDBClient
+nickname : uspndb
+create : USPNDBClient.newInstance()
+query : USPNDBClient.query()
+	params : string
+	params : string string...
+	returns : dbresult
+----------------------------------------------------
+binding-DBResult
+
+class : DBResult
+nickname : dbresult
+get : getValue()
+	params : String Class<T>
+	params : Integer Class<T>
+	returns : T
+rows : getRowCount()
+	returns : int
+
+
+
+     

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://firepath/locale/FirePath.dtd">
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<dialog
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  id="myDialog"
+  title="Generate code for expression"
+  onload="onUniLoad();"
+  ondialogaccept="return onOK();"
+  >
+
+  <script type="text/javascript">
+
+
+// Called once when the dialog displays
+function onUniLoad() {
+  // Use the arguments passed to us by the caller
+  document.getElementById("elementPath").value = window.arguments[0];
+  if (window.arguments[1] == 'xpath') {
+	document.getElementById("pathLabel").value = "XPath:";
+  } else if (window.arguments[1] == 'css') {
+	document.getElementById("pathLabel").value = "CSS:";
+  }
+ 
+}
+
+// Called once if and only if the user clicks OK
+function onOK() {
+   // Return the changed arguments.
+   // Notice if user clicks cancel, window.arguments[0].out remains null
+   // because this function is never called
+	var file = Components.classes["@mozilla.org/file/local;1"].
+                            createInstance(Components.interfaces.nsILocalFile);
+
+    file.initWithPath("C:\\Users\\Public\\Documents\\uat.jar");
+	var oProcess = Components.classes["@mozilla.org/process/util;1"].
+                                        createInstance(Components.interfaces.nsIProcess);
+    oProcess.init(file);
+	var args = [document.getElementById("elementClass").value,
+	document.getElementById("elementName").value,
+	window.arguments[1] + document.getElementById("elementPath").value,
+	document.getElementById("projectName").value];
+	oProcess.run(false, args, 4);
+	return args;
+	
+}
+</script>
+  <grid>
+    <columns><column/><column/></columns>
+    <rows>
+      <row align="center"><label value="Class:"/><textbox id="elementClass"/></row>
+      <row align="center"><label value="Name:"/><textbox id="elementName"/></row>
+	  <row align="center"><label id="pathLabel"/><textbox id="elementPath"/></row>
+	  <row align="center"><label value="Project name:"/><textbox id="projectName"/></row>
+    </rows>
+  </grid>
+</dialog>

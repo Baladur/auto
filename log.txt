@@ -1,0 +1,7 @@
+Started
+arg Button
+arg MORE_FACTS
+arg xpath.//*[@id='syn']/tbody/tr[1]/td/table/tbody/tr[6]/td/div/ul/li[19]/a
+arg kinopoisk
+Converter is created
+Converter processed successfully

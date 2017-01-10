@@ -1,0 +1,24 @@
+<configs>
+    <config project-name="kinopoisk">
+        <elements-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\main\com\roman\kinopoisk\elements</elements-path>
+        <package>com.roman.kinopoisk.elements</package>
+		<tests-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\test\kinopoisk\</tests-path>
+    </config>
+	<config project-name="darkside">
+        <elements-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\main\com\roman\darkside\elements</elements-path>
+        <package>com.roman.darkside.elements</package>
+		<tests-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\test\darkside\</tests-path>
+    </config>
+	<config project-name="afisha">
+        <elements-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\main\com\roman\afisha\elements</elements-path>
+        <package>com.roman.afisha.elements</package>
+		<tests-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\test\afisha\</tests-path>
+    </config>
+	<config project-name="rzhd">
+        <elements-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\main\com\roman\rzhd\elements</elements-path>
+        <package>com.roman.rzhd.elements</package>
+		<tests-path>C:\Users\roman\Documents\auto\UniversalAutotestTool\src\test\rzhd\</tests-path>
+    </config>
+</configs>
+
+

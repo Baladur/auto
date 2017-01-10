@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE overlay SYSTEM "chrome://firepath/locale/FirePath.dtd">
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<window
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  id="myDialog"
+  title="Generate test code"
+  >
+
+  <script type="text/javascript">
+function generate() {
+	var file = Components.classes["@mozilla.org/file/local;1"].
+                            createInstance(Components.interfaces.nsILocalFile);
+
+    file.initWithPath("C:\\Users\\Public\\Documents\\testgen.jar");
+	var oProcess = Components.classes["@mozilla.org/process/util;1"].
+                                        createInstance(Components.interfaces.nsIProcess);
+    oProcess.init(file);
+	var args = [document.getElementById("projectName").value,
+	document.getElementById("testName").value,
+	document.getElementById("autotestGenText").value];
+	oProcess.run(false, args, 3);
+	return args;
+}
+</script>
+<script type="text/javascript" src="elements.json"></script>
+<script type="text/javascript" src="autocomplete.js"></script>
+<script type="text/javascript" src="awesomplete.min.js"></script>
+<html:link rel="stylesheet" href="main.css" />
+<vbox>
+	<hbox><label value="Project:"/><textbox id="projectName"/><button id="generateButton" oncommand="generate();" value="Generate"/></hbox>
+	<hbox><label value="Test:"/><textbox id="testName"/></hbox>
+	<html:div id="written"></html:div>
+		<html:input id="countries" class="awesomplete"></html:input>
+	<!--<textbox id="autotestGenText"
+multiline="true"
+rows="20"/>-->
+
+
+	
+</vbox>
+  
+</window>
+
