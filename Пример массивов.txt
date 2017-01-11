@@ -7,10 +7,10 @@ execute #uspn40 with :
 	snils : _snils1
 2:
 execute #uspn62 with :
-	bornMax : localdate.of 1967 12 31
+	bornMax : localdate.of 1967, 12, 31
 	prcacm : 2
 	r_w_cls_type : "ZVIP"
-	chsclcDate : localdate.of 2013 12 31
+	chsclcDate : localdate.of 2013, 12, 31
 _snilsList : [@snils] as vector
 3:
 execute #uspn62 with :
@@ -40,7 +40,7 @@ _errorCodes : [43, 45, 117, 118, 120, 122, 46, 119]
 _actualCodes : [] as vector
 _snilsList.stream :
 	forEach : _snils -> 
-		_result : _db.getByQuery "select ..." snils
+		_result : _db.getByQuery "select ...", snils
 		assert _result.nextRow with "blablabla"
 		_actualCodes.add _result.get "cls_err_id"
 repeat _errorCodes.length with i :

@@ -12,8 +12,9 @@ var newVariableBuffer = "";
 var localVariables = [];
 var globalVariables = [];
 var methods = ['$timeout'];
+var forceContextUpdate = false;
 
-var spaceExceptions = ["@", "#", "$", "_", '"'];
+var spaceExceptions = ["@", "#", "$", "_", '"', '.'];
 
 //CONTEXT OBJECTS
 var endObj = {
@@ -91,12 +92,23 @@ var constStringObj = {
 	next : endObj
 };
 
+var elementTextObj = {
+	word : '#',
+	variants : elementsObj,
+	next : {
+		word : ".",
+		variants : [".text"],
+		next : endObj
+	}
+};
+
 var stringObj = {
 	fork : true,
 	'@' : globalObj,
 	'_' : localObj,
 	'$' : methodObj,
-	'"' : constStringObj
+	'"' : constStringObj,
+	'#' : elementTextObj
 };
 
 var assignObj = {
@@ -133,6 +145,7 @@ var fillObj = {
 };
 
 var equalObj = {
+	pass : true,
 	word : " =",
 	variants : ["="],
 	next : stringObj
@@ -157,11 +170,9 @@ var notEqualObj = {
 };
 
 var compareObj = {
-	fork : true,
-	'=' : equalObj,
-	'>' : moreObj,
-	'<' : lessObj,
-	'!=' : notEqualObj
+	word : ["=", "<", ">", "!="],
+	variants : ["=", "<", ">", "!="],
+	next : stringObj
 };
 
 var assertLocalObj = {
@@ -215,9 +226,9 @@ function getLastWord() {
 }
 
 function getWord(obj) {
-	if (obj == endObj) {
+	/*if (obj == endObj) {
 		return 0;
-	}
+	}*/
 	if (!('word' in obj)) {
 		console.log(obj);
 		return getVariants(obj);
@@ -251,23 +262,29 @@ function getVariants(obj) {
 			tempObj = tempObj.variants;
 		}
 		//////alert("variants" + tempObj);
-		return tempObj;
+		variants = tempObj;
 	}
+	
+	return variants;
 }
 
 function contextWalker() {
 	//////alert("cw");
 	//////alert(getLastWord());
-	//////alert(currentValues.includes(getLastWord()));
+	//////alert(currentValues.indexOf(getLastWord()));
 	var excludingWordsLast = false;
 	var lastWord = getLastWord();
 	if (words.length > 0) {
-		if (words[words.length-1] == lastWord[0] && currentValues.includes(lastWord.substr(1, lastWord.length))) {
+		console.log(words);
+		console.log(lastWord[0]);
+		if (words[words.length-1] == lastWord[0] && currentValues.indexOf(lastWord.substr(1, lastWord.length)) >= 0) {
 			excludingWordsLast = true;
 		}
 	}
-	if (currentValues.includes(getLastWord()) || excludingWordsLast || newVariableBuffer.length > 0) {
-		
+	console.log(excludingWordsLast);
+	if (currentValues.indexOf(getLastWord()) >= 0 || excludingWordsLast || forceContextUpdate) {
+		excludingWordsLast = false;
+		forceContextUpdate = false;
 		changeOperator = false;
 		if ('fork' in currentOperator) {
 			currentOperator = currentOperator[getLastWord()];
@@ -297,8 +314,13 @@ function contextWalker() {
 			//initContext();
 			
 		} else {
-			
+			window.done = false;
 			currentValues = getVariants(currentOperator);
+			if (currentValues.indexOf("end") >= 0) {
+				window.done = true;
+				currentValues.splice(currentValues.indexOf("end"), 1);
+				console.log(currentValues);
+			}
 			//////alert("currentValues: " + currentValues);
 		}
 		window.awesomplete.filter = showAllFilter;
@@ -307,7 +329,7 @@ function contextWalker() {
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
-	if (currentValues.includes(getLastWord())) {
+	if (currentValues.indexOf(getLastWord()) >= 0) {
 		changeOperator = true;
 	}
 	
@@ -349,13 +371,34 @@ function myReplace(text) {
 		}
 	}
 	
-	/*if (words.includes(splitted[splitted.length-1])) {
+	/*if (words.indexOf(splitted[splitted.length-1])) {
 		this.input.value += splitted[splitted.length-1] + ' ';
 	}*/
 	
 	this.input.value += text;
-	if (!(spaceExceptions.includes(text))) {
+	if (!(spaceExceptions.indexOf(text) >= 0)) {
 		this.input.value += ' ';
+	}
+}
+
+function colorizer(str) {
+	var array = str.split(' ');
+	var keyWords = ["click", "fill", "assert", ":", "with", "sec", "min", "h"];
+	var div = document.createElement('div');
+	document.getElementById("written").appendChild(div);
+	for (var i in array) {
+		var color = "000000";
+		if (keyWords.indexOf(array[i]) >= 0) {
+			color = "0000FF";
+		} else if (array[i][0] == '"') {
+			color = "00B000";
+		} else if (array[i][0] == '#') {
+			color = "990000";
+		}
+		var font = document.createElement("font");
+		div.appendChild(font);
+		font.setAttribute("color", color);
+		font.innerHTML = array[i] + ' ';
 	}
 }
 		
@@ -376,7 +419,7 @@ window.onkeydown = function(e) {
 			
 			if (getLastWord() == words[words.length-1] || getLastWord().substr(1, getLastWord().length) == words[words.length-1])  {
 				if (words.length >= 1) {
-					if (!(spaceExceptions.includes(words[words.length-1]))) {
+					if (!(spaceExceptions.indexOf(words[words.length-1]) >= 0)) {
 						newLength = newLength - 1;
 						////alert(newLength);
 					}
@@ -389,7 +432,7 @@ window.onkeydown = function(e) {
 				////alert("else");
 				//alert(getLastWord());
 				if (words.length >= 1) {
-					if (spaceExceptions.includes(words[words.length-1])) {
+					if (spaceExceptions.indexOf(words[words.length-1]) >= 0) {
 						newLength = newLength + 1;
 						////alert(newLength);
 					}
@@ -411,7 +454,7 @@ window.onkeydown = function(e) {
 		if (objs.length == 1) {
 			newVariableBuffer = "";
 		} else {
-			//if (getVariants(objs[objs.length-2]).includes(getLastWord())) {
+			//if (getVariants(objs[objs.length-2]).indexOf(getLastWord())) {
 			if (objs.length - words.length == 2) {
 				objs.splice(objs.length-1, 1);
 				
@@ -422,22 +465,23 @@ window.onkeydown = function(e) {
 		}
 		currentOperator = objs[objs.length-1];
 		currentValues = getVariants(currentOperator);
-	} else if (key == 13) {
+	} else if (key == 18) {
+		e.preventDefault();
+		e.stopPropagation();
 		if (inputStr.match(/^\d+$/) != undefined) {
 			inputStr += ":";
 			window.done = true;
 		}
-		if (getLastWord()[0] == '"') {
-			inputStr += '"';
-		}
 		
 		if (window.done) {
+			
 			if (objs[1] == newLocalVariableObj ) {
 				localVariables.push(newVariableBuffer);
 			} else if (objs[1] == newGlobalVariableObj) {
 				globalVariables.push(newVariableBuffer);
 			}
-			document.getElementById("written").innerHTML += "<p><i>" + inputStr + "\n" + "</i></p>";
+			//document.getElementById("written").innerHTML += "<p>" + inputStr + "\n" + "</p>";
+			colorizer(inputStr);
 			input.value = "";
 			window.done = false;
 			initContext();
@@ -446,7 +490,7 @@ window.onkeydown = function(e) {
 			window.awesomplete.open();
 		}
 	}
-	if (window.awesomplete.list.length == 1) {
+	if (window.awesomplete.list instanceof Array && window.awesomplete.list.length == 1) {
 		
 		/*var splitted = this.input.value.split(' ');
 		input.value = "";
@@ -465,7 +509,7 @@ function evaluate() {
 	if (!backspace) {
 		var input = document.getElementById("countries");
 		if (input.value.length == 0) {
-			window.awesomplete.list = undefined;
+			window.awesomplete.list = [];
 		}
 		var matchedCount = 0;
 		var matchedHint = "";
@@ -486,6 +530,11 @@ function evaluate() {
 			if (currentOperator == newLocalVariableObj || currentOperator == newGlobalVariableObj) {
 				if (window.input.value[window.input.value.length-1] == ' ') {
 					newVariableBuffer = getLastWord();
+					forceContextUpdate = true;
+				}
+			} else if (currentOperator == constStringObj) {
+				if (window.input.value.substr(window.input.value.length-2, window.input.value.length) == '" ') {
+					forceContextUpdate = true;
 				}
 			}
 		}

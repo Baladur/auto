@@ -1,6 +1,9 @@
 [hidden] {
   display: none;
 }
+#written > div {
+	padding: 2px;
+}
 
 .visually-hidden {
   position: absolute;
@@ -11,6 +14,7 @@
   display: inline-block;
   position: relative;
   min-width: 18em;
+  padding: 2px;
   
   & mark {
     background: hsla(20, 70%, 60%, .5);
