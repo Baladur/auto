@@ -25,15 +25,16 @@ function generate() {
 	return args;
 }
 </script>
-<script type="text/javascript" src="elements.json"></script>
+<script type="text/javascript" src="file://C:/Users/Public/Documents/config.json"></script>
 <script type="text/javascript" src="autocomplete.js"></script>
 <script type="text/javascript" src="awesomplete.min.js"></script>
 <html:link rel="stylesheet" href="main.css" />
 <vbox>
 	<hbox><label value="Project:"/><textbox id="projectName"/><button id="generateButton" oncommand="generate();" value="Generate"/></hbox>
 	<hbox><label value="Test:"/><textbox id="testName"/></hbox>
+	<html:div id="elementsJsonScript"></html:div>
 	<html:div id="written"></html:div>
-		<html:input id="countries" class="awesomplete"></html:input>
+		<html:input id="mainInput" class="awesomplete"></html:input>
 	<!--<textbox id="autotestGenText"
 multiline="true"
 rows="20"/>-->

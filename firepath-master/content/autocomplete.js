@@ -327,13 +327,14 @@ function contextWalker() {
 		window.awesomplete.filter = showAllFilter;
 		//window.awesomplete.list = currentValues;
 		//////alert(words);
+        initAllowedChars();
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
 	if (currentValues.indexOf(getLastWord()) >= 0) {
 		changeOperator = true;
 	}
-    initAllowedChars();
+    
 	
 }
 
@@ -541,6 +542,7 @@ window.onkeydown = function(e) {
 		currentValues = getVariants(currentOperator);
         initAllowedChars();
         handleEnd();
+        window.awesomplete.filter = showAllFilter;
 	} else if (key == 18) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -636,38 +638,6 @@ function evaluate() {
 	} else {
 		window.awesomplete.close();
 	}
-	
-	
-	
-/*	
-	if (input.value == "c") {
-		input.value = "click ";
-		setCaretPosition("mainInput", input.value.length);
-		window.context = 1;
-		window.awesomplete.list = ["#SEARCH_BTN", "#LOGIN_BTN"];
-		window.context = "c-";
-		
-	} else if (input.value == "f") {
-		input.value = "fill #";
-		setCaretPosition("mainInput", input.value.length);
-		window.awesomplete.list = ["#SEARCH_INPUT", "#USERNAME", "#PASSWORD"];
-		window.context = "f-";
-	}
-	
-	var s = input.value.replace(/\ $/,'').split(' ');
-	if (s.length >= 2) {
-		if (s[s.length-1].match(/#.+/) != undefined && window.context[window.context.length-1] != 'e') {
-			window.context += "e";
-		} else if (s.length == 3 && window.context == "f-e") {
-			window.context += "-s";
-		}
-	}
-	if (doDone) {
-		if (window.context == "c-e"
-	|| window.context == "f-e-s") {
-		window.done = true;
-	}
-	}*/
 	handleTickImg();
 	
 }
