@@ -15,7 +15,7 @@ var types = ["string", "int", "double", "boolean"];
 var methods = ['$timeout'];
 var forceContextUpdate = false;
 var tickImg = undefined;
-
+var allowedChars = [];
 var spaceExceptions = ["@", "#", "$", "_", '"', '.'];
 
 //CONTEXT OBJECTS
@@ -321,11 +321,7 @@ function contextWalker() {
 		} else {
 			window.done = false;
 			currentValues = getVariants(currentOperator);
-			if (currentValues.indexOf("end") >= 0) {
-				window.done = true;
-				currentValues.splice(currentValues.indexOf("end"), 1);
-				console.log(currentValues);
-			}
+			handleEnd();
 			//////alert("currentValues: " + currentValues);
 		}
 		window.awesomplete.filter = showAllFilter;
@@ -337,7 +333,15 @@ function contextWalker() {
 	if (currentValues.indexOf(getLastWord()) >= 0) {
 		changeOperator = true;
 	}
+    initAllowedChars();
 	
+}
+
+function handleEnd() {
+    if (currentValues.indexOf("end") >= 0) {
+        window.done = true;
+        currentValues.splice(currentValues.indexOf("end"), 1);
+	}
 }
 
 function initContext() {
@@ -350,6 +354,7 @@ function initContext() {
 	newVariableBuffer = "";
 	window.awesomplete.open();
     handleTickImg();
+    initAllowedChars();
 	//////alert(currentValues);
 }
 function myFilter(hint, input) {
@@ -424,10 +429,56 @@ function colorizer(str) {
 		}
 	}
 }
+
+function excludeWrongChars(event) {
+    if (currentOperator == newLocalVariableObj || currentOperator == newGlobalVariableObj || currentOperator == constStringObj
+       || window.input.value.match(/^\d+$/) != undefined) {
+      return;  
+    } else {
+        if (allowedChars.length == 0) {
+            initAllowedChars();
+        }
+        var inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
+        if (inputChar >= 'A' && inputChar <= 'Z') {
+            inputChar = inputChar.toLowerCase();
+        }
+        console.log(inputChar);
+        if ((allowedChars.indexOf(inputChar) < 0 && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 ))
+           || (getVisibleHints().count == 0 && window.awesomplete.filter == myFilter)) {
+            console.log("visible hints : " + getVisibleHints().count);
+            console.log("input char = " + inputChar);
+            console.log("allowedChars = " + allowedChars);
+            console.log("first condition = " + (allowedChars.indexOf(inputChar) < 0 && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 )));
+            event.preventDefault();
+        }
+        
+    }
+}
+
+function initAllowedChars() {
+    allowedChars = [];
+    for (var i = 0; i < currentValues.length; i++) {
+        var hint = currentValues[i];
+        for (var j = 0; j < hint.length; j++) {
+            if (hint == 'end') {
+                continue;
+            }
+            var char = hint[j];
+            if (allowedChars.indexOf(char) < 0) {
+                allowedChars.push(char.toLowerCase());
+            }
+                
+        }
+    }
+}
+
+window.onkeypress = function(e) {
+    excludeWrongChars(e);
+}
 		
 window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
-	var input = document.getElementById("countries");
+	var input = window.input;
 	var inputStr = input.value;
 	if (key == 8) {
 		backspace = true;
@@ -488,6 +539,8 @@ window.onkeydown = function(e) {
 		}
 		currentOperator = objs[objs.length-1];
 		currentValues = getVariants(currentOperator);
+        initAllowedChars();
+        handleEnd();
 	} else if (key == 18) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -523,29 +576,39 @@ window.onkeydown = function(e) {
 		this.input.value += window.awesomplete.list[0] + " ";*/
 		window.awesomplete.select();
 	}
-	setCaretPosition("countries", input.value.length);
+	setCaretPosition("mainInput", input.value.length);
 	
+}
+
+function getVisibleHints() {
+    var mc = 0;
+    var mh = "";
+		//////alert(currentValues);
+	for (var h in currentValues) {
+			//////alert("input: " + window.input.value);
+			//////alert("hint: " + currentValues[h]);
+        if (myFilter(currentValues[h], window.input.value)) {
+                    //////alert("yeah");
+            mc = mc + 1;
+            mh = currentValues[h];
+        }
+    }
+    return {
+        count : mc,
+        hint : mh
+    };
 }
 
 function evaluate() {
 	////////alert(1);
 	if (!backspace) {
-		var input = document.getElementById("countries");
+		var input = window.input;
 		if (input.value.length == 0) {
 			window.awesomplete.list = [];
 		}
-		var matchedCount = 0;
-		var matchedHint = "";
-		//////alert(currentValues);
-		for (var h in currentValues) {
-			//////alert("input: " + window.input.value);
-			//////alert("hint: " + currentValues[h]);
-			if (myFilter(currentValues[h], window.input.value)) {
-				//////alert("yeah");
-				matchedCount = matchedCount + 1;
-				matchedHint = currentValues[h];
-			}
-		}
+		var visibleHints = getVisibleHints();
+        var matchedCount = visibleHints.count;
+        var matchedHint = visibleHints.hint;
 		//////alert(matchedCount);
 		if (matchedCount == 1) {
 			myReplace(matchedHint);
@@ -579,14 +642,14 @@ function evaluate() {
 /*	
 	if (input.value == "c") {
 		input.value = "click ";
-		setCaretPosition("countries", input.value.length);
+		setCaretPosition("mainInput", input.value.length);
 		window.context = 1;
 		window.awesomplete.list = ["#SEARCH_BTN", "#LOGIN_BTN"];
 		window.context = "c-";
 		
 	} else if (input.value == "f") {
 		input.value = "fill #";
-		setCaretPosition("countries", input.value.length);
+		setCaretPosition("mainInput", input.value.length);
 		window.awesomplete.list = ["#SEARCH_INPUT", "#USERNAME", "#PASSWORD"];
 		window.context = "f-";
 	}
@@ -726,7 +789,7 @@ window.onload = function(e) {
 	addElementsJson("kinopoisk");
 	//initObjs(elementsJson);
 	
-	window.input = document.getElementById("countries");
+	window.input = document.getElementById("mainInput");
 	window.input.oninput = evaluate;
 	
 	window.awesomplete = new Awesomplete(input, {
