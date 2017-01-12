@@ -11,8 +11,10 @@ var declaration = false;
 var newVariableBuffer = "";
 var localVariables = [];
 var globalVariables = [];
+var types = ["string", "int", "double", "boolean"];
 var methods = ['$timeout'];
 var forceContextUpdate = false;
+var tickImg = undefined;
 
 var spaceExceptions = ["@", "#", "$", "_", '"', '.'];
 
@@ -66,30 +68,40 @@ var clickObj = {
 	next : forkEndOrWithTimeObj//forker([{input : "with", obj : withTimeObj}, {input : "end", obj : endObj}])
 };
 
+var typeObj = {
+	word : "as",
+	variants : types,
+	next : endObj
+};
 
+var forkEndOrTypeObj = {
+	fork : true,
+	as : typeObj,
+	end : endObj
+};
 
 var globalObj = {
 	word : "@",
 	variants : globalVariables,
-	next : endObj
+	next : forkEndOrTypeObj
 };
 
 var localObj = {
 	word : "_",
 	variants : localVariables,
-	next : endObj
+	next : forkEndOrTypeObj
 };
 
 var methodObj = {
 	word : "$",
 	variants : methods,
-	next : endObj
+	next : forkEndOrTypeObj
 };
 
 var constStringObj = {
 	word : '"',
 	variants : [],
-	next : endObj
+	next : forkEndOrTypeObj
 };
 
 var elementTextObj = {
@@ -103,6 +115,7 @@ var elementTextObj = {
 };
 
 var stringObj = {
+    word : ['@', '_', '$', '"', '#'],
 	fork : true,
 	'@' : globalObj,
 	'_' : localObj,
@@ -115,13 +128,6 @@ var assignObj = {
 	word : " :",
 	variants : [":"],
 	next : stringObj
-};
-
-var forkNumberAssignObj = {
-	fork : true,
-	'0' : forkNumberAssignObj,
-	'1' : forkNumberAssignObj,
-	':' : assignObj
 };
 
 var newLocalVariableObj = {
@@ -145,7 +151,6 @@ var fillObj = {
 };
 
 var equalObj = {
-	pass : true,
 	word : " =",
 	variants : ["="],
 	next : stringObj
@@ -344,6 +349,7 @@ function initContext() {
 	objs.push(mainObj);
 	newVariableBuffer = "";
 	window.awesomplete.open();
+    handleTickImg();
 	//////alert(currentValues);
 }
 function myFilter(hint, input) {
@@ -376,21 +382,30 @@ function myReplace(text) {
 	}*/
 	
 	this.input.value += text;
+    console.log("myreplace text = " + text);
 	if (!(spaceExceptions.indexOf(text) >= 0)) {
+        console.log("condition is true");
 		this.input.value += ' ';
 	}
 }
 
 function colorizer(str) {
 	var array = str.split(' ');
-	var keyWords = ["click", "fill", "assert", ":", "with", "sec", "min", "h"];
+	var keyWords = ["click", "fill", "assert", ":", "with", "sec", "min", "h", "as"];
+    var varPrefixes = ["_", "@", "$"];
+	var inStr = false;
 	var div = document.createElement('div');
 	document.getElementById("written").appendChild(div);
 	for (var i in array) {
 		var color = "000000";
+		if (inStr) {
+			color = "00B000";
+		}
+		
 		if (keyWords.indexOf(array[i]) >= 0) {
 			color = "0000FF";
 		} else if (array[i][0] == '"') {
+			inStr = true;
 			color = "00B000";
 		} else if (array[i][0] == '#') {
 			color = "990000";
@@ -398,7 +413,15 @@ function colorizer(str) {
 		var font = document.createElement("font");
 		div.appendChild(font);
 		font.setAttribute("color", color);
-		font.innerHTML = array[i] + ' ';
+		if (varPrefixes.indexOf(array[i][0]) >= 0) {
+			font.innerHTML = "<i>" + array[i] + " </i>";
+		} else {
+			font.innerHTML = array[i] + ' ';
+		}
+		
+		if (array[i][array[i].length-1] == '"') {
+			inStr = false;
+		}
 	}
 }
 		
@@ -582,8 +605,28 @@ function evaluate() {
 		window.done = true;
 	}
 	}*/
+	handleTickImg();
 	
-	
+}
+
+function handleTickImg() {
+    if (window.done) {
+        if (tickImg == undefined) {
+            tickImg = document.createElement('img');
+		    tickImg.setAttribute("src", "tick.png");
+            tickImg.setAttribute("width", "20");
+            tickImg.setAttribute("height", "20");
+            document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
+        }
+		
+		
+	} else {
+        if (tickImg != undefined) {
+            document.querySelector("div.awesomplete>div.awesomplete").removeChild(tickImg);
+            tickImg = undefined;
+        }
+		
+	}
 }
 
 function setCaretPosition(elemId, caretPos) {

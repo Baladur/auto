@@ -5,6 +5,12 @@
 	padding: 2px;
 }
 
+img {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 2px;
+}
+
 .visually-hidden {
   position: absolute;
   clip: rect(0, 0, 0, 0);
