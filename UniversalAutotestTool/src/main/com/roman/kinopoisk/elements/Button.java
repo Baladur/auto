@@ -6,6 +6,7 @@ public enum Button implements BaseElement {
 	SEARCH_BTN,
 	BEST_MOVIES,
 	MORE_FACTS,
+	TEXTS,
 	SHOW_ALL,
 	DIRECTOR,
 	MOST_WANTED,

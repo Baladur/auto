@@ -12,30 +12,7 @@ import java.io.IOException;
 /**
  * Created by roman on 19.11.2016.
  */
-public class XMLConfig {
-    private static final String CONFIG = "config";
-    private static final String PROJECT_NAME = "project-name";
-    private static final String ELEMENTS_PATH = "elements-path";
-    private static final String PACKAGE = "package";
-
-    private String dir;
-    private String packageName;
-
-    public void setDir(String dir) {
-        this.dir = dir;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public String getDir() {
-        return dir;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
+public class XMLConfig extends BaseConfig {
 
     public static XMLConfig fromFile(String filePath, String projectName) throws AutogenException, ParserConfigurationException, IOException, SAXException {
         File file = new File(filePath);

@@ -22,8 +22,9 @@ public class JSONToEnumConverter {
     private JSONToEnumConverter(String projectName) throws IOException, ParseException, SAXException, ParserConfigurationException, AutogenException {
         File file = new File(JSONToEnumConverter.class.getProtectionDomain().getCodeSource().getLocation()
                 .getFile());
-        String path = file.getParent() + File.separator + "config.xml";
-        XMLConfig config = XMLConfig.fromFile(path, projectName);
+        String path = file.getParent() + File.separator + "config.json";
+        //XMLConfig config = XMLConfig.fromFile(path, projectName);
+        JSONConfig config = JSONConfig.fromFile(path, projectName);
         elementDir = config.getDir() + File.separator;
         System.out.println(elementDir);
         elementPackage = config.getPackageName();

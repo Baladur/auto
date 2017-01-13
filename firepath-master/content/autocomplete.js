@@ -151,8 +151,8 @@ var fillObj = {
 };
 
 var equalObj = {
-	word : " =",
-	variants : ["="],
+	word : " ==",
+	variants : ["=="],
 	next : stringObj
 };
 
@@ -175,8 +175,8 @@ var notEqualObj = {
 };
 
 var compareObj = {
-	word : ["=", "<", ">", "!="],
-	variants : ["=", "<", ">", "!="],
+	word : ["==", "<", ">", "!="],
+	variants : ["==", "<", ">", "!="],
 	next : stringObj
 };
 
@@ -722,7 +722,20 @@ function scriptLoader(scripts, callback) {
 }
 
 function addElementsJson(projectName) {
-	var xmlDoc;
+    for (var i = 0; i < configJson.configs.length; i++) {
+        if (configJson.configs[i]['project-name'] == projectName) {
+            var path = configJson.configs[i]['elements-path'].replace(/\\/g, "/") + '/elements.json';
+            console.log(path);
+            scriptLoader([path], function() {
+				initObjs(elementsJson);
+			});
+            break;
+        }
+    }
+    
+    
+    
+	/*var xmlDoc;
 	if (window.DOMParser)
 	{
 		parser = new DOMParser();
@@ -744,7 +757,7 @@ function addElementsJson(projectName) {
 			});
 			//document.getElementById("elementsJsonScript").innerHTML = '<script type="text/javascript" src="' + 'file:///' + path + '"</script>';
 		}
-	}
+	}*/
 	
 }
 
@@ -755,7 +768,6 @@ function addElementsJson(projectName) {
 
 
 window.onload = function(e) {
-	console.log(configXml);
 	addElementsJson("kinopoisk");
 	//initObjs(elementsJson);
 	

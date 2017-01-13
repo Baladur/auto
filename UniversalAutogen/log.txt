@@ -1,0 +1,7 @@
+Started
+arg TextField
+arg T1
+arg xpath.//*[@id='tsf']
+arg kinopoisk
+Converter is created
+Converter processed successfully
