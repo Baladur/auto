@@ -8,6 +8,7 @@ public enum Button implements BaseElement {
 	MORE_FACTS,
 	FIRST_ACTOR,
 	TEXTS,
+	go_to_first_result,
 	SHOW_ALL,
 	INFO_DIRECTOR,
 	DIRECTOR,

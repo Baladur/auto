@@ -1,9 +1,6 @@
 //GLOBAL VARIABLES
-var currentKey = "";
 var currentValues = [];
 var currentOperator = {};
-var isLexemOk = true;
-var changeOperator = false;
 var words = [];
 var objs = [];
 var backspace = false;
@@ -115,13 +112,8 @@ var elementTextObj = {
 };
 
 var stringObj = {
-    word : ['@', '_', '$', '"', '#'],
-	fork : true,
-	'@' : globalObj,
-	'_' : localObj,
-	'$' : methodObj,
-	'"' : constStringObj,
-	'#' : elementTextObj
+    nt : true,
+    variants : [globalObj, localObj, methodObj, constStringObj, elementTextObj]
 };
 
 var assignObj = {
@@ -175,8 +167,8 @@ var notEqualObj = {
 };
 
 var compareObj = {
-	word : ["==", "<", ">", "!="],
-	variants : ["==", "<", ">", "!="],
+	nt : true,
+	variants : [equalObj, moreObj, lessObj, notEqualObj],
 	next : stringObj
 };
 
@@ -195,14 +187,22 @@ var assertGlobalObj = {
 var assertForkObj = {
 	word : "assert",
 	fork : true,
-	'_' : assertLocalObj,
-	'@' : assertGlobalObj
+    '_' : assertLocalObj,
+    '@' : assertGlobalObj
+};
+
+var conditionObj = {
+    seq : [stringObj, compareObj, stringObj]
 };
 
 var assertObj = {
-	word : "assert",
-	variants : stringObj,
-	next : compareObj
+    word : "assert",
+	seq : [conditionObj, endObj]
+};
+
+var ifObj = {
+    word : "if",
+    seq : [conditionObj]
 };
 
 var mainObj = {
@@ -260,7 +260,18 @@ function getVariants(obj) {
 		}
 		//////alert("variants: " + variants);
 		return variants;
-	} else {
+	} else if ('nt' in obj) {
+        for (var i in obj.variants) {
+            var word = getWord(obj.variants[i]);
+            if (word instanceof Array) {
+                variants = variants.concat(word);
+            } else {
+                console.log("vars: " + variants);
+                console.log("word: " + word);
+                variants.push(word);
+            }
+        }
+    } else {
 		var tempObj = obj;
 		while ('variants' in tempObj) {
 			tempObj = tempObj.variants;
@@ -286,12 +297,11 @@ function contextWalker() {
 	if ((currentValues.indexOf(getLastWord()) >= 0 && !isVariableAssignment()) || excludingWordsLast || forceContextUpdate) {
 		excludingWordsLast = false;
 		forceContextUpdate = false;
-		changeOperator = false;
 		if ('fork' in currentOperator) {
 			currentOperator = currentOperator[getLastWord()];
-		} else {
+		} else if ('next' in currentOperator) {
 			currentOperator = currentOperator.next;
-		}
+		} 
 		if (words.length > 0) {
 			if (words[words.length-1] == lastWord[0]) {
 				words.push(lastWord.substr(1, lastWord.length));
@@ -327,11 +337,6 @@ function contextWalker() {
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
-	if (currentValues.indexOf(getLastWord()) >= 0) {
-		changeOperator = true;
-	}
-    
-	
 }
 
 function handleEnd() {
