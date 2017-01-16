@@ -235,7 +235,6 @@ function getWord(obj) {
 		return 0;
 	}*/
 	if (!('word' in obj)) {
-		console.log(obj);
 		return getVariants(obj);
 	} else {
 		return obj.word;
@@ -280,15 +279,11 @@ function contextWalker() {
 	var excludingWordsLast = false;
 	var lastWord = getLastWord();
 	if (words.length > 0) {
-		console.log(words);
-		console.log(lastWord[0]);
 		if (!isVariableAssignment() && words[words.length-1] == lastWord[0] && currentValues.indexOf(lastWord.substr(1, lastWord.length)) >= 0) {
 			excludingWordsLast = true;
 		}
 	}
-	console.log(excludingWordsLast);
 	if ((currentValues.indexOf(getLastWord()) >= 0 && !isVariableAssignment()) || excludingWordsLast || forceContextUpdate) {
-        console.log("moved context");
 		excludingWordsLast = false;
 		forceContextUpdate = false;
 		changeOperator = false;
@@ -389,9 +384,7 @@ function myReplace(text) {
 	}*/
 	
 	this.input.value += text;
-    console.log("myreplace text = " + text);
 	if (!(spaceExceptions.indexOf(text) >= 0)) {
-        console.log("condition is true");
 		this.input.value += ' ';
 	}
 }
@@ -444,13 +437,8 @@ function excludeWrongChars(event) {
         if (inputChar >= 'A' && inputChar <= 'Z') {
             inputChar = inputChar.toLowerCase();
         }
-        console.log(inputChar);
         if ((allowedChars.indexOf(inputChar) < 0 && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 ))
            || (getVisibleHints().count == 0 && window.awesomplete.filter == myFilter)) {
-            console.log("visible hints : " + getVisibleHints().count);
-            console.log("input char = " + inputChar);
-            console.log("allowedChars = " + allowedChars);
-            console.log("first condition = " + (allowedChars.indexOf(inputChar) < 0 && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 )));
             event.preventDefault();
         }
         
@@ -485,6 +473,7 @@ window.onkeypress = function(e) {
         var input = window.input;
         var inputStr = input.value;
         if (key == 8) {
+            e.preventDefault();
             backspace = true;
             if (window.done) {
                 window.done = false;
@@ -523,9 +512,11 @@ window.onkeypress = function(e) {
                     newLength = newLength - 1;
                 }
 
-                ////alert("oldLength = " + inputStr.length);
-                ////alert("newLength = " + newLength);
+                console.log("oldLength = " + inputStr.length);
+                console.log("newLength = " + newLength);
+                console.log("result: " + input.value.substr(0, newLength + 1));
                 input.value = input.value.substr(0, newLength);
+                console.log("fact")
 
             }
 
@@ -595,8 +586,9 @@ window.onkeydown = function(e) {
 				newLength = newLength - 1;
 			}
 			
-			////alert("oldLength = " + inputStr.length);
-			////alert("newLength = " + newLength);
+			console.log("oldLength = " + inputStr.length);
+            console.log("newLength = " + newLength);
+            console.log("result: " + input.value.substr(0, newLength + 1));
 			input.value = input.value.substr(0, newLength + 1);
 			
 		}
@@ -697,12 +689,10 @@ function evaluate() {
 		//////alert(matchedCount);
         if (isVariableAssignment()) {
             if (window.input.value[window.input.value.length-1] == ' ') {
-                console.log("end of variable assignment");
                 newVariableBuffer = getLastWord();
                 forceContextUpdate = true;
             }
         } else if (currentOperator == constStringObj) {
-            console.log("end of const string");
             var lw = getLastWord();
             if (lw[0] == '"' && lw[lw.length-1] == '"' && lw.length >= 2) {
 				forceContextUpdate = true;
@@ -787,7 +777,6 @@ function setCaretPosition(elemId, caretPos) {
 }
 
 function initObjs(elementsJsonParam) {
-	console.log(elementsJsonParam["TextField"]);
 	textfieldObj.variants = Object.keys(elementsJsonParam["TextField"]);
 	buttonObj.variants = Object.keys(elementsJsonParam["Button"]);
 	for (var i = 0; i < textfieldObj.variants.length; i++) {
@@ -797,7 +786,6 @@ function initObjs(elementsJsonParam) {
 		buttonObj.variants[i] = "#" + buttonObj.variants[i];
 	}
 	elementsObj.variants = textfieldObj.variants.concat(buttonObj.variants);
-	console.log(elementsObj);
 }
 
 function scriptLoader(scripts, callback) {
@@ -829,7 +817,6 @@ function addElementsJson(projectName) {
     for (var i = 0; i < configJson.configs.length; i++) {
         if (configJson.configs[i]['project-name'] == projectName) {
             var path = "file://" + configJson.configs[i]['elements-path'].replace(/\\/g, "/") + '/elements.json';
-            console.log(path);
             scriptLoader([path], function() {
 				initObjs(elementsJson);
 			});
