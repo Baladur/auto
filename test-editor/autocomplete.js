@@ -1,12 +1,15 @@
 //GLOBAL VARIABLES
+var currentKey = "";
 var currentValues = [];
 var currentOperator = {};
+var isLexemOk = true;
+var changeOperator = false;
 var words = [];
 var objs = [];
 var backspace = false;
 var declaration = false;
 var newVariableBuffer = "";
-var localVariables = ["_local"];
+var localVariables = [];
 var globalVariables = [];
 var types = ["string", "int", "double", "boolean"];
 var methods = ['$timeout'];
@@ -14,8 +17,6 @@ var forceContextUpdate = false;
 var tickImg = undefined;
 var allowedChars = [];
 var spaceExceptions = ["@", "#", "$", "_", '"', '.'];
-var currentSeq = [];
-var seqIndex = -1;
 
 //CONTEXT OBJECTS
 var endObj = {
@@ -114,10 +115,13 @@ var elementTextObj = {
 };
 
 var stringObj = {
-    name : "stringObj",
-    nt : true,
-    variants : [globalObj, localObj, methodObj, constStringObj, elementTextObj],
-    next : forkEndOrTypeObj
+    word : ['@', '_', '$', '"', '#'],
+	fork : true,
+	'@' : globalObj,
+	'_' : localObj,
+	'$' : methodObj,
+	'"' : constStringObj,
+	'#' : elementTextObj
 };
 
 var assignObj = {
@@ -171,9 +175,9 @@ var notEqualObj = {
 };
 
 var compareObj = {
-    name : "compareObj",
-	nt : true,
-	variants : [equalObj, moreObj, lessObj, notEqualObj]
+	word : ["==", "<", ">", "!="],
+	variants : ["==", "<", ">", "!="],
+	next : stringObj
 };
 
 var assertLocalObj = {
@@ -191,22 +195,14 @@ var assertGlobalObj = {
 var assertForkObj = {
 	word : "assert",
 	fork : true,
-    '_' : assertLocalObj,
-    '@' : assertGlobalObj
-};
-
-var conditionObj = {
-    seq : [stringObj, compareObj, stringObj]
+	'_' : assertLocalObj,
+	'@' : assertGlobalObj
 };
 
 var assertObj = {
-    word : "assert",
-	seq : [conditionObj, endObj]
-};
-
-var ifObj = {
-    word : "if",
-    seq : [conditionObj]
+	word : "assert",
+	variants : stringObj,
+	next : compareObj
 };
 
 var mainObj = {
@@ -215,7 +211,7 @@ var mainObj = {
 	fill : fillObj,
 	'_' : newLocalVariableObj,
 	'@' : newGlobalVariableObj,
-	assert : assertObj
+	assert : assertForkObj
 };
 
 
@@ -264,20 +260,7 @@ function getVariants(obj) {
 		}
 		//////alert("variants: " + variants);
 		return variants;
-	} else if ('nt' in obj) {
-        for (var i in obj.variants) {
-            var word = getWord(obj.variants[i]);
-            if (word instanceof Array) {
-                variants = variants.concat(word);
-            } else {
-                console.log("vars: " + variants);
-                console.log("word: " + word);
-                variants.push(word);
-            }
-        }
-    } else if ('seq' in obj) {
-        return getVariants(obj.seq[0]);
-    } else {
+	} else {
 		var tempObj = obj;
 		while ('variants' in tempObj) {
 			tempObj = tempObj.variants;
@@ -289,26 +272,10 @@ function getVariants(obj) {
 	return variants;
 }
 
-function makeSequence(obj) {
-    console.log("making sequence for ");
-    console.log(obj);
-    console.log("sequence: ");
-    console.log(obj.seq);
-    for (var i in obj.seq) {
-        if ('seq' in obj.seq[i]) {
-            makeSequence(obj.seq[i]);
-        } else {
-            currentSeq.push(obj.seq[i]);
-            console.log("pushed obj to currentSeq: " + obj['word']);
-        }
-    }
-}
-
 function contextWalker() {
 	//////alert("cw");
 	//////alert(getLastWord());
 	//////alert(currentValues.indexOf(getLastWord()));
-    console.log("in context walker");
 	var excludingWordsLast = false;
 	var lastWord = getLastWord();
 	if (words.length > 0) {
@@ -316,28 +283,15 @@ function contextWalker() {
 			excludingWordsLast = true;
 		}
 	}
-    console.log("curentValues = " + currentValues);
 	if ((currentValues.indexOf(getLastWord()) >= 0 && !isVariableAssignment()) || excludingWordsLast || forceContextUpdate) {
 		excludingWordsLast = false;
 		forceContextUpdate = false;
+		changeOperator = false;
 		if ('fork' in currentOperator) {
 			currentOperator = currentOperator[getLastWord()];
-            console.log("new operator after fork: ");
-            console.log(currentOperator);
-		} else if ('next' in currentOperator) {
-			currentOperator = currentOperator.next;
 		} else {
-            //if we are here, it means we are in sequence
-            console.log("in sequence");
-            if (seqIndex == -1) {
-                console.error("seqIndex cannot be -1");
-            } else {
-                seqIndex++;
-                currentOperator = currentSeq[seqIndex];
-                console.log("new operator after seq: ");
-                console.log(currentOperator);
-            }
-        }
+			currentOperator = currentOperator.next;
+		}
 		if (words.length > 0) {
 			if (words[words.length-1] == lastWord[0]) {
 				words.push(lastWord.substr(1, lastWord.length));
@@ -349,32 +303,6 @@ function contextWalker() {
 		}
 		
 		objs.push(currentOperator);
-        
-        if ('seq' in currentOperator) {
-            console.log("in condition of seq");
-            currentSeq = [];
-            makeSequence(currentOperator);
-            seqIndex = 0;
-        } else if ('nt' in currentOperator) {
-            console.log("in nt");
-            var changedOperator = false;
-            for (var i in currentOperator.variants) {
-                console.log("word from variant:" + currentOperator.variants[i].word);
-                console.log("last word: " + getLastWord());
-                if (currentOperator.variants[i].word == getLastWord()) {
-                    currentOperator = currentOperator.variants[i];
-                    console.log("new operator after deeping into nt: ");
-                    console.log(currentOperator);
-                    changedOperator = true;
-                    break;
-                }
-            }
-            /*if (!changedOperator) {
-                console.log("calling contextWalker again");
-                contextWalker();
-                return;
-            }*/
-        }
 		////alert(words);
 		////alert(objs);
 		
@@ -399,17 +327,18 @@ function contextWalker() {
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
-    console.log("context walker finished");
+	if (currentValues.indexOf(getLastWord()) >= 0) {
+		changeOperator = true;
+	}
+    
+	
 }
 
 function handleEnd() {
-    if (currentValues.indexOf("end") >= 0) { 
-		if (currentSeq.length == 0 || (currentSeq[currentSeq.length-1] == endObj && seqIndex == currentSeq.length-1)) {
-        	window.done = true;
-		}
-		currentValues.splice(currentValues.indexOf("end"), 1);
+    if (currentValues.indexOf("end") >= 0) {
+        window.done = true;
+        currentValues.splice(currentValues.indexOf("end"), 1);
 	}
-	
 }
 
 function initContext() {
@@ -848,6 +777,7 @@ function setCaretPosition(elemId, caretPos) {
 }
 
 function initObjs(elementsJsonParam) {
+    console.log(elementsJsonParam);
 	textfieldObj.variants = Object.keys(elementsJsonParam["TextField"]);
 	buttonObj.variants = Object.keys(elementsJsonParam["Button"]);
 	for (var i = 0; i < textfieldObj.variants.length; i++) {
@@ -888,6 +818,7 @@ function addElementsJson(projectName) {
     for (var i = 0; i < configJson.configs.length; i++) {
         if (configJson.configs[i]['project-name'] == projectName) {
             var path = "file://" + configJson.configs[i]['elements-path'].replace(/\\/g, "/") + '/elements.json';
+            elementsJsonPath = path.substr(7, path.length-7);    
             scriptLoader([path], function() {
 				initObjs(elementsJson);
 			});
