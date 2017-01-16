@@ -282,12 +282,13 @@ function contextWalker() {
 	if (words.length > 0) {
 		console.log(words);
 		console.log(lastWord[0]);
-		if (words[words.length-1] == lastWord[0] && currentValues.indexOf(lastWord.substr(1, lastWord.length)) >= 0) {
+		if (!isVariableAssignment() && words[words.length-1] == lastWord[0] && currentValues.indexOf(lastWord.substr(1, lastWord.length)) >= 0) {
 			excludingWordsLast = true;
 		}
 	}
 	console.log(excludingWordsLast);
-	if (currentValues.indexOf(getLastWord()) >= 0 || excludingWordsLast || forceContextUpdate) {
+	if ((currentValues.indexOf(getLastWord()) >= 0 && !isVariableAssignment()) || excludingWordsLast || forceContextUpdate) {
+        console.log("moved context");
 		excludingWordsLast = false;
 		forceContextUpdate = false;
 		changeOperator = false;
@@ -354,8 +355,8 @@ function initContext() {
 	objs.push(mainObj);
 	newVariableBuffer = "";
 	window.awesomplete.open();
-    handleTickImg();
     initAllowedChars();
+    initTickImg();
 	//////alert(currentValues);
 }
 function myFilter(hint, input) {
@@ -473,15 +474,89 @@ function initAllowedChars() {
     }
 }
 
+function isFirefox() {
+    return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+}
+
 window.onkeypress = function(e) {
     excludeWrongChars(e);
+    if (isFirefox()) {
+        var key = e.keyCode ? e.keyCode : e.which;
+        var input = window.input;
+        var inputStr = input.value;
+        if (key == 8) {
+            backspace = true;
+            if (window.done) {
+                window.done = false;
+            }
+            if (words.length > 0) {
+                var newLength = 0;
+                ////alert(words);
+                ////alert(objs);
+
+
+                if (getLastWord() == words[words.length-1] || getLastWord().substr(1, getLastWord().length) == words[words.length-1])  {
+                    if (words.length >= 1) {
+                        if (!(spaceExceptions.indexOf(words[words.length-1]) >= 0)) {
+                            newLength = newLength - 1;
+                            ////alert(newLength);
+                        }
+                    }
+                    newLength = newLength + inputStr.length - words[words.length-1].length;
+                    ////alert(newLength);
+                    words.splice(words.length-1, 1);
+                    ////alert(words);
+                } else {
+                    ////alert("else");
+                    //alert(getLastWord());
+                    if (words.length >= 1) {
+                        if (spaceExceptions.indexOf(words[words.length-1]) >= 0) {
+                            newLength = newLength + 1;
+                            ////alert(newLength);
+                        }
+                    }
+                    newLength = newLength + inputStr.length - getLastWord().length;
+                    //alert(newLength);
+                }
+
+                if (objs.length == 1) {
+                    newLength = newLength - 1;
+                }
+
+                ////alert("oldLength = " + inputStr.length);
+                ////alert("newLength = " + newLength);
+                input.value = input.value.substr(0, newLength);
+
+            }
+
+            if (objs.length == 1) {
+                newVariableBuffer = "";
+            } else {
+                //if (getVariants(objs[objs.length-2]).indexOf(getLastWord())) {
+                if (objs.length - words.length == 2) {// || (currentOperator == assignObj && getLastWord().length > 1)) {
+                    objs.splice(objs.length-1, 1);
+
+                }
+
+
+
+            }
+            currentOperator = objs[objs.length-1];
+            currentValues = getVariants(currentOperator);
+            initAllowedChars();
+            handleEnd();
+            window.awesomplete.filter = showAllFilter;
+            evaluate();
+        }
+    }
+    
 }
 		
 window.onkeydown = function(e) {
 	var key = e.keyCode ? e.keyCode : e.which;
 	var input = window.input;
 	var inputStr = input.value;
-	if (key == 8) {
+	if (key == 8 && !isFirefox()) {
 		backspace = true;
 		if (window.done) {
 			window.done = false;
@@ -530,7 +605,7 @@ window.onkeydown = function(e) {
 			newVariableBuffer = "";
 		} else {
 			//if (getVariants(objs[objs.length-2]).indexOf(getLastWord())) {
-			if (objs.length - words.length == 2) {
+			if (objs.length - words.length == 2) {// || (currentOperator == assignObj && getLastWord().length > 1)) {
 				objs.splice(objs.length-1, 1);
 				
 			}
@@ -554,9 +629,13 @@ window.onkeydown = function(e) {
 		if (window.done) {
 			
 			if (objs[1] == newLocalVariableObj ) {
-				localVariables.push(newVariableBuffer);
+                if (localVariables.indexOf(newVariableBuffer) < 0) {
+                    localVariables.push(newVariableBuffer);
+                }
 			} else if (objs[1] == newGlobalVariableObj) {
-				globalVariables.push(newVariableBuffer);
+                if (globalVariables.indexOf(newVariableBuffer) < 0) {
+                    globalVariables.push(newVariableBuffer);    
+                }
 			}
 			//document.getElementById("written").innerHTML += "<p>" + inputStr + "\n" + "</p>";
 			colorizer(inputStr);
@@ -601,6 +680,10 @@ function getVisibleHints() {
     };
 }
 
+function isVariableAssignment() {
+    return currentOperator == newLocalVariableObj || currentOperator == newGlobalVariableObj;
+}
+
 function evaluate() {
 	////////alert(1);
 	if (!backspace) {
@@ -612,20 +695,42 @@ function evaluate() {
         var matchedCount = visibleHints.count;
         var matchedHint = visibleHints.hint;
 		//////alert(matchedCount);
-		if (matchedCount == 1) {
-			myReplace(matchedHint);
-		} else if (matchedCount == 0) {
-			if (currentOperator == newLocalVariableObj || currentOperator == newGlobalVariableObj) {
-				if (window.input.value[window.input.value.length-1] == ' ') {
-					newVariableBuffer = getLastWord();
-					forceContextUpdate = true;
-				}
-			} else if (currentOperator == constStringObj) {
-				if (window.input.value.substr(window.input.value.length-2, window.input.value.length) == '" ') {
-					forceContextUpdate = true;
-				}
-			}
-		}
+        if (isVariableAssignment()) {
+            if (window.input.value[window.input.value.length-1] == ' ') {
+                console.log("end of variable assignment");
+                newVariableBuffer = getLastWord();
+                forceContextUpdate = true;
+            }
+        } else if (currentOperator == constStringObj) {
+            console.log("end of const string");
+            var lw = getLastWord();
+            if (lw[0] == '"' && lw[lw.length-1] == '"' && lw.length >= 2) {
+				forceContextUpdate = true;
+                window.input.value += ' ';
+            }
+        } else {
+            if (matchedCount == 1) {
+                 myReplace(matchedHint);
+            }
+           
+        }
+//		if (matchedCount == 1 && !isVariableAssignment()) {
+//			myReplace(matchedHint);
+//		} else if (matchedCount != 1) {
+//			if (isVariableAssignment()) {
+//				if (window.input.value[window.input.value.length-1] == ' ') {
+//                    console.log("end of variable assignment");
+//					newVariableBuffer = getLastWord();
+//					forceContextUpdate = true;
+//				}
+//			} else if (currentOperator == constStringObj) {
+//                var lw = getLastWord();
+//				if (lw[0] == '"' && lw[lw.length-1] == '"') {
+//					forceContextUpdate = true;
+//                    window.input.value += ' ';
+//				}
+//			}
+//		}
 		contextWalker();
 	} else {
 		backspace = false;
@@ -644,22 +749,21 @@ function evaluate() {
 
 function handleTickImg() {
     if (window.done) {
-        if (tickImg == undefined) {
-            tickImg = document.createElement('img');
-		    tickImg.setAttribute("src", "tick.png");
-            tickImg.setAttribute("width", "20");
-            tickImg.setAttribute("height", "20");
-            document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
-        }
-		
-		
-	} else {
-        if (tickImg != undefined) {
-            document.querySelector("div.awesomplete>div.awesomplete").removeChild(tickImg);
-            tickImg = undefined;
-        }
-		
-	}
+        tickImg.style.visibility = "visible";
+    } else {
+        tickImg.style.visibility = "hidden";
+    }
+}
+
+function initTickImg() {
+    if (tickImg == undefined) {
+        tickImg = document.createElement('img');
+        tickImg.setAttribute("src", "tick.png");
+        tickImg.setAttribute("width", "20");
+        tickImg.setAttribute("height", "20");
+        document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg); 
+    }
+    handleTickImg();
 }
 
 function setCaretPosition(elemId, caretPos) {
@@ -724,7 +828,7 @@ function scriptLoader(scripts, callback) {
 function addElementsJson(projectName) {
     for (var i = 0; i < configJson.configs.length; i++) {
         if (configJson.configs[i]['project-name'] == projectName) {
-            var path = configJson.configs[i]['elements-path'].replace(/\\/g, "/") + '/elements.json';
+            var path = "file://" + configJson.configs[i]['elements-path'].replace(/\\/g, "/") + '/elements.json';
             console.log(path);
             scriptLoader([path], function() {
 				initObjs(elementsJson);
@@ -777,6 +881,7 @@ window.onload = function(e) {
 	window.awesomplete = new Awesomplete(input, {
 			autoFirst : true,
 			minChars : "0",
+            maxItems : 99999,
 			filter : myFilter,
 			list : [],
 			replace : myReplace
@@ -790,7 +895,6 @@ window.onload = function(e) {
   }
 }, false);
 	initContext();
-	
 	window.input.focus();
 	window.awesomplete.list = currentValues;
 	window.awesomplete.open();

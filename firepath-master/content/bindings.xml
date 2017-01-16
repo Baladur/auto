@@ -259,8 +259,7 @@
 			
 			<method name="openAutotestGenerationWindow">
 				<body><![CDATA[
-					window.open("chrome://firepath/content/autotestGen.xul", "",
-					"chrome, resizable=yes, width=400, height=400").focus();
+					window.open("chrome://firepath/content/test.html");
 				]]></body>
 			</method>
 
