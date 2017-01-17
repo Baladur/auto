@@ -11,10 +11,6 @@ img {
     padding: 2px;
 }
 
-html {
-    background: #E3D6D4;
-}
-
 .visually-hidden {
   position: absolute;
   clip: rect(0, 0, 0, 0);
