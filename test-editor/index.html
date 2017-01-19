@@ -2,18 +2,25 @@
 <html>
   <head>
     <meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/photon.min.css">
+	  <script type="text/javascript" src="tabs.js"></script>
     <title>Hello World!</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="window">
+		<header class="toolbar toolbar-header">
+  				<h1 class="title">Header the tabs</h1>
+		</header>
+		<div id="tabs" class="tab-group" style="border: none;">
+			<div id="tabPlus" class="tab-item tab-item-fixed" onclick="openNewTab();">
+				<span class="icon icon-plus"></span>
+		    </div>
+		</div>
+		<div class="window-content">
+			
+			
+			<iframe src="test.html" style="border:none;" onload="this.width=screen.width;"/>
+		</div>
+	</div>
   </body>
-
-  <script>
-    // You can also require other files to run in this process
-    require('./renderer.js')
-  </script>
 </html>

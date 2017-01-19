@@ -16,6 +16,19 @@ img {
   clip: rect(0, 0, 0, 0);
 }
 
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.tab-item:active {
+	background-color: firebrick;
+}
+
+ul.tab-group li {float: left;}
+
 .awesomplete {
   display: inline-block;
   position: relative;
