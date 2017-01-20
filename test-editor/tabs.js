@@ -7,7 +7,7 @@ function openNewTab() {
 	var tabSpan = document.createElement("span");
 	tabSpan.setAttribute("class", "icon icon-cancel icon-close-tab");
 	tabSpan.onclick = closeTab;
-	tab.innerHTML += "Tab" + tabIndex++;
+	tab.innerHTML += "Tab " + tabIndex++;
 	tab.onclick = chooseTab;
 	tab.appendChild(tabSpan);
 	//tab.innerHTML += "Tab";

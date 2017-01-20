@@ -23,10 +23,6 @@ img {
     border-top: none;
 }
 
-.tab-item:active {
-	background-color: firebrick;
-}
-
 ul.tab-group li {float: left;}
 
 .awesomplete {
