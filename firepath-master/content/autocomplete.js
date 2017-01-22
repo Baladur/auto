@@ -91,9 +91,9 @@ var globalObj = {
 };
 
 var localObj = {
-	word : "_",
-	variants : localVariables,
-	next : forkEndOrTypeObj
+
+	variants : localVariables
+	//next : forkEndOrTypeObj
 };
 
 var methodObj = {
@@ -131,8 +131,7 @@ var assignObj = {
 
 var newLocalVariableObj = {
 	word : "_",
-	variants : localVariables,
-	next : assignObj
+	seq : [localObj, assignObj]
 };
 
 var newGlobalVariableObj = {
@@ -204,7 +203,7 @@ var assertObj = {
 
 var ifObj = {
     word : "if",
-    seq : [conditionObj]
+    seq : [conditionObj, endObj]
 };
 
 var mainObj = {
@@ -213,7 +212,8 @@ var mainObj = {
 	fill : fillObj,
 	'_' : newLocalVariableObj,
 	'@' : newGlobalVariableObj,
-	assert : assertObj
+	assert : assertObj,
+    if : ifObj
 };
 
 
