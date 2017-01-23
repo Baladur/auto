@@ -9,7 +9,7 @@ var newVariableBuffer = "";
 var localVariables = ["_local"];
 var globalVariables = [];
 var types = ["string", "int", "double", "boolean"];
-var comparators = ["=", "!=", "<", ">", "<=", ">="];
+var comparators = ["==", "!=", "<", ">"];
 var methods = ['$timeout'];
 var forceContextUpdate = false;
 var tickImg = undefined;
@@ -20,62 +20,67 @@ var sequenceHistory = [];
 var seq = {
     i : -1,
     j : -1,
+	links : [],
     inSequence : function() {
         return seq.i > -1 && seq.j > -1;
     },
     get : function(index) {
         return sequences[seq.i][index];
     },
-    push : function(newSequence) {
-        sequences.push(newSequence);
-        seq.i++;
+	current : function() {
+		return sequences[seq.i][seq.j];
+	},
+    newSequence : function(obj) {
+        sequences.push([]);
+		seq.links.push({ 
+			i : seq.i,
+			j : seq.j
+		});
+        seq.i = sequences.length - 1;
         seq.j = 0;
+		makeSequence(obj);
     },
+	push : function(obj) {
+		sequences[seq.i].push(obj);	
+	},
     next : function() {
-        sequenceHistory.push({
-            i : seq.i,
-            j : seq.j
-        });
-        var seekIndex = -1;
-        seq.j++;
-        while (seq.get(seq.j) == endObj && seq.i != 0) {
-            if (sequenceHistory.length > 1) {
-                seekIndex++;
-                var hist = sequenceHistory[sequenceHistory.length-1-seekIndex];
-                if (seq.i - hist.i == 1) {
-                    seq.i = hist.i;
-                    seq.j = hist.j + 1;
-                }
-            } else {
-                break;
-            }
-        }
-        return seq.get(seq.j);
+		var temp_i = seq.i;
+		var temp_j = seq.j + 1;
+		var seek = seq.links.length-1;
+        while (sequences[temp_i][temp_j] == endObj) {
+			if (temp_i == 0) {
+				return endObj;
+			} else {
+				var link = seq.links[seek--];
+				temp_i = link.i;
+				temp_j = link.j + 1;
+			}
+		}
+		return sequences[temp_i][temp_j];
     },
     previous : function() {
-        var result;
-        if (sequenceHistory.length > 0) {
-            var hist = sequenceHistory[sequenceHistory.length-1];
-            if (seq.i - hist.i == 1) {
-                sequences.splice(seq.i, 1);
-            }
-            seq.i = hist.i;
-            seq.j = hist.j;
-            sequenceHistory.splice(sequenceHistory.length-1, 1);
-        } else {
-            sequences.splice(seq.i, 1);
-            seq.i = -1;
-            seq.j = -1;
-            sequenceHistory.splice(sequenceHistory.length-1, 1);
-            return mainObj;
-        }
-        return seq.get(seq.j);
-    }
+        console.log("not implemented");
+    },
+	forward : function() {
+		seq.j++;
+		var seek = seq.links.length-1;
+        while (seq.current() == endObj) {
+			if (seq.i == 0) {
+				return endObj;
+			} else {
+				var link = seq.links[seek--];
+				seq.i = link.i;
+				seq.j = link.j + 1;
+			}
+		}
+		return seq.current();
+	}
 };
 
 //CONTEXT OBJECTS
 var endObj = {
-	nt : true
+	nt : true,
+	prod : ["end"]
 };
 
 var textfieldObj = {
@@ -83,10 +88,6 @@ var textfieldObj = {
 };
 
 var buttonObj = {
-	prod : []
-};
-
-var elementsObj = {
 	prod : []
 };
 
@@ -112,9 +113,26 @@ var forkEndOrWithTimeObj = {
 	variants : [withTimeObj, endObj]
 };
 
+var elementPrefixObj = {
+    prod : ["#"]
+};
+
+var clickWordObj = {
+	prod : ["click"]
+};
+
+var elementsValuesObj = {
+	prod : []
+};
+
+var elementsObj = {
+	nt : true,
+	seq : [elementPrefixObj, elementsValuesObj, endObj]
+};
+
 var clickObj = {
-	prod : ["click"],
-	seq : [elementsObj, forkEndOrWithTimeObj, endObj]
+	nt : true,
+	seq : [clickWordObj, elementsObj, forkEndOrWithTimeObj, endObj]
 };
 
 var asObj = {
@@ -178,9 +196,7 @@ var constStringObj = {
 	prod : ['"']
 };
 
-var elementPrefixObj = {
-    prod : ["#"]
-};
+
 
 var funTextObj = {
     prod : [".text"]
@@ -251,12 +267,12 @@ var ifWordObj = {
 
 var ifObj = {
     nt : true,
-    seq : [ifWordObj, conditionObj]
+    seq : [ifWordObj, conditionObj, endObj]
 };
 
 var mainObj = {
 	nt : true,
-    variants : [assertObj]
+    variants : [assertObj, clickObj]
 };
 
 
@@ -281,7 +297,11 @@ function getWord(obj) {
 	}*/
 	if ('nt' in obj) {
         if (obj == endObj) {
-            return ["end"];
+			var hints = [];
+			if (seq.next() != endObj) {
+				hints = getWord(seq.next());
+			}
+			return hints.concat("end");
         }
         return collectHints(obj);
     } else {
@@ -306,29 +326,36 @@ function collectHints(obj) {
     } else {
         if (seq.inSequence()) {
             result = result.concat(getWord(seq.next()));
-            seq.previous();
         }
     }
     return result;
 }
 
 function makeSequence(obj) {
+	_makeSequence(obj);
+	seq.push(endObj);
+}
+
+function _makeSequence(obj) {
     console.log("making sequence for ");
     console.log(obj);
     console.log("sequence: ");
     console.log(obj.seq);
     for (var i in obj.seq) {
         if ('seq' in obj.seq[i]) {
-            makeSequence(obj.seq[i]);
+            _makeSequence(obj.seq[i]);
         } else {
-            currentSeq.push(obj.seq[i]);
-            console.log("pushed obj to currentSeq: " + obj['word']);
+			if (obj.seq[i] != endObj) {
+				seq.push(obj.seq[i]);	
+			}
         }
     }
 }
 
-//i - depth of recursion
 function getNextOperator(obj) {
+	if (obj == endObj) {
+		return getNextOperator(seq.forward());
+	}
     if ('nt' in obj) {
         if ('variants' in obj) {
             for (var variant of obj.variants) {
@@ -338,22 +365,21 @@ function getNextOperator(obj) {
             }
             return obj;
         } else if ('seq' in obj) {
-            if ('nt' in obj.seq[0]) {
-                seq.push(obj.seq);
-                return getNextOperator(seq.get(seq.j));
-            } else {
-                seq.push(obj.seq);
-                return seq.get(seq.j);
-            }
+			seq.newSequence(obj);
+			return getNextOperator(seq.current());
         }
     } else {
         if (seq.inSequence()) {
             var next = seq.next();
-            if ('nt' in next) {
-                return getNextOperator(seq.get(seq.j));
-            } else {
-                return next;
-            }
+			if ('nt' in next) {
+				return seq.forward();
+			} else {
+				if (getWord(next).indexOf(getLastWord()) >= 0) {
+					return getNextOperator(seq.forward());
+				}
+				return seq.current();
+			}
+			
         } else {
             console.log("unexpected");
             return null;
@@ -423,16 +449,16 @@ function contextWalker() {
 
 function handleEnd() {
     if (currentValues.indexOf("end") >= 0) { 
-		if (!seq.inSequence() || (seq.inSequence() && seq.j == sequences[seq.i].length-1 || (seq.get(seq.j) == endObj && seq.j == sequences[seq.i][sequences[seq.i].length-2]))) {
+		if (!seq.inSequence() || (seq.next() == endObj)) {
             console.log(sequences);
         	window.done = true;
 		}
 		currentValues.splice(currentValues.indexOf("end"), 1);
 		console.log("condition of variants concat: ");
-		console.log(currentSeq.length > 0 && seqIndex < currentSeq.length-1);
 		if (sequences[seq.i].length > 0 && seq.j < sequences[seq.i].length-1) {
+			//currentValues = currentValues.concat(collectHints(seq.next));
 			//currentOperator = currentSeq[seqIndex + 1];
-			currentValues = currentValues.concat(collectHints(currentSeq[seqIndex + 1]));
+			//currentValues = currentValues.concat(collectHints(currentSeq[seqIndex + 1]));
 			//seqIndex++;
 			console.log("currentValues after concat: " + currentValues);
 		}
@@ -869,15 +895,15 @@ function setCaretPosition(elemId, caretPos) {
 }
 
 function initObjs(elementsJsonParam) {
-	textfieldObj.variants = Object.keys(elementsJsonParam["TextField"]);
-	buttonObj.variants = Object.keys(elementsJsonParam["Button"]);
-	for (var i = 0; i < textfieldObj.variants.length; i++) {
-		textfieldObj.variants[i] = "#" + textfieldObj.variants[i];
+	textfieldObj.prod = Object.keys(elementsJsonParam["TextField"]);
+	buttonObj.prod = Object.keys(elementsJsonParam["Button"]);
+	for (var i = 0; i < textfieldObj.prod.length; i++) {
+		textfieldObj.prod[i] = "#" + textfieldObj.prod[i];
 	}
-	for (var i = 0; i < buttonObj.variants.length; i++) {
-		buttonObj.variants[i] = "#" + buttonObj.variants[i];
+	for (var i = 0; i < buttonObj.prod.length; i++) {
+		buttonObj.prod[i] = "#" + buttonObj.prod[i];
 	}
-	elementsObj.variants = textfieldObj.variants.concat(buttonObj.variants);
+	elementsValuesObj.prod = textfieldObj.prod.concat(buttonObj.prod);
 }
 
 function scriptLoader(scripts, callback) {
