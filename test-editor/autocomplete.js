@@ -92,9 +92,57 @@ var buttonObj = {
 	prod : []
 };
 
+var globalPrefixObj = {
+    prod : ["@"]
+};
+
+var globalValuesObj = {
+    prod : globalVariables
+};
+
+var globalObj = {
+	nt : true,
+    seq : [globalPrefixObj, globalValuesObj, endObj]
+};
+
+var localPrefixObj = {
+	prod : ["_"]
+};
+
+var localValuesObj = {
+    prod : localVariables
+};
+
+var localObj = {
+    nt : true,
+    seq : [localPrefixObj, localValuesObj, endObj]
+};
+
+var methodPrefixObj = {
+	prod : ["$"]
+};
+
+var methodValuesObj = {
+    prod : methods
+};
+
+var methodObj = {
+    nt : true,
+    seq : [methodPrefixObj, methodValuesObj, endObj]
+};
+
+var constStringObj = {
+	prod : ['"']
+};
+
 var numbersObj = {
 	prod : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 };
+
+var numericObj = {
+    nt : true,
+    variants : [numbersObj, methodObj]
+}
 
 var timeObj = {
 	prod : ["sec", "min", "h"]
@@ -106,7 +154,7 @@ var withObj = {
 
 var withTimeObj = {
 	nt : true,
-    seq : [withObj, numbersObj, timeObj, endObj]
+    seq : [withObj, numericObj, timeObj, endObj]
 };
 
 var forkEndOrWithTimeObj = {
@@ -154,48 +202,7 @@ var forkEndOrTypeObj = {
 	variants : [asTypeObj, endObj]
 };
 
-var globalPrefixObj = {
-    prod : ["@"]
-};
 
-var globalValuesObj = {
-    prod : globalVariables
-};
-
-var globalObj = {
-	nt : true,
-    seq : [globalPrefixObj, globalValuesObj, endObj]
-};
-
-var localPrefixObj = {
-	prod : ["_"]
-};
-
-var localValuesObj = {
-    prod : localVariables
-};
-
-var localObj = {
-    nt : true,
-    seq : [localPrefixObj, localValuesObj, endObj]
-};
-
-var methodPrefixObj = {
-	prod : ["$"]
-};
-
-var methodValuesObj = {
-    prod : methods
-};
-
-var methodObj = {
-    nt : true,
-    seq : [methodPrefixObj, methodValuesObj, endObj]
-};
-
-var constStringObj = {
-	prod : ['"']
-};
 
 
 
