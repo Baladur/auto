@@ -17,6 +17,7 @@ var allowedChars = [];
 var spaceExceptions = ["@", "#", "$", "_", '"', '.'];
 var sequences = [];
 var sequenceHistory = [];
+var endOption = false;
 var seq = {
     i : -1,
     j : -1,
@@ -237,9 +238,13 @@ var newVarObj = {
     variants : [newLocalVariableObj, newGlobalVariableObj]
 };
 
+var fillWordObj = {
+    prod : ["fill"]
+};
+
 var fillObj = {
-	prod : ["fill"],
-	seq : [textfieldObj, stringObj, forkEndOrTypeObj, endObj]
+	nt : true,
+	seq : [fillWordObj, textfieldObj, stringObj, forkEndOrTypeObj, endObj]
 };
 
 var compareObj = {
@@ -272,7 +277,7 @@ var ifObj = {
 
 var mainObj = {
 	nt : true,
-    variants : [assertObj, clickObj]
+    variants : [assertObj, clickObj, fillObj]
 };
 
 
@@ -444,11 +449,19 @@ function contextWalker() {
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
+    if (currentValues.length == 1 && !endOption) {
+        myReplace(currentValues[0]);
+        forceContextUpdate = true;
+        contextWalker();
+    } else {
+        endOption = false;
+    }
     console.log("context walker finished");
 }
 
 function handleEnd() {
-    if (currentValues.indexOf("end") >= 0) { 
+    if (currentValues.indexOf("end") >= 0) {
+        endOption = true;
 		if (!seq.inSequence() || (seq.next() == endObj)) {
             console.log(sequences);
         	window.done = true;
