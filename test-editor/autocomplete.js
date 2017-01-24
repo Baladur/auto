@@ -524,9 +524,11 @@ function initContext() {
 	currentOperator = mainObj;
 	currentValues = collectHints(mainObj);
     sequences = [];
+	seq.links = [];
     seq.i = -1;
     seq.j = -1;
 	backspace = false;
+	endOption = false;
 	words = [];
 	objs = [];
 	objs.push(mainObj);
