@@ -154,8 +154,17 @@ var methodObj = {
     seq : [methodPrefixObj, methodValuesObj, endObj]
 };
 
+var constStringPrefixObj = {
+    prod : '"'
+};
+
+var newStringObj = {
+    prod : "newstr"
+};
+
 var constStringObj = {
-	prod : ['"']
+	nt : true,
+    seq : [constStringPrefixObj, endObj]
 };
 
 var numbersObj = {
@@ -417,6 +426,9 @@ function getNextOperator(obj) {
     } else {
         if (seq.inSequence()) {
             var next = seq.next();
+            if (seq.current() == constStringPrefixObj) {
+                return seq.current();
+            }
 			if ('nt' in next) {
 				return seq.forward();
 			} else {
@@ -475,6 +487,7 @@ function contextWalker() {
 			window.done = false;
 			currentValues = collectHints(currentOperator);
 			handleEnd();
+            handleConstString();
 			/*if (currentSeq.length > 0 && seqIndex < currentSeq.length-1) {
 				if (currentValues.length == 0) {
 					currentValues = currentValues.concat(getVariants(currentSeq[seqIndex + 1]));
@@ -490,7 +503,7 @@ function contextWalker() {
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
-    if (currentValues.length == 1 && !endOption) {
+    if (currentValues.length == 1 && !endOption && currentOperator != constStringPrefixObj) {
         myReplace(currentValues[0]);
         forceContextUpdate = true;
         contextWalker();
@@ -518,6 +531,13 @@ function handleEnd() {
 		}
 	}
 	
+}
+
+function handleConstString() {
+    if (isConstStringType()) {
+        currentValues = [];
+        window.awesomplete.close();
+    }
 }
 
 function initContext() {
@@ -850,6 +870,11 @@ function isVariableAssignment() {
     return currentOperator == newLocalVariableObj || currentOperator == newGlobalVariableObj;
 }
 
+function isConstStringType() {
+    var word = getLastWord();
+    return currentOperator == constStringPrefixObj && !(word[word.length-1] == '"' && word[0] == '"' && word.length > 1);
+}
+
 function evaluate() {
 	////////alert(1);
 	if (!backspace) {
@@ -866,12 +891,14 @@ function evaluate() {
                 newVariableBuffer = getLastWord();
                 forceContextUpdate = true;
             }
-        } else if (currentOperator == constStringObj) {
-            var lw = getLastWord();
+        } else if (isConstStringType()) {
+            /*var lw = getLastWord();
             if (lw[0] == '"' && lw[lw.length-1] == '"' && lw.length >= 2) {
 				forceContextUpdate = true;
                 window.input.value += ' ';
-            }
+            }*/
+            forceContextUpdate = true;
+            window.input.value += ' ';
         } else {
             if (matchedCount == 1) {
                  myReplace(matchedHint);
