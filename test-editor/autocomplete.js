@@ -47,7 +47,7 @@ var seq = {
     next : function() {
 		var temp_i = seq.i;
 		var temp_j = seq.j + 1;
-		var seek = seq.links.length-1;
+		var seek = seq.i;
         while (sequences[temp_i][temp_j] == endObj) {
 			if (temp_i == 0) {
 				return endObj;
@@ -64,7 +64,7 @@ var seq = {
     },
 	forward : function() {
 		seq.j++;
-		var seek = seq.links.length-1;
+		var seek = seq.i;
         while (seq.current() == endObj) {
 			if (seq.i == 0) {
 				return endObj;
@@ -141,7 +141,10 @@ var numbersObj = {
 
 var numericObj = {
     nt : true,
-    variants : [numbersObj, methodObj]
+    variants : [{
+		nt : true,
+		seq : [numbersObj, endObj]
+	}, methodObj]
 }
 
 var timeObj = {
