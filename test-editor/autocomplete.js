@@ -47,7 +47,7 @@ var seq = {
     next : function() {
 		var temp_i = seq.i;
 		var temp_j = seq.j + 1;
-		var seek = seq.i;
+		var seek = temp_i;
         while (sequences[temp_i][temp_j] == endObj) {
 			if (temp_i == 0) {
 				return endObj;
@@ -75,6 +75,28 @@ var seq = {
 			}
 		}
 		return seq.current();
+	},
+	back : function() {
+		while (true) {
+			if (seq.j - 1 < 0) {
+				var link = seq.links[seq.i];
+				seq.i = link.i;
+				seq.j = link.j;
+				break;
+			}
+			var backIndex = seq.links.indexOf({
+				i : seq.i,
+				j : seq.j-1
+			});
+			if (backIndex >= 0) {
+				seq.i = backIndex;
+				seq.j = sequences[seq.i].length-1;
+			} else {
+				seq.j--;
+				break;
+			}
+		}
+		return seq.current();	
 	}
 };
 
@@ -84,6 +106,7 @@ var endObj = {
 	prod : ["end"]
 };
 
+//Value objects
 var textfieldObj = {
 	prod : []
 };
@@ -145,8 +168,9 @@ var numericObj = {
 		nt : true,
 		seq : [numbersObj, endObj]
 	}, methodObj]
-}
+};
 
+//Operator objects
 var timeObj = {
 	prod : ["sec", "min", "h"]
 };
@@ -205,10 +229,6 @@ var forkEndOrTypeObj = {
 	variants : [asTypeObj, endObj]
 };
 
-
-
-
-
 var funTextObj = {
     prod : [".text"]
 };
@@ -217,8 +237,6 @@ var elementTextObj = {
     nt : true,
 	seq : [elementPrefixObj, elementsObj, funTextObj, endObj]
 };
-
-
 
 var stringObj = {
     name : "stringObj",
@@ -264,7 +282,7 @@ var compareObj = {
 
 var conditionObj = {
     nt : true,
-    seq : [stringObj, forkEndOrTypeObj, compareObj, stringObj, forkEndOrTypeObj]
+    seq : [stringObj, forkEndOrTypeObj, compareObj, stringObj, forkEndOrTypeObj, endObj]
 };
 
 var assertWordObj = {
@@ -285,9 +303,18 @@ var ifObj = {
     seq : [ifWordObj, conditionObj, endObj]
 };
 
+var waitWordObj = {
+	prod : ["wait"]
+};
+
+var waitObj = {
+	nt : true,
+	seq : [waitWordObj, conditionObj, forkEndOrWithTimeObj, endObj]
+};
+
 var mainObj = {
 	nt : true,
-    variants : [assertObj, clickObj, fillObj]
+    variants : [assertObj, clickObj, fillObj, waitObj]
 };
 
 
@@ -314,9 +341,13 @@ function getWord(obj) {
         if (obj == endObj) {
 			var hints = [];
 			if (seq.next() != endObj) {
-				hints = getWord(seq.next());
+				hints = getWord(seq.forward());
+				seq.back();
 			}
-			return hints.concat("end");
+			if (hints.indexOf("end") < 0) {
+				hints = hints.concat("end");
+			}
+			return hints;
         }
         return collectHints(obj);
     } else {
