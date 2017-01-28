@@ -1,4 +1,5 @@
 //GLOBAL VARIABLES
+var linesCount = 1;
 var currentValues = [];
 var currentOperator = {};
 var words = [];
@@ -13,6 +14,7 @@ var comparators = ["==", "!=", "<", ">"];
 var methods = ['$timeout'];
 var forceContextUpdate = false;
 var tickImg = undefined;
+var lastFont = undefined;
 var allowedChars = [];
 var spaceExceptions = ["@", "#", "$", "_", '"', '.'];
 var sequences = [];
@@ -100,6 +102,11 @@ var seq = {
 	}
 };
 
+//HTML ELEMENTS
+var mainInput = document.getElementById('mainInput');
+var mainInputWrapper;
+var written = document.getElementById('written');
+
 //CONTEXT OBJECTS
 var endObj = {
 	nt : true,
@@ -107,11 +114,11 @@ var endObj = {
 };
 
 //Value objects
-var textfieldObj = {
+var textfieldValuesObj = {
 	prod : []
 };
 
-var buttonObj = {
+var buttonValuesObj = {
 	prod : []
 };
 
@@ -213,6 +220,11 @@ var elementsValuesObj = {
 var elementsObj = {
 	nt : true,
 	seq : [elementPrefixObj, elementsValuesObj, endObj]
+};
+
+var textfieldObj = {
+    nt : true,
+    seq : [elementPrefixObj, textfieldValuesObj, endObj]
 };
 
 var clickObj = {
@@ -500,6 +512,7 @@ function contextWalker() {
 		//window.awesomplete.list = currentValues;
 		//////alert(words);
         initAllowedChars();
+        colorizer();
 	} else {
 		window.awesomplete.filter = myFilter;
 	}
@@ -586,47 +599,80 @@ function myReplace(text) {
 	/*if (words.indexOf(splitted[splitted.length-1])) {
 		this.input.value += splitted[splitted.length-1] + ' ';
 	}*/
-	
+    console.log("replacing with text = " + text + ".");
 	this.input.value += text;
-	if (!(spaceExceptions.indexOf(text) >= 0)) {
-		this.input.value += ' ';
-	}
 }
 
-function colorizer(str) {
-	var array = str.split(' ');
-	var keyWords = ["click", "fill", "assert", ":", "with", "sec", "min", "h", "as"];
+function newLiner() {
+    var div = document.createElement('div');
+    div.setAttribute('id', ++linesCount);
+    div.appendChild(mainInputWrapper);
+    written.appendChild(div);
+}
+
+function requiresSpace(str) {
+    var addSpace = false;
+    if (spaceExceptions.indexOf(str[0]) >= 0) {
+        if (str.length > 1) {
+            addSpace = true;
+        }
+    } else {
+        addSpace = true;
+    }
+    if (addSpace) {
+        str = str + ' ';
+    }
+
+    return str;
+}
+
+function initLastFont(str) {
+    var createNew = false;
+    if (spaceExceptions.indexOf(str[0]) >= 0) {
+        if (str.length == 1) {
+            createNew = true;
+        }
+    } else {
+        createNew = true;
+    }
+    if (createNew) {
+        lastFont = document.createElement("font");
+        document.getElementById(linesCount).insertBefore(lastFont, mainInputWrapper);
+    }
+}
+
+function colorizer() {
+    var mainInputWrapper = document.querySelector('div.awesomplete');
+    var str = mainInput.value;
+    console.log("colorizer, str = " + str + ".");
+	var keyWords = ["click", "fill", "assert", "wait", ":", "with", "sec", "min", "h", "as"];
     var varPrefixes = ["_", "@", "$"];
 	var inStr = false;
-	var div = document.createElement('div');
-	document.getElementById("written").appendChild(div);
-	for (var i in array) {
-		var color = "000000";
-		if (inStr) {
-			color = "00B000";
-		}
-		
-		if (keyWords.indexOf(array[i]) >= 0) {
-			color = "0000FF";
-		} else if (array[i][0] == '"') {
-			inStr = true;
-			color = "00B000";
-		} else if (array[i][0] == '#') {
-			color = "990000";
-		}
-		var font = document.createElement("font");
-		div.appendChild(font);
-		font.setAttribute("color", color);
-		if (varPrefixes.indexOf(array[i][0]) >= 0) {
-			font.innerHTML = "<i>" + array[i] + " </i>";
-		} else {
-			font.innerHTML = array[i] + ' ';
-		}
-		
-		if (array[i][array[i].length-1] == '"') {
-			inStr = false;
-		}
-	}
+    var color = "000000";
+    if (inStr) {
+        color = "00B000";
+    }
+
+    if (keyWords.indexOf(str.trim()) >= 0) {
+        color = "0000FF";
+    } else if (str[0] == '"') {
+        inStr = true;
+        color = "00B000";
+    } else if (str[0] == '#') {
+        color = "990000";
+    }
+    str = requiresSpace(str);
+    initLastFont(str);
+    lastFont.setAttribute("color", color);
+    if (varPrefixes.indexOf(str[0]) >= 0) {
+        lastFont.innerHTML = '<i>' + str + '</i>';
+    } else {
+        lastFont.innerHTML = str;
+    }
+    if (str[str.length-1] == '"') {
+        inStr = false;
+    }
+	mainInput.value = '';
 }
 
 function excludeWrongChars(event) {
@@ -824,7 +870,8 @@ window.onkeydown = function(e) {
                 }
 			}
 			//document.getElementById("written").innerHTML += "<p>" + inputStr + "\n" + "</p>";
-			colorizer(inputStr);
+			colorizer();
+            newLiner();
 			input.value = "";
 			window.done = false;
 			initContext();
@@ -949,10 +996,10 @@ function handleTickImg() {
 function initTickImg() {
     if (tickImg == undefined) {
         tickImg = document.createElement('img');
-        tickImg.setAttribute("src", "tick.png");
+        tickImg.setAttribute("src", "public/img/tick.png");
         tickImg.setAttribute("width", "20");
         tickImg.setAttribute("height", "20");
-        document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg); 
+        document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
     }
     handleTickImg();
 }
@@ -978,15 +1025,15 @@ function setCaretPosition(elemId, caretPos) {
 }
 
 function initObjs(elementsJsonParam) {
-	textfieldObj.prod = Object.keys(elementsJsonParam["TextField"]);
-	buttonObj.prod = Object.keys(elementsJsonParam["Button"]);
-	for (var i = 0; i < textfieldObj.prod.length; i++) {
-		textfieldObj.prod[i] = "#" + textfieldObj.prod[i];
+	textfieldValuesObj.prod = Object.keys(elementsJsonParam["TextField"]);
+	buttonValuesObj.prod = Object.keys(elementsJsonParam["Button"]);
+	for (var i = 0; i < textfieldValuesObj.prod.length; i++) {
+		textfieldValuesObj.prod[i] = "#" + textfieldValuesObj.prod[i];
 	}
-	for (var i = 0; i < buttonObj.prod.length; i++) {
-		buttonObj.prod[i] = "#" + buttonObj.prod[i];
+	for (var i = 0; i < buttonValuesObj.prod.length; i++) {
+		buttonValuesObj.prod[i] = "#" + buttonValuesObj.prod[i];
 	}
-	elementsValuesObj.prod = textfieldObj.prod.concat(buttonObj.prod);
+	elementsValuesObj.prod = textfieldValuesObj.prod.concat(buttonValuesObj.prod);
 }
 
 function scriptLoader(scripts, callback) {
@@ -1077,6 +1124,8 @@ window.onload = function(e) {
 	window.addEventListener("awesomplete-close", function(e){
   // The popup just closed.
   contextWalker();
+  mainInputWrapper = document.querySelector('div.awesomplete');
+  mainInputWrapper.setAttribute('class', 'awesomplete inline');
   window.awesomplete.list = currentValues;
   if (currentOperator != endObj) {
 	  window.awesomplete.open();
