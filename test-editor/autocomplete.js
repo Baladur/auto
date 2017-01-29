@@ -1,5 +1,5 @@
 //GLOBAL VARIABLES
-var linesCount = 1;
+var linesCount = 0;
 var currentValues = [];
 var currentOperator = {};
 var words = [];
@@ -606,6 +606,7 @@ function myReplace(text) {
 function newLiner() {
     var div = document.createElement('div');
     div.setAttribute('id', ++linesCount);
+    console.log(div);
     div.appendChild(mainInputWrapper);
     written.appendChild(div);
 }
@@ -637,12 +638,13 @@ function initLastFont(str) {
     }
     if (createNew) {
         lastFont = document.createElement("font");
+        console.log('mainInputWrapper:');
+        console.log(mainInputWrapper);
         document.getElementById(linesCount).insertBefore(lastFont, mainInputWrapper);
     }
 }
 
 function colorizer() {
-    var mainInputWrapper = document.querySelector('div.awesomplete');
     var str = mainInput.value;
     console.log("colorizer, str = " + str + ".");
 	var keyWords = ["click", "fill", "assert", "wait", ":", "with", "sec", "min", "h", "as"];
@@ -997,8 +999,6 @@ function initTickImg() {
     if (tickImg == undefined) {
         tickImg = document.createElement('img');
         tickImg.setAttribute("src", "public/img/tick.png");
-        tickImg.setAttribute("width", "20");
-        tickImg.setAttribute("height", "20");
         document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
     }
     handleTickImg();
@@ -1124,13 +1124,14 @@ window.onload = function(e) {
 	window.addEventListener("awesomplete-close", function(e){
   // The popup just closed.
   contextWalker();
-  mainInputWrapper = document.querySelector('div.awesomplete');
-  mainInputWrapper.setAttribute('class', 'awesomplete inline');
+
   window.awesomplete.list = currentValues;
   if (currentOperator != endObj) {
 	  window.awesomplete.open();
   }
 }, false);
+    mainInputWrapper = document.querySelector('div.awesomplete');
+    newLiner();
 	initContext();
 	window.input.focus();
 	window.awesomplete.list = currentValues;
