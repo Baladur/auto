@@ -106,6 +106,7 @@ var seq = {
 var mainInput = document.getElementById('mainInput');
 var mainInputWrapper;
 var written = document.getElementById('written');
+var lineNumbersColumn = document.getElementById('linenumbers');
 
 //CONTEXT OBJECTS
 var endObj = {
@@ -568,7 +569,6 @@ function initContext() {
 	newVariableBuffer = "";
 	window.awesomplete.open();
     initAllowedChars();
-    initTickImg();
 	//////alert(currentValues);
 }
 function myFilter(hint, input) {
@@ -604,11 +604,21 @@ function myReplace(text) {
 }
 
 function newLiner() {
+    linesCount++;
+    //linenumber
+    var lineNumber = document.createElement('div');
+    lineNumber.setAttribute('class', 'linenumber');
+    lineNumber.innerHTML = linesCount;
+    lineNumber.appendChild(tickImg);
+    lineNumbersColumn.appendChild(lineNumber);
+    //newline
     var div = document.createElement('div');
-    div.setAttribute('id', ++linesCount);
+    div.setAttribute('id', linesCount);
     console.log(div);
     div.appendChild(mainInputWrapper);
     written.appendChild(div);
+    //tickImg
+    handleTickImg();
 }
 
 function requiresSpace(str) {
@@ -637,7 +647,7 @@ function initLastFont(str) {
         createNew = true;
     }
     if (createNew) {
-        lastFont = document.createElement("font");
+        lastFont = document.createElement('span');
         console.log('mainInputWrapper:');
         console.log(mainInputWrapper);
         document.getElementById(linesCount).insertBefore(lastFont, mainInputWrapper);
@@ -650,27 +660,25 @@ function colorizer() {
 	var keyWords = ["click", "fill", "assert", "wait", ":", "with", "sec", "min", "h", "as"];
     var varPrefixes = ["_", "@", "$"];
 	var inStr = false;
-    var color = "000000";
+    var className = 'ordinary';
     if (inStr) {
-        color = "00B000";
+        className = 'const-string';
     }
 
     if (keyWords.indexOf(str.trim()) >= 0) {
-        color = "0000FF";
+        className = 'keyword';
     } else if (str[0] == '"') {
         inStr = true;
-        color = "00B000";
+        className = "const-string";
     } else if (str[0] == '#') {
-        color = "990000";
+        className = "element-name";
+    } else if (varPrefixes.indexOf(str[0]) >= 0) {
+        className = "variable-name";
     }
     str = requiresSpace(str);
     initLastFont(str);
-    lastFont.setAttribute("color", color);
-    if (varPrefixes.indexOf(str[0]) >= 0) {
-        lastFont.innerHTML = '<i>' + str + '</i>';
-    } else {
-        lastFont.innerHTML = str;
-    }
+    lastFont.setAttribute("class", className);
+    lastFont.innerHTML = str;
     if (str[str.length-1] == '"') {
         inStr = false;
     }
@@ -997,9 +1005,9 @@ function handleTickImg() {
 
 function initTickImg() {
     if (tickImg == undefined) {
-        tickImg = document.createElement('img');
-        tickImg.setAttribute("src", "public/img/tick.png");
-        document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
+        tickImg = document.createElement('span');
+        tickImg.setAttribute("class", "fa fa-check");
+        //document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
     }
     handleTickImg();
 }
@@ -1131,6 +1139,7 @@ window.onload = function(e) {
   }
 }, false);
     mainInputWrapper = document.querySelector('div.awesomplete');
+    initTickImg();
     newLiner();
 	initContext();
 	window.input.focus();

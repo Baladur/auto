@@ -1,0 +1,20 @@
+.ordinary {
+    color: black;
+}
+
+.keyword {
+    color: #009;
+}
+
+.const-string {
+    color: #090;
+}
+
+.element-name {
+    color: #900;
+}
+
+.variable-name {
+    font-style: italic;
+    color: black;
+}
