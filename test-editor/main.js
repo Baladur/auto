@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -20,6 +21,13 @@ function createFileWatcher() {
     console.log(child);
     child.send("1");
     
+}
+
+function loadMainMenuCaptions() {
+    fs.readFile('app/main-menu.json', function (err, data) {
+        global.mainMenuCaptions = JSON.parse(data);
+        console.log(global.mainMenuCaptions)
+    })
 }
 
 function createWindow () {
@@ -44,7 +52,8 @@ function createWindow () {
     mainWindow = null
   })
   
-  createFileWatcher()
+  //createFileWatcher()
+    loadMainMenuCaptions()
 }
 
 // This method will be called when Electron has finished

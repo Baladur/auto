@@ -3,7 +3,7 @@ import React from 'react'
 class Header extends React.Component {
     render() {
         return (
-            <header className="toolbar toolbar-header draggable" >
+            <header className="header draggable" >
                 <h1 className="title">Test editor</h1>
             </header>
         )

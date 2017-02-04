@@ -4,23 +4,26 @@ import TabGroup from '../components/tabgroup.component'
 import TabPlus from '../components/tabplus.component'
 import Tab from '../components/tab.component'
 import Code from '../components/code.component'
+import MainMenuContainer from './mainmenu.container'
 
 
 class AppContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabs : [],
-            tabIndex : 0
+            tabs: [{
+                id: 1,
+                name: 'Test1'
+            }],
+            tabIndex: 1
         }
     }
     render() {
+
         return (
             <div>
-
                 <Header/>
-                <TabPlus
-                    openNewTab={this.openNewTab.bind(this)} />
+                <MainMenuContainer/>
                 <TabGroup>
                     {
                         this.state.tabs.map(item =>
@@ -58,6 +61,11 @@ class AppContainer extends React.Component {
             tabIndex : this.state.tabIndex-1,
             tabs: _tabs
         })
+    }
+
+    loadMainMenuCaptions() {
+        console.log('load')
+        return require('electron').remote.getGlobal('mainMenuCaptions')
     }
 }
 

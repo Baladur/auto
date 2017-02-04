@@ -1,0 +1,19 @@
+{
+  "file" : "Файл",
+  "view" : "Вид",
+  "repo" : "Репозиторий",
+  "browser" : "Браузер",
+  "help" : "Справка",
+  "fileCreate" : "Создать",
+  "fileOpen" : "Открыть",
+  "saveCurrent" : "Сохранить",
+  "saveAll" : "Сохранить всё",
+  "createProject" : "Создать проект",
+  "createTest" : "Создать тест",
+  "createBinding" : "Создать биндинг",
+  "createElement" : "Создать элемент",
+  "openProject" : "Открыть проект",
+  "openTest" : "Открыть тест",
+  "openBinding" : "Открыть биндинг",
+  "openElement" : "Открыть элемент"
+}

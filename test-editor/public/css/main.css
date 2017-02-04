@@ -1,5 +1,7 @@
 body {
     box-sizing: border-box;
+    margin: 0;
+    background-color: #5f5473;
 }
 
 [hidden] {
@@ -20,8 +22,6 @@ img {
 }
 
 .tabcontent {
-    display: none;
-    padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
 }
@@ -66,9 +66,11 @@ li:hover {
 
 #editor {
     position: relative;
-    width: 100%;
-    height: 1000px;
+    background-color: white;
+    width: 800px;
+    height: 600px;
     box-sizing: border-box;
+    overflow: auto;
 }
 
 #linenumbers {
@@ -76,7 +78,7 @@ li:hover {
     top: 0;
     left: 0;
     width: 49px;
-    height: 100%;
+    height: 600px;
     background-color: #f0f0f0;
     box-sizing: border-box;
 }
@@ -95,8 +97,9 @@ li:hover {
     left: 49px;
     box-sizing: border-box;
     padding-left: 5px;
-    width: 100%;
-    height: 100%;
+    height: 600px;
+    cursor: text;
+    user-select: none;
 }
 
 .fa-check {
@@ -104,6 +107,74 @@ li:hover {
     left: 5px;
     color: #090;
 }
+
+.header {
+    background-color: #5f5473;
+    color: white;
+}
+
+.main-menu {
+    width: 100%;
+    list-style: none;
+    background-color: #5f5473;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.main-menu > li {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px;
+}
+
+.main-menu .sub-menu li {
+    position: relative;
+}
+
+.main-menu li:hover {
+    background-color: #a05473;
+    color: white;
+}
+
+.main-menu .sub-menu {
+    position: absolute;
+    left: 0;
+    z-index: 100;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    background-color: #5f5473;
+    color: white;
+}
+
+.main-menu .sub-menu ul {
+    position: absolute;
+    left: 80px;
+    top: 0;
+    z-index: 100;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    background-color: #5f5473;
+    color: white;
+}
+
+.main-menu > ul {
+    left: 0;
+}
+
+.main-menu li li {
+    padding: 5px 5px;
+}
+
+.main-menu li:hover > ul {
+    display: block;
+}
+
+
 	
   
   
