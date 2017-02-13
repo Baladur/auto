@@ -1,7 +1,13 @@
+html {
+    height: 100%;
+    position: relative;
+}
 body {
     box-sizing: border-box;
     margin: 0;
     background-color: #5f5473;
+    display: block;
+    height: 100%;
 }
 
 [hidden] {
@@ -32,7 +38,7 @@ ul.tab-group li {float: left;}
     display:inline;
 }
 
-input.awesomplete {
+#mainInput {
     /*padding: 2px;*/
     border: none;
     outline:none;
@@ -59,48 +65,18 @@ input.awesomplete {
 div.awesomplete {
     position: relative;
 }
+
+#written > div {
+    box-sizing: border-box;
+    height: 18px;
+}
+
 li:hover {
     background: blue;
     color: white;
 }
 
-#editor {
-    position: relative;
-    background-color: white;
-    width: 800px;
-    height: 600px;
-    box-sizing: border-box;
-    overflow: auto;
-}
 
-#linenumbers {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 49px;
-    height: 600px;
-    background-color: #f0f0f0;
-    box-sizing: border-box;
-}
-
-.linenumber {
-    position: relative;
-    color: #333;
-    padding: 0 10px;
-    height: 18px;
-    text-align: right;
-}
-
-#written {
-    position: absolute;
-    top: 0;
-    left: 49px;
-    box-sizing: border-box;
-    padding-left: 5px;
-    height: 600px;
-    cursor: text;
-    user-select: none;
-}
 
 .fa-check {
     position: absolute;
@@ -111,6 +87,7 @@ li:hover {
 .header {
     background-color: #5f5473;
     color: white;
+    text-align: center;
 }
 
 .main-menu {
@@ -130,6 +107,9 @@ li:hover {
 
 .main-menu .sub-menu li {
     position: relative;
+    min-width: 150px;
+    max-height: 40px;
+    box-sizing: border-box;
 }
 
 .main-menu li:hover {
@@ -147,11 +127,12 @@ li:hover {
     display: none;
     background-color: #5f5473;
     color: white;
+    border: 1px solid black;
 }
 
 .main-menu .sub-menu ul {
     position: absolute;
-    left: 80px;
+    left: 148px;
     top: 0;
     z-index: 100;
     list-style: none;
@@ -160,6 +141,7 @@ li:hover {
     display: none;
     background-color: #5f5473;
     color: white;
+    border: 1px solid black;
 }
 
 .main-menu > ul {
@@ -167,11 +149,82 @@ li:hover {
 }
 
 .main-menu li li {
-    padding: 5px 5px;
+    padding: 2px 5px;
 }
 
 .main-menu li:hover > ul {
     display: block;
+}
+
+.content-container {
+    display: flex;
+    width: 1000px;
+    height: 800px;
+    /*box-sizing: border-box;*/
+}
+
+.sidebar-layout {
+    /*position: absolute;*/
+    /*flex: 1;*/
+    width: 300px;
+    background-color: #5f5473;
+    /*top: 0;
+    left: 0;*/
+}
+
+.editor-layout {
+    position: relative;
+    top: 30px;
+    background-color: white;
+    height: 800px;
+    width: 100%;
+}
+
+#linenumbers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    flex-direction: column;
+    width: 49px;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+    height: 800px;
+}
+
+.linenumber {
+    /*position: relative;*/
+    color: #333;
+    padding: 0 10px;
+    height: 18px;
+    text-align: right;
+}
+
+#written {
+    position: absolute;
+    top: 0;
+    left: 49px;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 5px;
+    cursor: text;
+    user-select: none;
+    background-color: white;
+    height: 800px;
+}
+
+.editor-layout > html > body {
+    display: block;
+    height: 100%;
+}
+
+.editor {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 

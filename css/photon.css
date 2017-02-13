@@ -2267,6 +2267,8 @@ td:last-child {
   border-top: 1px solid #989698;
   border-bottom: 1px solid #989698;
   float: left;
+  height: 30px;
+  width:
 }
 
 .tab-item {

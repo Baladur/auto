@@ -20,7 +20,7 @@ class MainMenu extends React.Component {
                             {this.props.fileOpenCaption}
                             <ul>
                                 <li id="menu-file-open-project">{this.props.openProjectCaption}</li>
-                                <li id="menu-file-open-test">{this.props.openTestCaption}</li>
+                                <li id="menu-file-open-test" onClick={this.props.onFileOpenTest}>{this.props.openTestCaption}</li>
                                 <li id="menu-file-open-binding">{this.props.openBindingCaption}</li>
                                 <li id="menu-file-open-element">{this.props.openElementCaption}</li>
                             </ul>

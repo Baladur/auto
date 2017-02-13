@@ -20,87 +20,87 @@ var spaceExceptions = ["@", "#", "$", "_", '"'];
 var sequences = [];
 var sequenceHistory = [];
 var endOption = false;
-var seq = {
-    i : -1,
-    j : -1,
-	links : [],
-    inSequence : function() {
-        return seq.i > -1 && seq.j > -1;
-    },
-    get : function(index) {
-        return sequences[seq.i][index];
-    },
-	current : function() {
-		return sequences[seq.i][seq.j];
-	},
-    newSequence : function(obj) {
-        sequences.push([]);
-		seq.links.push({ 
-			i : seq.i,
-			j : seq.j
-		});
-        seq.i = sequences.length - 1;
-        seq.j = 0;
-		makeSequence(obj);
-    },
-	push : function(obj) {
-		sequences[seq.i].push(obj);	
-	},
-    next : function() {
-		var temp_i = seq.i;
-		var temp_j = seq.j + 1;
-		var seek = temp_i;
-        while (sequences[temp_i][temp_j] == endObj) {
-			if (temp_i == 0) {
-				return endObj;
-			} else {
-				var link = seq.links[seek--];
-				temp_i = link.i;
-				temp_j = link.j + 1;
-			}
-		}
-		return sequences[temp_i][temp_j];
-    },
-    previous : function() {
-        console.log("not implemented");
-    },
-	forward : function() {
-		seq.j++;
-		var seek = seq.i;
-        while (seq.current() == endObj) {
-			if (seq.i == 0) {
-				return endObj;
-			} else {
-				var link = seq.links[seek--];
-				seq.i = link.i;
-				seq.j = link.j + 1;
-			}
-		}
-		return seq.current();
-	},
-	back : function() {
-		while (true) {
-			if (seq.j - 1 < 0) {
-				var link = seq.links[seq.i];
-				seq.i = link.i;
-				seq.j = link.j;
-				break;
-			}
-			var backIndex = seq.links.indexOf({
-				i : seq.i,
-				j : seq.j-1
-			});
-			if (backIndex >= 0) {
-				seq.i = backIndex;
-				seq.j = sequences[seq.i].length-1;
-			} else {
-				seq.j--;
-				break;
-			}
-		}
-		return seq.current();	
-	}
-};
+// var seq = {
+//     i : -1,
+//     j : -1,
+// 	links : [],
+//     inSequence : function() {
+//         return seq.i > -1 && seq.j > -1;
+//     },
+//     get : function(index) {
+//         return sequences[seq.i][index];
+//     },
+// 	current : function() {
+// 		return sequences[seq.i][seq.j];
+// 	},
+//     newSequence : function(obj) {
+//         sequences.push([]);
+// 		seq.links.push({
+// 			i : seq.i,
+// 			j : seq.j
+// 		});
+//         seq.i = sequences.length - 1;
+//         seq.j = 0;
+// 		makeSequence(obj);
+//     },
+// 	push : function(obj) {
+// 		sequences[seq.i].push(obj);
+// 	},
+//     next : function() {
+// 		var temp_i = seq.i;
+// 		var temp_j = seq.j + 1;
+// 		var seek = temp_i;
+//         while (sequences[temp_i][temp_j] == endObj) {
+// 			if (temp_i == 0) {
+// 				return endObj;
+// 			} else {
+// 				var link = seq.links[seek--];
+// 				temp_i = link.i;
+// 				temp_j = link.j + 1;
+// 			}
+// 		}
+// 		return sequences[temp_i][temp_j];
+//     },
+//     previous : function() {
+//         console.log("not implemented");
+//     },
+// 	forward : function() {
+// 		seq.j++;
+// 		var seek = seq.i;
+//         while (seq.current() == endObj) {
+// 			if (seq.i == 0) {
+// 				return endObj;
+// 			} else {
+// 				var link = seq.links[seek--];
+// 				seq.i = link.i;
+// 				seq.j = link.j + 1;
+// 			}
+// 		}
+// 		return seq.current();
+// 	},
+// 	back : function() {
+// 		while (true) {
+// 			if (seq.j - 1 < 0) {
+// 				var link = seq.links[seq.i];
+// 				seq.i = link.i;
+// 				seq.j = link.j;
+// 				break;
+// 			}
+// 			var backIndex = seq.links.indexOf({
+// 				i : seq.i,
+// 				j : seq.j-1
+// 			});
+// 			if (backIndex >= 0) {
+// 				seq.i = backIndex;
+// 				seq.j = sequences[seq.i].length-1;
+// 			} else {
+// 				seq.j--;
+// 				break;
+// 			}
+// 		}
+// 		return seq.current();
+// 	}
+// };
 
 //HTML ELEMENTS
 var mainInput = document.getElementById('mainInput');
@@ -339,7 +339,8 @@ var mainObj = {
     variants : [assertObj, clickObj, fillObj, waitObj]
 };
 
-
+import Sequence from './sequence';
+let seq = new Sequence();
 
 
 //FUNCTIONS
@@ -537,9 +538,9 @@ function handleEnd() {
 		currentValues.splice(currentValues.indexOf("end"), 1);
 		console.log("condition of variants concat: ");
 		if (sequences[seq.i].length > 0 && seq.j < sequences[seq.i].length-1) {
-			//currentValues = currentValues.concat(collectHints(seq.next));
+			//currentValues = currentValues.concat(_collectHints(seq.next));
 			//currentOperator = currentSeq[seqIndex + 1];
-			//currentValues = currentValues.concat(collectHints(currentSeq[seqIndex + 1]));
+			//currentValues = currentValues.concat(_collectHints(currentSeq[seqIndex + 1]));
 			//seqIndex++;
 			console.log("currentValues after concat: " + currentValues);
 		}
@@ -1100,7 +1101,7 @@ function addElementsJson(projectName) {
 			var path = configs[i].childNodes[0].childNodes[0].nodeValue.replace(/\\/g, "/") + '/elements.json';
 			console.log(path);
 			scriptLoader([path], function() {
-				initObjs(elementsJson);
+				_initObjs(elementsJson);
 			});
 			//document.getElementById("elementsJsonScript").innerHTML = '<script type="text/javascript" src="' + 'file:///' + path + '"</script>';
 		}
@@ -1116,7 +1117,7 @@ function addElementsJson(projectName) {
 
 window.onload = function(e) {
 	addElementsJson("kinopoisk");
-	//initObjs(elementsJson);
+	//_initObjs(elementsJson);
 	
 	window.input = document.getElementById("mainInput");
 	window.input.oninput = evaluate;

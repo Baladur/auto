@@ -31,8 +31,9 @@ class MainMenuContainer extends React.Component {
                     openTestCaption={mainMenu.openTest}
                     openBindingCaption={mainMenu.openBinding}
                     openElementCaption={mainMenu.openElement}
-                    onFileSave={this.handleFileSave}
-                    onFileSaveAll={this.handleFileSaveAll}
+                    onFileOpenTest={this.props.onFileOpenTest}
+                    onFileSave={this.handleFileSave.bind(this)}
+                    onFileSaveAll={this.handleFileSaveAll.bind(this)}
                 />
             </div>
         )

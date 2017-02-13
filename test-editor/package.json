@@ -27,9 +27,10 @@
     "webpack": "^1.13.3"
   },
   "dependencies": {
+    "classnames": "^2.2.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-sound": "^0.4.0",
-    "classnames": "^2.2.3"
+    "react-tabs": "^0.8.2"
   }
 }

@@ -12,22 +12,16 @@ const fs = require('fs')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-let elementsJsonPath
-
-function createFileWatcher() {
-    var fileWatcher = require('child_process');
-    console.log(fileWatcher);
-    var child = fileWatcher.fork('./file_watcher');
-    console.log(child);
-    child.send("1");
-    
-}
-
 function loadMainMenuCaptions() {
     fs.readFile('app/main-menu.json', function (err, data) {
         global.mainMenuCaptions = JSON.parse(data);
         console.log(global.mainMenuCaptions)
     })
+}
+
+function initGlobals() {
+    global.configPath = path.join(__dirname, 'config.json')
+    loadMainMenuCaptions()
 }
 
 function createWindow () {
@@ -53,7 +47,7 @@ function createWindow () {
   })
   
   //createFileWatcher()
-    loadMainMenuCaptions()
+    initGlobals()
 }
 
 // This method will be called when Electron has finished
