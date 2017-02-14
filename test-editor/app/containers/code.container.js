@@ -1,6 +1,10 @@
 import React from 'react'
 import Code from '../components/code.component'
+import LineNumberColumn from '../components/linenumber-column.component'
+import LineNumber from '../components/linenumber.component'
 import Line from '../components/line.component'
+import Tick from '../components/tick.component'
+import MainInput from '../components/maininput.component'
 import FileUtils from '../util/file-utils'
 import Sequence from '../editor/sequence'
 import Context from '../editor/context'
@@ -16,7 +20,9 @@ class CodeLogic extends React.Component {
                 id: 1,
                 words: ['fill', '#SEARCH']
             }],
-            currentLine: 1
+            currentLine: 1,
+            done: false,
+            lineCount: 1
         };
         this.context = new Context(this.state.elementsJson, CodeLogic.getInitialData());
         console.log("initial state of codelogic:");
@@ -27,19 +33,29 @@ class CodeLogic extends React.Component {
         return (
             <div id={"code-" + this.props.id}>
                 <Code handleInput={this.handleInput.bind(this)}>
+                    <LineNumberColumn>
+                        {
+                            this.state.lines.map((line, index) =>
+                            <LineNumber>
+                                {[index,
+                                this.state.done && index == this.state.currentLine && <Tick/>]}
+                            </LineNumber>
+                            )
+                        }
+                    </LineNumberColumn>
                     {
-                        this.state.lines.map(line => {
-                            return (
+                        this.state.lines.map(line =>
+
                                 <Line lineId={line.id}>
                                 {
-                                    line.words.map(word =>
-                                        <span className={this.getClassnameByWord(word)}>{word}</span>
-                                    )
-                                    (this.state.currentLine == line.id && this.input)
+                                    [line.words.map(word =>
+                                        <span className={this.getClassnameByWord(word)}>{word + ' '}</span>
+                                    ),
+                                    this.state.currentLine == line.id && <MainInput ref="mainInput" handleInput={this.handleInput.bind(this)}/>]
                                 }
                                 </Line>
-                            )
-                        })
+
+                        )
                     }
                 </Code>
             </div>
@@ -58,7 +74,7 @@ class CodeLogic extends React.Component {
             list : [],
             replace : this.replace
         });
-        this.addEventListener("awesomplete-close", function(e){
+        document.body.addEventListener("awesomplete-close", function(e){
             // The popup just closed.
             this.context.forward();
             this.awesomplete.list = this.context.currentHints;
@@ -67,9 +83,7 @@ class CodeLogic extends React.Component {
             }
         }, false);
         this.mainInputWrapper = document.querySelector('div.awesomplete');
-        this.initTickImg();
-        this.newLine();
-        this.input.focus();
+        // this.newLine();
         this.awesomplete.list = this.context.currentHints;
         this.awesomplete.open();
     }
@@ -120,17 +134,17 @@ class CodeLogic extends React.Component {
     }
 
     handleTickImg() {
-        if (window.done) {
-            tickImg.style.visibility = "visible";
+        if (this.state.done) {
+            this.tickImg.style.visibility = "visible";
         } else {
-            tickImg.style.visibility = "hidden";
+            this.tickImg.style.visibility = "hidden";
         }
 }
 
     initTickImg() {
         if (this.tickImg == undefined) {
             this.tickImg = document.createElement('span');
-            tickImg.setAttribute("class", "fa fa-check");
+            this.tickImg.setAttribute("class", "fa fa-check");
             //document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
         }
         this.handleTickImg();

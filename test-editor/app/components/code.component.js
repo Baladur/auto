@@ -4,13 +4,7 @@ class Code extends React.Component {
     render() {
         return (
             <div className="editor-layout">
-                <div id="elementsJsonScript"></div>
-                <div className="editor">
-                    <div id="linenumbers" ref="lineNumbers"></div>
-                    <div id="written" ref="written">
-                        <input id="mainInput" className="awesomplete" ref="mainInput" onInput={this.props.handleInput}></input>
-                    </div>
-                </div>
+                <div className="editor">{this.props.children}</div>
             </div>
 
         )
