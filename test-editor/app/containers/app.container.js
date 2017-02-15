@@ -14,15 +14,9 @@ class AppContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            tabs: [{
-                id: 1,
-                name: 'Test1'
-            }],
-            tabIndex: 2,
-            active: 1,
-            codeFrames : [<CodeLogic key="1" id="1" projectName="kinopoisk"/>, <CodeLogic key="2" id="2" projectName="nothing"/>]
+            codeFrames : [<CodeLogic key="1" id="1" projectName="kinopoisk" name="Test1"/>, <CodeLogic key="2" id="2" projectName="kinopoisk" name="Test2"/>]
         }
-        //Tabs.setUseDefaultStyles(false);
+        Tabs.setUseDefaultStyles(false);
     }
     render() {
 
@@ -34,13 +28,12 @@ class AppContainer extends React.Component {
                 <Content>
                     <Sidebar/>
                     <Tabs>
-                        <TabList>
-                            <Tab>Default tab</Tab>
-                            <Tab>Default tab 2</Tab>
+                        <TabList className="tab-list" activeTabClassName="tab-selected">
+							{this.state.codeFrames.map(codeFrame => <Tab className="tab-item">{codeFrame.props.name}</Tab>)}
                         </TabList>
                         {
                             this.state.codeFrames.map(codeFrame =>
-                            <TabPanel key={codeFrame.key}>
+                            <TabPanel className="editor-layout" key={codeFrame.key}>
                                 {codeFrame}
                             </TabPanel>)
                         }
@@ -51,25 +44,10 @@ class AppContainer extends React.Component {
     }
 
     openNewTab() {
+		const size = this.state.codeFrames.length;
         this.setState({
-            tabIndex : this.state.tabIndex+1
-            })
-        this.setState({
-            tabs: this.state.tabs.concat([{
-                key: this.state.tabIndex,
-                id : this.state.tabIndex,
-                name : 'Tab ' + this.state.tabIndex
-            }])
-        })
-        this.state.codeFrames.every(codeFrame => codeFrame.visible = false)
-        var newCode = <Code key={this.state.tabIndex} id={"code-" + this.state.tabIndex}/>
-        newCode.visible = true
-        this.setState({
-            codeFrames: this.state.codeFrames.concat([newCode]),
-            active: this.state.tabIndex
-        })
-        console.log(this.state)
-
+			codeFrames: this.state.codeFrames.concat([<CodeLogic key={size+1} id={size+1} projectName="kinopoisk" name="TestN"/>])
+		});
     }
 
     close(event) {

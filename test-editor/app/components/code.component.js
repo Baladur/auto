@@ -3,9 +3,8 @@ import React from 'react'
 class Code extends React.Component {
     render() {
         return (
-            <div className="editor-layout">
+            
                 <div className="editor">{this.props.children}</div>
-            </div>
 
         )
     }

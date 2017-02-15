@@ -18,7 +18,7 @@ class CodeLogic extends React.Component {
             elementsJson: FileUtils.loadElementsJson(this.props.projectName),
             lines: [{
                 id: 1,
-                words: ['fill', '#SEARCH']
+                words: []
             }],
             currentLine: 1,
             done: false,
@@ -37,12 +37,13 @@ class CodeLogic extends React.Component {
                         {
                             this.state.lines.map((line, index) =>
                             <LineNumber>
-                                {[index,
+                                {[index+1,
                                 this.state.done && index == this.state.currentLine && <Tick/>]}
                             </LineNumber>
                             )
                         }
                     </LineNumberColumn>
+					<div className="written">
                     {
                         this.state.lines.map(line =>
 
@@ -57,6 +58,7 @@ class CodeLogic extends React.Component {
 
                         )
                     }
+					</div>
                 </Code>
             </div>
         )
