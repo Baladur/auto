@@ -22450,8 +22450,8 @@
 	        var _this = _possibleConstructorReturn(this, (CodeLogic.__proto__ || Object.getPrototypeOf(CodeLogic)).call(this, props));
 
 	        console.log(_statemanager.stateManager);
-	        _this.state = _statemanager.stateManager.getState([_this.props.projectName, _this.props.name]);
-	        _this.context = new _context2.default(_this.state.elementsJson, CodeLogic.getInitialData());
+	        _this.state = _statemanager.stateManager.getState(_this.props.projectName, _this.props.name);
+	        _this.context = _this.state.context;
 	        console.log("initial state of codelogic:");
 	        console.log(_this.state);
 	        return _this;
@@ -22539,7 +22539,7 @@
 	            });
 	            console.log("input changed:");
 	            console.log(this.state.lines[this.state.currentLine - 1].words);
-	            _statemanager.stateManager.putState([this.props.projectName, this.props.name], this.state);
+	            _statemanager.stateManager.putState(this.props.projectName, this.props.name, this.state);
 	        }
 	    }, {
 	        key: 'excludeWrongCharacters',
@@ -23778,7 +23778,7 @@
 /* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -23791,6 +23791,14 @@
 
 	var _fileUtils2 = _interopRequireDefault(_fileUtils);
 
+	var _context = __webpack_require__(201);
+
+	var _context2 = _interopRequireDefault(_context);
+
+	var _code = __webpack_require__(190);
+
+	var _code2 = _interopRequireDefault(_code);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -23799,32 +23807,39 @@
 	    function StateManager() {
 	        _classCallCheck(this, StateManager);
 
-	        this.states = new Map();
+	        this.projects = new Map();
 	    }
 
 	    _createClass(StateManager, [{
-	        key: "putState",
-	        value: function putState(stateKey, state) {
+	        key: 'putState',
+	        value: function putState(projectName, name, state) {
 	            console.log("put state");
-	            console.log(state);
-	            this.states.set(stateKey, state);
+	            var project = this.projects.get(projectName);
+	            if (project == undefined) {
+	                project = new Map();
+	            }
+	            project.set(name, state);
+	            this.projects.set(projectName, project);
 	        }
 	    }, {
-	        key: "getState",
-	        value: function getState(stateKey) {
-	            var stateFromMap = this.states.get(stateKey);
+	        key: 'getState',
+	        value: function getState(projectName, name) {
+	            var project = this.projects.get(projectName);
+	            var stateFromMap = project == undefined ? undefined : project.get(name);
 	            if (stateFromMap == undefined) {
 	                console.log("projectName:");
-	                console.log(stateKey[0]);
+	                console.log(projectName);
+	                var elementsJson = _fileUtils2.default.loadElementsJson(projectName);
 	                return {
-	                    elementsJson: _fileUtils2.default.loadElementsJson(stateKey[0]),
+	                    elementsJson: elementsJson,
 	                    lines: [{
 	                        id: 1,
 	                        words: []
 	                    }],
 	                    currentLine: 1,
 	                    done: false,
-	                    lineCount: 1
+	                    lineCount: 1,
+	                    context: new _context2.default(elementsJson, _code2.default.getInitialData())
 	                };
 	            }
 	            return stateFromMap;

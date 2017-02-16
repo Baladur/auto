@@ -1,30 +1,39 @@
 import FileUtils from '../util/file-utils'
+import Context from '../editor/context'
+import CodeLogic from '../containers/code.container'
 
 class StateManager {
     constructor() {
-        this.states = new Map();
+        this.projects = new Map();
     }
 
-    putState(stateKey, state) {
+    putState(projectName, name, state) {
         console.log("put state");
-        console.log(state);
-        this.states.set(stateKey, state);
+        let project = this.projects.get(projectName);
+        if (project == undefined) {
+            project = new Map();
+        }
+        project.set(name, state);
+        this.projects.set(projectName, project);
     }
 
-    getState(stateKey) {
-        let stateFromMap = this.states.get(stateKey);
+    getState(projectName, name) {
+        let project = this.projects.get(projectName);
+        let stateFromMap = project == undefined ? undefined : project.get(name);
         if (stateFromMap == undefined) {
             console.log("projectName:");
-            console.log(stateKey[0]);
+            console.log(projectName);
+            const elementsJson = FileUtils.loadElementsJson(projectName);
             return {
-                elementsJson: FileUtils.loadElementsJson(stateKey[0]),
+                elementsJson: elementsJson,
                 lines: [{
                     id: 1,
                     words: []
                 }],
                 currentLine: 1,
                 done: false,
-                lineCount: 1
+                lineCount: 1,
+                context: new Context(elementsJson, CodeLogic.getInitialData())
             };
         }
         return stateFromMap;

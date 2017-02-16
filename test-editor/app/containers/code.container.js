@@ -16,8 +16,8 @@ class CodeLogic extends React.Component {
     constructor(props) {
         super(props);
         console.log(stateManager);
-        this.state = stateManager.getState([this.props.projectName, this.props.name]);
-        this.context = new Context(this.state.elementsJson, CodeLogic.getInitialData());
+        this.state = stateManager.getState(this.props.projectName, this.props.name);
+        this.context = this.state.context;
         console.log("initial state of codelogic:");
         console.log(this.state);
     }
@@ -93,7 +93,7 @@ class CodeLogic extends React.Component {
         });
         console.log("input changed:");
         console.log(this.state.lines[this.state.currentLine-1].words);
-        stateManager.putState([this.props.projectName, this.props.name], this.state);
+        stateManager.putState(this.props.projectName, this.props.name, this.state);
     }
 
     excludeWrongCharacters(event) {
