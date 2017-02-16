@@ -1,0 +1,4 @@
+test-editor/node_modules
+test-editor/.idea
+test-editor/config.json
+test-editor/public/js/bundle.js
