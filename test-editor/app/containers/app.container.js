@@ -1,8 +1,5 @@
 import React from 'react'
 import Header from '../components/header.component'
-// import TabGroup from '../components/tabgroup.component'
-// import TabPlus from '../components/tabplus.component'
-// import Tab from '../components/tab.component'
 import { Tabs, Tab, TabList, TabPanel} from 'react-tabs'
 import CodeLogic from '../containers/code.container'
 import MainMenuContainer from './mainmenu.container'
@@ -14,7 +11,7 @@ class AppContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            codeFrames : [<CodeLogic key="1" id="1" projectName="kinopoisk" name="Test1"/>, <CodeLogic key="2" id="2" projectName="kinopoisk" name="Test2"/>]
+            codeFrames : [<CodeLogic key="1" id="1" projectName="kinopoisk" name="Test1"/>]
         }
         Tabs.setUseDefaultStyles(false);
     }
@@ -29,7 +26,7 @@ class AppContainer extends React.Component {
                     <Sidebar/>
                     <Tabs>
                         <TabList className="tab-list" activeTabClassName="tab-selected">
-							{this.state.codeFrames.map(codeFrame => <Tab className="tab-item">{codeFrame.props.name}</Tab>)}
+							{this.state.codeFrames.map((codeFrame, index) => (<Tab key={index+1} className="tab-item">{codeFrame.props.name}</Tab>))}
                         </TabList>
                         {
                             this.state.codeFrames.map(codeFrame =>

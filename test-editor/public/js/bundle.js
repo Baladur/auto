@@ -21301,15 +21301,15 @@
 
 	var _code2 = _interopRequireDefault(_code);
 
-	var _mainmenu = __webpack_require__(204);
+	var _mainmenu = __webpack_require__(205);
 
 	var _mainmenu2 = _interopRequireDefault(_mainmenu);
 
-	var _content = __webpack_require__(206);
+	var _content = __webpack_require__(207);
 
 	var _content2 = _interopRequireDefault(_content);
 
-	var _sidebar = __webpack_require__(207);
+	var _sidebar = __webpack_require__(208);
 
 	var _sidebar2 = _interopRequireDefault(_sidebar);
 
@@ -21320,10 +21320,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	// import TabGroup from '../components/tabgroup.component'
-	// import TabPlus from '../components/tabplus.component'
-	// import Tab from '../components/tab.component'
-
 
 	var AppContainer = function (_React$Component) {
 	    _inherits(AppContainer, _React$Component);
@@ -21334,7 +21330,7 @@
 	        var _this = _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).call(this, props));
 
 	        _this.state = {
-	            codeFrames: [_react2.default.createElement(_code2.default, { key: '1', id: '1', projectName: 'kinopoisk', name: 'Test1' }), _react2.default.createElement(_code2.default, { key: '2', id: '2', projectName: 'kinopoisk', name: 'Test2' })]
+	            codeFrames: [_react2.default.createElement(_code2.default, { key: '1', id: '1', projectName: 'kinopoisk', name: 'Test1' })]
 	        };
 	        _reactTabs.Tabs.setUseDefaultStyles(false);
 	        return _this;
@@ -21360,10 +21356,10 @@
 	                        _react2.default.createElement(
 	                            _reactTabs.TabList,
 	                            { className: 'tab-list', activeTabClassName: 'tab-selected' },
-	                            this.state.codeFrames.map(function (codeFrame) {
+	                            this.state.codeFrames.map(function (codeFrame, index) {
 	                                return _react2.default.createElement(
 	                                    _reactTabs.Tab,
-	                                    { className: 'tab-item' },
+	                                    { key: index + 1, className: 'tab-item' },
 	                                    codeFrame.props.name
 	                                );
 	                            })
@@ -22435,6 +22431,8 @@
 
 	var _classnames2 = _interopRequireDefault(_classnames);
 
+	var _statemanager = __webpack_require__(204);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22451,16 +22449,8 @@
 
 	        var _this = _possibleConstructorReturn(this, (CodeLogic.__proto__ || Object.getPrototypeOf(CodeLogic)).call(this, props));
 
-	        _this.state = {
-	            elementsJson: _fileUtils2.default.loadElementsJson(_this.props.projectName),
-	            lines: [{
-	                id: 1,
-	                words: []
-	            }],
-	            currentLine: 1,
-	            done: false,
-	            lineCount: 1
-	        };
+	        console.log(_statemanager.stateManager);
+	        _this.state = _statemanager.stateManager.getState([_this.props.projectName, _this.props.name]);
 	        _this.context = new _context2.default(_this.state.elementsJson, CodeLogic.getInitialData());
 	        console.log("initial state of codelogic:");
 	        console.log(_this.state);
@@ -22484,7 +22474,7 @@
 	                        this.state.lines.map(function (line, index) {
 	                            return _react2.default.createElement(
 	                                _linenumber2.default,
-	                                null,
+	                                { key: index + 1 },
 	                                [index + 1, _this2.state.done && index == _this2.state.currentLine && _react2.default.createElement(_tick2.default, null)]
 	                            );
 	                        })
@@ -22492,17 +22482,19 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'written' },
-	                        this.state.lines.map(function (line) {
+	                        this.state.lines.map(function (line, index) {
 	                            return _react2.default.createElement(
 	                                _line2.default,
-	                                { lineId: line.id },
+	                                { lineId: line.id, key: index + 1 },
 	                                [line.words.map(function (word) {
 	                                    return _react2.default.createElement(
 	                                        'span',
-	                                        { className: _this2.getClassnameByWord(word) },
+	                                        { className: (0, _classnames2.default)({
+	                                                'ordinary': true
+	                                            }) },
 	                                        word + ' '
 	                                    );
-	                                }), _this2.state.currentLine == line.id && _react2.default.createElement(_maininput2.default, { ref: 'mainInput', handleInput: _this2.handleInput.bind(_this2) })]
+	                                }), _this2.state.currentLine == line.id && _react2.default.createElement(_maininput2.default, { key: '1', ref: 'mainInput', handleInput: _this2.handleInput.bind(_this2) })]
 	                            );
 	                        })
 	                    )
@@ -22524,14 +22516,14 @@
 	                list: [],
 	                replace: this.replace
 	            });
-	            document.body.addEventListener("awesomplete-close", function (e) {
-	                // The popup just closed.
-	                this.context.forward();
-	                this.awesomplete.list = this.context.currentHints;
-	                if (this.context.current != _context2.default.END) {
-	                    this.awesomplete.open();
-	                }
-	            }, false);
+	            // document.body.addEventListener("awesomplete-close", function(e){
+	            //     // The popup just closed.
+	            //     this.context.forward();
+	            //     this.awesomplete.list = this.context.currentHints;
+	            //     if (this.context.current != Context.END) {
+	            //         this.awesomplete.open();
+	            //     }
+	            // }, false);
 	            this.mainInputWrapper = document.querySelector('div.awesomplete');
 	            // this.newLine();
 	            this.awesomplete.list = this.context.currentHints;
@@ -22539,7 +22531,16 @@
 	        }
 	    }, {
 	        key: 'handleInput',
-	        value: function handleInput() {}
+	        value: function handleInput(event) {
+	            var lines = this.state.lines;
+	            lines[this.state.currentLine - 1].words = [event.target.value];
+	            this.setState({
+	                lines: lines
+	            });
+	            console.log("input changed:");
+	            console.log(this.state.lines[this.state.currentLine - 1].words);
+	            _statemanager.stateManager.putState([this.props.projectName, this.props.name], this.state);
+	        }
 	    }, {
 	        key: 'excludeWrongCharacters',
 	        value: function excludeWrongCharacters(event) {
@@ -23777,6 +23778,68 @@
 /* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.stateManager = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _fileUtils = __webpack_require__(197);
+
+	var _fileUtils2 = _interopRequireDefault(_fileUtils);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var StateManager = function () {
+	    function StateManager() {
+	        _classCallCheck(this, StateManager);
+
+	        this.states = new Map();
+	    }
+
+	    _createClass(StateManager, [{
+	        key: "putState",
+	        value: function putState(stateKey, state) {
+	            console.log("put state");
+	            console.log(state);
+	            this.states.set(stateKey, state);
+	        }
+	    }, {
+	        key: "getState",
+	        value: function getState(stateKey) {
+	            var stateFromMap = this.states.get(stateKey);
+	            if (stateFromMap == undefined) {
+	                console.log("projectName:");
+	                console.log(stateKey[0]);
+	                return {
+	                    elementsJson: _fileUtils2.default.loadElementsJson(stateKey[0]),
+	                    lines: [{
+	                        id: 1,
+	                        words: []
+	                    }],
+	                    currentLine: 1,
+	                    done: false,
+	                    lineCount: 1
+	                };
+	            }
+	            return stateFromMap;
+	        }
+	    }]);
+
+	    return StateManager;
+	}();
+
+	var stateManager = exports.stateManager = new StateManager();
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -23789,7 +23852,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _mainmenu = __webpack_require__(205);
+	var _mainmenu = __webpack_require__(206);
 
 	var _mainmenu2 = _interopRequireDefault(_mainmenu);
 
@@ -23862,7 +23925,7 @@
 	exports.default = MainMenuContainer;
 
 /***/ },
-/* 205 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -24007,7 +24070,7 @@
 	exports.default = MainMenu;
 
 /***/ },
-/* 206 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24022,7 +24085,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _sidebar = __webpack_require__(207);
+	var _sidebar = __webpack_require__(208);
 
 	var _sidebar2 = _interopRequireDefault(_sidebar);
 
@@ -24064,7 +24127,7 @@
 	exports.default = Content;
 
 /***/ },
-/* 207 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

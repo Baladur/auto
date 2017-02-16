@@ -10,20 +10,13 @@ import Sequence from '../editor/sequence'
 import Context from '../editor/context'
 import Awesomplete from '../../public/js/awesomplete.min'
 import ClassNames from 'classnames'
+import {stateManager} from '../util/statemanager'
 
 class CodeLogic extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            elementsJson: FileUtils.loadElementsJson(this.props.projectName),
-            lines: [{
-                id: 1,
-                words: []
-            }],
-            currentLine: 1,
-            done: false,
-            lineCount: 1
-        };
+        console.log(stateManager);
+        this.state = stateManager.getState([this.props.projectName, this.props.name]);
         this.context = new Context(this.state.elementsJson, CodeLogic.getInitialData());
         console.log("initial state of codelogic:");
         console.log(this.state);
@@ -36,7 +29,7 @@ class CodeLogic extends React.Component {
                     <LineNumberColumn>
                         {
                             this.state.lines.map((line, index) =>
-                            <LineNumber>
+                            <LineNumber key={index+1}>
                                 {[index+1,
                                 this.state.done && index == this.state.currentLine && <Tick/>]}
                             </LineNumber>
@@ -45,14 +38,16 @@ class CodeLogic extends React.Component {
                     </LineNumberColumn>
 					<div className="written">
                     {
-                        this.state.lines.map(line =>
+                        this.state.lines.map((line, index) =>
 
-                                <Line lineId={line.id}>
+                                <Line lineId={line.id} key={index+1}>
                                 {
                                     [line.words.map(word =>
-                                        <span className={this.getClassnameByWord(word)}>{word + ' '}</span>
+                                        <span className={ClassNames({
+                                            'ordinary' : true
+                                        })}>{word + ' '}</span>
                                     ),
-                                    this.state.currentLine == line.id && <MainInput ref="mainInput" handleInput={this.handleInput.bind(this)}/>]
+                                    this.state.currentLine == line.id && <MainInput key="1" ref="mainInput" handleInput={this.handleInput.bind(this)}/>]
                                 }
                                 </Line>
 
@@ -76,22 +71,29 @@ class CodeLogic extends React.Component {
             list : [],
             replace : this.replace
         });
-        document.body.addEventListener("awesomplete-close", function(e){
-            // The popup just closed.
-            this.context.forward();
-            this.awesomplete.list = this.context.currentHints;
-            if (this.context.current != Context.END) {
-                this.awesomplete.open();
-            }
-        }, false);
+        // document.body.addEventListener("awesomplete-close", function(e){
+        //     // The popup just closed.
+        //     this.context.forward();
+        //     this.awesomplete.list = this.context.currentHints;
+        //     if (this.context.current != Context.END) {
+        //         this.awesomplete.open();
+        //     }
+        // }, false);
         this.mainInputWrapper = document.querySelector('div.awesomplete');
         // this.newLine();
         this.awesomplete.list = this.context.currentHints;
         this.awesomplete.open();
     }
 
-    handleInput() {
-
+    handleInput(event) {
+        let lines = this.state.lines;
+        lines[this.state.currentLine-1].words = [event.target.value];
+        this.setState({
+            lines: lines
+        });
+        console.log("input changed:");
+        console.log(this.state.lines[this.state.currentLine-1].words);
+        stateManager.putState([this.props.projectName, this.props.name], this.state);
     }
 
     excludeWrongCharacters(event) {
