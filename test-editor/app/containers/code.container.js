@@ -11,13 +11,16 @@ import Context from '../editor/context'
 import Awesomplete from '../../public/js/awesomplete.min'
 import ClassNames from 'classnames'
 import {stateManager} from '../util/statemanager'
+import keydown from 'react-keydown'
 
+/*@keydown*/
 class CodeLogic extends React.Component {
     constructor(props) {
         super(props);
-        console.log(stateManager);
         this.state = stateManager.getState(this.props.projectName, this.props.name);
         this.context = this.state.context;
+		this.awesomplete = {};
+		this.input = {};
         console.log("initial state of codelogic:");
         console.log(this.state);
     }
@@ -31,7 +34,7 @@ class CodeLogic extends React.Component {
                             this.state.lines.map((line, index) =>
                             <LineNumber key={index+1}>
                                 {[index+1,
-                                this.state.done && index == this.state.currentLine && <Tick/>]}
+                                this.state.done && index+1 == this.state.currentLine && <Tick/>]}
                             </LineNumber>
                             )
                         }
@@ -84,6 +87,14 @@ class CodeLogic extends React.Component {
         this.awesomplete.list = this.context.currentHints;
         this.awesomplete.open();
     }
+	
+	componentWillReceiveProps( nextProps ) {
+		const { keydown: { event } } = nextProps;
+		if ( event ) {
+		  this.setState( { key: event.which } );
+		  this.excludeWrongCharacters(event);
+		}
+  	}
 
     handleInput(event) {
         let lines = this.state.lines;
@@ -97,13 +108,13 @@ class CodeLogic extends React.Component {
     }
 
     excludeWrongCharacters(event) {
-        if (this.context.shouldExcludeCharacters) {
-            let inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
+        if (this.state.context.shouldExcludeCharacters) {
+            let inputChar = this.state.key;
             if (inputChar >= 'A' && inputChar <= 'Z') {
                 inputChar = inputChar.toLowerCase();
             }
             if ((this.context.allowedCharacters.indexOf(inputChar) < 0 && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 ))
-                || (this.getVisibleHints().count == 0 && window.awesomplete.filter == CodeLogic.filter)) {
+                || (this.getVisibleHints().count == 0 && this.awesomplete.filter == CodeLogic.filter)) {
                 event.preventDefault();
             }
 

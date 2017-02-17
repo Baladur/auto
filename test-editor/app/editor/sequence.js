@@ -34,21 +34,6 @@ class Sequence {
     }
 
     /**
-     * Create new sequence of given context object
-     * @param obj
-     */
-    newSequence(obj) {
-        this.sequences.push([]);
-        this.links.push({
-            i : this.i,
-            j : this.j
-        });
-        this.i = this.sequences.length - 1;
-        this.j = 0;
-        this.makeSequence(obj);
-    }
-
-    /**
      * Push context object to the current sequence
      * @param obj
      */
@@ -64,9 +49,9 @@ class Sequence {
         let temp_i = this.i;
         let temp_j = this.j + 1;
         let seek = temp_i;
-        while (this.sequences[temp_i][temp_j] == endObj) {
+        while (this.sequences[temp_i][temp_j] == Context.END) {
             if (temp_i == 0) {
-                return endObj;
+                return Context.END;
             } else {
                 const link = seq.links[seek--];
                 temp_i = link.i;
@@ -80,20 +65,19 @@ class Sequence {
      * Get previous context object without moving cursor
      */
     previous() {
-        console.err("not implemented");
-        return this.current();
+        throw new Error("Not implemented");
     }
 
     /**
      * Move cursor forward and get context object
-     * @returns {*}
+     * @returns {*} context object next in sequence
      */
     forward() {
         this.j++;
         let seek = this.i;
-        while (this.current() == endObj) {
+        while (this.current() == Context.END) {
             if (this.i == 0) {
-                return endObj;
+                return Context.END;
             } else {
                 const link = this.links[seek--];
                 this.i = link.i;
@@ -135,6 +119,13 @@ class Sequence {
      * @param obj (must have 'seq' property or IllegalArgumentError will be thrown)
      */
     makeSequence(obj) {
+		this.sequences.push([]);
+        this.links.push({
+            i : this.i,
+            j : this.j
+        });
+        this.i = this.sequences.length - 1;
+        this.j = 0;
         this._makeSequence(obj);
         this.push(Context.END);
     }

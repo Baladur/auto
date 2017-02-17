@@ -33,6 +33,7 @@ class StateManager {
                 currentLine: 1,
                 done: false,
                 lineCount: 1,
+				key: "n/a",
                 context: new Context(elementsJson, CodeLogic.getInitialData())
             };
         }

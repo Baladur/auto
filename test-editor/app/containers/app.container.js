@@ -24,7 +24,7 @@ class AppContainer extends React.Component {
                     onFileOpenTest={this.openNewTab.bind(this)}/>
                 <Content>
                     <Sidebar/>
-                    <Tabs>
+                    <Tabs ref="tabs">
                         <TabList className="tab-list" activeTabClassName="tab-selected">
 							{this.state.codeFrames.map((codeFrame, index) => (<Tab key={index+1} className="tab-item">{codeFrame.props.name}</Tab>))}
                         </TabList>
@@ -44,6 +44,11 @@ class AppContainer extends React.Component {
 		const size = this.state.codeFrames.length;
         this.setState({
 			codeFrames: this.state.codeFrames.concat([<CodeLogic key={size+1} id={size+1} projectName="kinopoisk" name="TestN"/>])
+		});
+		
+		//TODO: find out better way to force tab selection
+		this.refs.tabs.setState({
+			selectedIndex: size, focus: true
 		});
     }
 
