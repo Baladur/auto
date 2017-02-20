@@ -60,10 +60,6 @@ const WAIT = {
 const comparators = ["==", "!=", "<", ">"];
 
 class Context {
-    static get END() {
-        return END;
-    }
-
     constructor(elementsJson, initialData) {
         this.elementsJson = elementsJson;
         this.seq = new Sequence();
@@ -129,6 +125,14 @@ class Context {
                 nt : true,
                 seq : [this.numbersObj, END]
             }, this.methodObj]
+        };
+
+        this.newLocalVariableObj = {
+
+        };
+
+        this.newGlobalVariableObj = {
+
         };
 
         //Operator objects
@@ -233,6 +237,44 @@ class Context {
         this.init();
     }
 
+    /****PUBLIC PROPERTIES****/
+
+    static get END() {
+        return END;
+    }
+
+    get allowedCharacters() {
+        let allowedChars = [];
+        console.log("current hints:");
+        console.log(this._currentHints);
+        this._currentHints.forEach(hint => {
+            for (let i in hint) {
+                if (allowedChars.indexOf(hint[i]) < 0) {
+                    allowedChars.push(hint[i].toLowerCase());
+                }
+            }
+        });
+        console.log("allowed characters:");
+        console.log(allowedChars);
+        return allowedChars;
+    }
+
+    get currentHints() {
+        return this._currentHints.map(hint => ({ word: hint }));
+    }
+
+    get shouldExcludeCharacters() {
+        return !(this._currentOperator == this.newLocalVariableObj
+        || this._currentOperator == this.newGlobalVariableObj
+        || this._currentOperator == this.constStringObj);
+    }
+
+    get current() {
+        return this._currentOperator;
+    }
+
+    /****PUBLIC METHODS****/
+
     init() {
         this._currentOperator = this.mainObj;
         this._currentHints = this._collectHints(this._currentOperator);
@@ -245,6 +287,12 @@ class Context {
         this._initObjs();
     }
 
+    forward() {
+
+    }
+
+    /****PRIVATE METHODS****/
+
     _initObjs() {
         this.textfieldValuesObj.prod = Object.keys(this.elementsJson["TextField"]);
         this.buttonValuesObj.prod = Object.keys(this.elementsJson["Button"]);
@@ -253,10 +301,6 @@ class Context {
         this.buttonValuesObj.prod.forEach(b => b = "#" + b);
 
         this.elementsValuesObj.prod = this.textfieldValuesObj.prod.concat(this.buttonValuesObj.prod);
-    }
-
-    forward() {
-
     }
 
     _getWord(obj) {
@@ -296,35 +340,6 @@ class Context {
             }
         }
         return result;
-    }
-
-    get allowedCharacters() {
-        let allowedChars = [];
-        this.currentHints.forEach(hint => {
-            if (hint) {
-                return;
-            }
-            hint.forEach(char => {
-                if (allowedChars.indexOf(char) < 0) {
-                    allowedChars.push(char.toLowerCase());
-                }
-            })
-        });
-        console.log(allowedChars);
-        return allowedChars;
-    }
-    
-    get currentHints() {
-        return this._currentHints;
-    }
-
-    get shouldExcludeCharacters() {
-        return !(this._currentOperator == this.newLocalVariableObj || this._currentOperator == newGlobalVariableObj || this._currentOperator == constStringObj
-            || window.input.value.match(/^\d+$/) != undefined);
-    }
-
-    get current() {
-        return this._currentOperator;
     }
 }
 

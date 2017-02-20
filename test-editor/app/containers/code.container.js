@@ -5,15 +5,10 @@ import LineNumber from '../components/linenumber.component'
 import Line from '../components/line.component'
 import Tick from '../components/tick.component'
 import MainInput from '../components/maininput.component'
-import FileUtils from '../util/file-utils'
-import Sequence from '../editor/sequence'
-import Context from '../editor/context'
-import Awesomplete from '../../public/js/awesomplete.min'
 import ClassNames from 'classnames'
-import {stateManager} from '../util/statemanager'
-import keydown from 'react-keydown'
+import EditorKeys from '../editor/keys'
+import {stateManager} from '../editor/statemanager'
 
-/*@keydown*/
 class CodeLogic extends React.Component {
     constructor(props) {
         super(props);
@@ -27,14 +22,14 @@ class CodeLogic extends React.Component {
 
     render() {
         return (
-            <div id={"code-" + this.props.id}>
-                <Code handleInput={this.handleInput.bind(this)}>
+            <div tabIndex="0" onKeyDown={this.handleKeyDown.bind(this)} id={"code-" + this.props.id}>
+                <Code>
                     <LineNumberColumn>
                         {
                             this.state.lines.map((line, index) =>
                             <LineNumber key={index+1}>
                                 {[index+1,
-                                this.state.done && index+1 == this.state.currentLine && <Tick/>]}
+                                this.state.done && index+1 == this.state.currentLine && <Tick key="1"/>]}
                             </LineNumber>
                             )
                         }
@@ -50,10 +45,14 @@ class CodeLogic extends React.Component {
                                             'ordinary' : true
                                         })}>{word + ' '}</span>
                                     ),
-                                    this.state.currentLine == line.id && <MainInput key="1" ref="mainInput" handleInput={this.handleInput.bind(this)}/>]
+                                    this.state.currentLine == index+1
+                                    && <MainInput
+                                            key="1"
+                                            ref="mainInput"
+                                            suggestions={this.state.context.currentHints}
+                                            getSuggestions={this.getSuggestions.bind(this)}/>]
                                 }
                                 </Line>
-
                         )
                     }
 					</div>
@@ -65,15 +64,15 @@ class CodeLogic extends React.Component {
     /*****HANDLERS*****/
 
     componentDidMount() {
-        this.input = document.getElementById('mainInput');
-        this.awesomplete = new Awesomplete(this.input, {
-            autoFirst : true,
-            minChars : "0",
-            maxItems : 99999,
-            filter : CodeLogic.filter,
-            list : [],
-            replace : this.replace
-        });
+        // this.input = document.getElementById('mainInput');
+        // this.awesomplete = new Awesomplete(this.input, {
+        //     autoFirst : true,
+        //     minChars : "0",
+        //     maxItems : 99999,
+        //     filter : CodeLogic.filter,
+        //     list : [],
+        //     replace : this.replace
+        // });
         // document.body.addEventListener("awesomplete-close", function(e){
         //     // The popup just closed.
         //     this.context.forward();
@@ -82,39 +81,56 @@ class CodeLogic extends React.Component {
         //         this.awesomplete.open();
         //     }
         // }, false);
-        this.mainInputWrapper = document.querySelector('div.awesomplete');
-        // this.newLine();
-        this.awesomplete.list = this.context.currentHints;
-        this.awesomplete.open();
+        // this.mainInputWrapper = document.querySelector('div.awesomplete');
+        // // this.newLine();
+        // this.awesomplete.list = this.context.currentHints;
+        // this.awesomplete.open();
     }
-	
-	componentWillReceiveProps( nextProps ) {
-		const { keydown: { event } } = nextProps;
-		if ( event ) {
-		  this.setState( { key: event.which } );
-		  this.excludeWrongCharacters(event);
-		}
-  	}
 
-    handleInput(event) {
-        let lines = this.state.lines;
-        lines[this.state.currentLine-1].words = [event.target.value];
-        this.setState({
-            lines: lines
-        });
-        console.log("input changed:");
-        console.log(this.state.lines[this.state.currentLine-1].words);
-        stateManager.putState(this.props.projectName, this.props.name, this.state);
+    // componentWillReceiveProps( nextProps ) {
+    //     const { keydown: { event } } = nextProps;
+    //     if ( event ) {
+    //         this.setState( { key: event.which } );
+    //         console.log(this.state.key);
+    //     }
+    // }
+
+    handleKeyDown(event) {
+        const keyCode = event.keyCode ? event.keyCode : event.which;
+        //this.excludeWrongCharacters(event);
+        switch (keyCode) {
+            case EditorKeys.NEW_LINE : this.handleNewLineEvent(); break;
+            case EditorKeys.DELETE : this.handleDeleteEvent(); break;
+            default: console.log(keyCode); break;
+        }
+    }
+
+    handleNewLineEvent() {
+        if (this.state.done) {
+            this.setState({
+                lines: this.state.lines.concat([{
+                    id: this.state.lineCount+1,
+                    words: [""]
+                }]),
+                lineCount: this.state.lineCount+1,
+                currentLine: this.state.currentLine+1,
+                done: false
+            });
+        }
+    }
+
+    handleDeleteEvent() {
+
     }
 
     excludeWrongCharacters(event) {
         if (this.state.context.shouldExcludeCharacters) {
-            let inputChar = this.state.key;
+            let inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
             if (inputChar >= 'A' && inputChar <= 'Z') {
                 inputChar = inputChar.toLowerCase();
             }
-            if ((this.context.allowedCharacters.indexOf(inputChar) < 0 && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 ))
-                || (this.getVisibleHints().count == 0 && this.awesomplete.filter == CodeLogic.filter)) {
+            if (this.state.context.allowedCharacters.indexOf(inputChar) < 0// && !((window.input.value.length == 0 || window.input.value.match(/^\d+$/) != undefined) && inputChar >= 1 && inputChar <= 9 ))
+                || (this.getVisibleHints().count == 0)) {
                 event.preventDefault();
             }
 
@@ -134,54 +150,33 @@ class CodeLogic extends React.Component {
     }
 
     getVisibleHints() {
-        let mc = 0;
-        let mh = "";
-        this.context.currentHints.forEach(hint => {
-            if (CodeLogic.filter(hint, this.input.value)) {
-                mc = mc + 1;
-                mh = hint;
-            }
-        });
+        // let mc = 0;
+        // let mh = "";
+        // this.state.context.currentHints.forEach(hint => {
+        //     console.log(`hint: ${hint}, input:`);
+        //     console.log(this.state.lines[this.state.currentLine-1].words);
+        //     if (CodeLogic.filter(hint, this.state.lines[this.state.currentLine-1].words[0])) {
+        //         mc = mc + 1;
+        //         mh = hint;
+        //     }
+        // });
+        let hints = this.refs.mainInput.state.suggestions.map(s => s.word);
         return {
-            count : mc,
-            hint : mh
+            count : hints.length,
+            hint : hints[0]
         };
     }
 
-    handleTickImg() {
-        if (this.state.done) {
-            this.tickImg.style.visibility = "visible";
-        } else {
-            this.tickImg.style.visibility = "hidden";
-        }
-}
-
-    initTickImg() {
-        if (this.tickImg == undefined) {
-            this.tickImg = document.createElement('span');
-            this.tickImg.setAttribute("class", "fa fa-check");
-            //document.querySelector("div.awesomplete>div.awesomplete").appendChild(tickImg);
-        }
-        this.handleTickImg();
-    }
-
-    newLine() {
-        this.setState({
-            linesCount: this.state.linesCount + 1
-        });
-        //linenumber
-        let lineNumber = document.createElement('div');
-        lineNumber.setAttribute('class', 'linenumber');
-        lineNumber.innerHTML = this.state.linesCount;
-        lineNumber.appendChild(this.tickImg);
-        this.refs.lineNumbers.getDOMNode().appendChild(lineNumber);
-        //newline
-        let div = document.createElement('div');
-        div.setAttribute('id', this.linesCount);
-        div.appendChild(this.mainInputWrapper);
-        this.written.appendChild(div);
-        //tickImg
-        this.handleTickImg();
+    getSuggestions(value) {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+        let allHints = this.state.context.currentHints;
+        console.log(`get suggestions by value ${value}`);
+        console.log(`returning:`);
+        console.log((inputLength === 0 ? allHints : allHints.filter(hint =>
+            hint.word.toLowerCase().slice(0, inputLength) === inputValue)));
+        return (inputLength === 0 ? allHints : allHints.filter(hint =>
+            hint.word.toLowerCase().slice(0, inputLength) === inputValue));
     }
 
     static getInitialData() {
@@ -198,4 +193,4 @@ class CodeLogic extends React.Component {
     }
 }
 
-export default CodeLogic
+export default  CodeLogic

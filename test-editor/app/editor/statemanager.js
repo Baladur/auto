@@ -1,5 +1,5 @@
-import FileUtils from '../util/file-utils'
-import Context from '../editor/context'
+import ResourceManager from './resourcemanager'
+import Context from './context'
 import CodeLogic from '../containers/code.container'
 
 class StateManager {
@@ -23,17 +23,16 @@ class StateManager {
         if (stateFromMap == undefined) {
             console.log("projectName:");
             console.log(projectName);
-            const elementsJson = FileUtils.loadElementsJson(projectName);
+            const elementsJson = ResourceManager.getElementsFile(projectName);
             return {
                 elementsJson: elementsJson,
                 lines: [{
                     id: 1,
-                    words: []
+                    words: [""]
                 }],
                 currentLine: 1,
-                done: false,
+                done: true,
                 lineCount: 1,
-				key: "n/a",
                 context: new Context(elementsJson, CodeLogic.getInitialData())
             };
         }
