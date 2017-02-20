@@ -3,21 +3,26 @@ import Autosuggest from 'react-autosuggest'
 import theme from '../../public/css/autosuggest-style.css'
 
 class MainInput extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             value: '',
-            suggestions: []
+            suggestions: this.props.getSuggestions('')
         };
     }
 
     render() {
-        const { value, suggestions } = this.state;
+        let { value, suggestions } = this.state;
         const inputProps = {
             value,
             onChange: this.onChange.bind(this),
             autoFocus: true
         };
+        if (suggestions.length == 0) {
+            suggestions = this.props.getSuggestions("");
+        }
+        console.log(`going to render following suggestions:`);
+        suggestions.forEach(s => console.log(`\t[${s.word}]`));
         return (
             <Autosuggest
                 theme={theme}
@@ -61,9 +66,9 @@ class MainInput extends React.Component {
 
     onSuggestionsClearRequested() {
 		console.log(`onSuggestionsClearRequested()`);
-        this.setState({
-            suggestions: []
-        });
+        // this.setState({
+        //     suggestions: []
+        // });
     }
 
     shouldRenderSuggestions(value) {

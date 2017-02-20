@@ -68,40 +68,12 @@ class CodeLogic extends React.Component {
     /*****HANDLERS*****/
 
     componentDidMount() {
-        // this.input = document.getElementById('mainInput');
-        // this.awesomplete = new Awesomplete(this.input, {
-        //     autoFirst : true,
-        //     minChars : "0",
-        //     maxItems : 99999,
-        //     filter : CodeLogic.filter,
-        //     list : [],
-        //     replace : this.replace
-        // });
-        // document.body.addEventListener("awesomplete-close", function(e){
-        //     // The popup just closed.
-        //     this.context.forward();
-        //     this.awesomplete.list = this.context.currentHints;
-        //     if (this.context.current != Context.END) {
-        //         this.awesomplete.open();
-        //     }
-        // }, false);
-        // this.mainInputWrapper = document.querySelector('div.awesomplete');
-        // // this.newLine();
-        // this.awesomplete.list = this.context.currentHints;
-        // this.awesomplete.open();
-    }
 
-    // componentWillReceiveProps( nextProps ) {
-    //     const { keydown: { event } } = nextProps;
-    //     if ( event ) {
-    //         this.setState( { key: event.which } );
-    //         console.log(this.state.key);
-    //     }
-    // }
+    }
 
     handleKeyDown(event) {
         const keyCode = event.keyCode ? event.keyCode : event.which;
-        //this.excludeWrongCharacters(event);
+        this.excludeWrongCharacters(event);
         switch (keyCode) {
             case EditorKeys.NEW_LINE : this.handleNewLineEvent(); break;
             case EditorKeys.DELETE : this.handleDeleteEvent(); break;
@@ -124,10 +96,29 @@ class CodeLogic extends React.Component {
     }
 
     handleDeleteEvent() {
-
+        console.log(`handleDeleteEvent()`);
+        if (this.refs.mainInput.state.value.trim().length > 0) {
+            let value = this.refs.mainInput.state.value;
+            value.toArray().splice(-1, 1);
+            this.refs.mainInput.setState({
+                value: value
+            });
+            return;
+        }
+        let lines = this.state.lines;
+        let words = lines[this.state.currentLine-1].words;
+        if (words.length > 0) {
+            words.splice(-1, 1);
+            lines[this.state.currentLine-1].words = words;
+            this.setState({
+                lines: lines
+            });
+            console.log(`deleted last word!`)
+        }
     }
 
     excludeWrongCharacters(event) {
+        console.log(`excludeWrongCharacters()`);
         if (this.state.context.shouldExcludeCharacters) {
             let inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
             if (inputChar >= 'A' && inputChar <= 'Z') {

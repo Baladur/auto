@@ -22509,42 +22509,11 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {}
-	        // this.input = document.getElementById('mainInput');
-	        // this.awesomplete = new Awesomplete(this.input, {
-	        //     autoFirst : true,
-	        //     minChars : "0",
-	        //     maxItems : 99999,
-	        //     filter : CodeLogic.filter,
-	        //     list : [],
-	        //     replace : this.replace
-	        // });
-	        // document.body.addEventListener("awesomplete-close", function(e){
-	        //     // The popup just closed.
-	        //     this.context.forward();
-	        //     this.awesomplete.list = this.context.currentHints;
-	        //     if (this.context.current != Context.END) {
-	        //         this.awesomplete.open();
-	        //     }
-	        // }, false);
-	        // this.mainInputWrapper = document.querySelector('div.awesomplete');
-	        // // this.newLine();
-	        // this.awesomplete.list = this.context.currentHints;
-	        // this.awesomplete.open();
-
-
-	        // componentWillReceiveProps( nextProps ) {
-	        //     const { keydown: { event } } = nextProps;
-	        //     if ( event ) {
-	        //         this.setState( { key: event.which } );
-	        //         console.log(this.state.key);
-	        //     }
-	        // }
-
 	    }, {
 	        key: 'handleKeyDown',
 	        value: function handleKeyDown(event) {
 	            var keyCode = event.keyCode ? event.keyCode : event.which;
-	            //this.excludeWrongCharacters(event);
+	            this.excludeWrongCharacters(event);
 	            switch (keyCode) {
 	                case _keys2.default.NEW_LINE:
 	                    this.handleNewLineEvent();break;
@@ -22571,10 +22540,31 @@
 	        }
 	    }, {
 	        key: 'handleDeleteEvent',
-	        value: function handleDeleteEvent() {}
+	        value: function handleDeleteEvent() {
+	            console.log('handleDeleteEvent()');
+	            if (this.refs.mainInput.state.value.trim().length > 0) {
+	                var value = this.refs.mainInput.state.value;
+	                value.toArray().splice(-1, 1);
+	                this.refs.mainInput.setState({
+	                    value: value
+	                });
+	                return;
+	            }
+	            var lines = this.state.lines;
+	            var words = lines[this.state.currentLine - 1].words;
+	            if (words.length > 0) {
+	                words.splice(-1, 1);
+	                lines[this.state.currentLine - 1].words = words;
+	                this.setState({
+	                    lines: lines
+	                });
+	                console.log('deleted last word!');
+	            }
+	        }
 	    }, {
 	        key: 'excludeWrongCharacters',
 	        value: function excludeWrongCharacters(event) {
+	            console.log('excludeWrongCharacters()');
 	            if (this.state.context.shouldExcludeCharacters) {
 	                var inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
 	                if (inputChar >= 'A' && inputChar <= 'Z') {
@@ -22978,14 +22968,14 @@
 	var MainInput = function (_React$Component) {
 	    _inherits(MainInput, _React$Component);
 
-	    function MainInput() {
+	    function MainInput(props) {
 	        _classCallCheck(this, MainInput);
 
-	        var _this = _possibleConstructorReturn(this, (MainInput.__proto__ || Object.getPrototypeOf(MainInput)).call(this));
+	        var _this = _possibleConstructorReturn(this, (MainInput.__proto__ || Object.getPrototypeOf(MainInput)).call(this, props));
 
 	        _this.state = {
 	            value: '',
-	            suggestions: []
+	            suggestions: _this.props.getSuggestions('')
 	        };
 	        return _this;
 	    }
@@ -23002,6 +22992,13 @@
 	                onChange: this.onChange.bind(this),
 	                autoFocus: true
 	            };
+	            if (suggestions.length == 0) {
+	                suggestions = this.props.getSuggestions("");
+	            }
+	            console.log('going to render following suggestions:');
+	            suggestions.forEach(function (s) {
+	                return console.log('\t[' + s.word + ']');
+	            });
 	            return _react2.default.createElement(_reactAutosuggest2.default, {
 	                theme: _autosuggestStyle2.default,
 	                suggestions: suggestions,
@@ -23055,9 +23052,9 @@
 	        key: 'onSuggestionsClearRequested',
 	        value: function onSuggestionsClearRequested() {
 	            console.log('onSuggestionsClearRequested()');
-	            this.setState({
-	                suggestions: []
-	            });
+	            // this.setState({
+	            //     suggestions: []
+	            // });
 	        }
 	    }, {
 	        key: 'shouldRenderSuggestions',
