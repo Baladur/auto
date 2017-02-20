@@ -21,52 +21,46 @@ class MainInput extends React.Component {
         return (
             <Autosuggest
                 theme={theme}
-                suggestions={this.props.suggestions}
+                suggestions={suggestions}
                 onSuggestionsFetchRequested={this.onSuggestionsFetchRequested.bind(this)}
-                onSuggestionsUpdateRequested={this.onSuggestionsUpdateRequested.bind(this)}
                 onSuggestionsClearRequested={this.onSuggestionsClearRequested.bind(this)}
+				onSuggestionSelected={this.props.onSuggestionSelected}
                 getSuggestionValue={this.getSuggestionValue.bind(this)}
                 renderSuggestion={this.renderSuggestion.bind(this)}
                 shouldRenderSuggestions={this.shouldRenderSuggestions.bind(this)}
+				pasteSuggestion={this.props.pasteSuggestion}
                 inputProps={inputProps}/>
         )
     }
 
     componentDidMount() {
+		console.log(`componentDidMount()`);
         this.setState({
             suggestions: this.props.getSuggestions("")
         });
     }
 
     onChange(event, { newValue }) {
+		console.log(`onChange()`);
         this.setState({
             value: newValue
         });
     }
 
     onSuggestionsFetchRequested({ value }) {
-        console.log(`on fetch requested:`);
-        console.log(this.props.getSuggestions(value));
+		console.log(`onSuggestionsFetchRequested with value [${value}]`);
+		const hints = this.props.getSuggestions(value);
+        console.log(`hints with size ${hints.length}:`);
+		hints.forEach(hint => console.log(`\t[${hint.word}]`));
         this.setState({
-            suggestions: this.props.getSuggestions(value)
+            suggestions: hints
         });
         console.log(`suggestions updated to:`);
-        console.log(this.state.suggestions);
+        this.state.suggestions.forEach(s => console.log(`\t[${s.word}]`));
     }
-
-    onSuggestionsUpdateRequested({ value }) {
-        console.log(`on fetch requested:`);
-        console.log(this.props.getSuggestions(value));
-        this.setState({
-            suggestions: this.props.getSuggestions(value)
-        });
-        console.log(`suggestions updated to:`);
-        console.log(this.state.suggestions);
-    }
-
-
 
     onSuggestionsClearRequested() {
+		console.log(`onSuggestionsClearRequested()`);
         this.setState({
             suggestions: []
         });

@@ -22442,10 +22442,10 @@
 
 	        var _this = _possibleConstructorReturn(this, (CodeLogic.__proto__ || Object.getPrototypeOf(CodeLogic)).call(this, props));
 
-	        _this.state = _statemanager.stateManager.getState(_this.props.projectName, _this.props.name);
+	        _this.stateId = { projectName: _this.props.projectName,
+	            name: _this.props.name };
+	        _this.state = _statemanager.stateManager.getState(_this.stateId);
 	        _this.context = _this.state.context;
-	        _this.awesomplete = {};
-	        _this.input = {};
 	        console.log("initial state of codelogic:");
 	        console.log(_this.state);
 	        return _this;
@@ -22479,7 +22479,9 @@
 	                        this.state.lines.map(function (line, index) {
 	                            return _react2.default.createElement(
 	                                _line2.default,
-	                                { lineId: line.id, key: index + 1 },
+	                                { lineId: line.id,
+	                                    key: index + 1,
+	                                    selectLine: _this2.selectLine.bind(_this2) },
 	                                [line.words.map(function (word) {
 	                                    return _react2.default.createElement(
 	                                        'span',
@@ -22492,7 +22494,9 @@
 	                                    key: '1',
 	                                    ref: 'mainInput',
 	                                    suggestions: _this2.state.context.currentHints,
-	                                    getSuggestions: _this2.getSuggestions.bind(_this2) })]
+	                                    getSuggestions: _this2.getSuggestions.bind(_this2),
+	                                    onSuggestionSelected: _this2.onSuggestionSelected.bind(_this2),
+	                                    pasteSuggestion: _this2.pasteSuggestion.bind(_this2) })]
 	                            );
 	                        })
 	                    )
@@ -22582,6 +22586,27 @@
 	                }
 	            }
 	        }
+	    }, {
+	        key: 'onSuggestionSelected',
+	        value: function onSuggestionSelected(event, _ref) {
+	            var suggestion = _ref.suggestion,
+	                suggestionValue = _ref.suggestionValue,
+	                suggestionIndex = _ref.suggestionIndex,
+	                sectionIndex = _ref.sectionIndex,
+	                method = _ref.method;
+
+	            console.log('onSuggestionSelected with suggestion [' + suggestion.word + '], method [' + method + ']');
+	            this.pasteSuggestion(suggestion);
+	            console.log('state updated:');
+	            console.log(this.state);
+	        }
+	    }, {
+	        key: 'selectLine',
+	        value: function selectLine(index) {
+	            this.setState({
+	                currentLine: index
+	            });
+	        }
 
 	        /*****UTILITY FUNCTIONS*****/
 
@@ -22619,7 +22644,7 @@
 	            var inputValue = value.trim().toLowerCase();
 	            var inputLength = inputValue.length;
 	            var allHints = this.state.context.currentHints;
-	            console.log('get suggestions by value ' + value);
+	            console.log('getSuggestions by value [' + value + ']');
 	            console.log('returning:');
 	            console.log(inputLength === 0 ? allHints : allHints.filter(function (hint) {
 	                return hint.word.toLowerCase().slice(0, inputLength) === inputValue;
@@ -22632,6 +22657,21 @@
 	        key: 'getClassnameByWord',
 	        value: function getClassnameByWord(word) {
 	            return 'ordinary';
+	        }
+	    }, {
+	        key: 'pasteSuggestion',
+	        value: function pasteSuggestion(suggestion) {
+	            var line = this.state.lines[this.state.currentLine - 1];
+	            line.words.push(suggestion.word);
+	            var lines = this.state.lines;
+	            lines[this.state.currentLine - 1].words = line.words;
+	            this.setState({
+	                lines: lines
+	            });
+	            this.refs.mainInput.setState({
+	                value: ''
+	            });
+	            _statemanager.stateManager.putState(this.stateId, this.state);
 	        }
 	    }], [{
 	        key: 'filter',
@@ -22842,9 +22882,14 @@
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
-	                { id: this.props.lineId },
+	                { id: this.props.lineId, onClick: this.handleClick.bind(this) },
 	                this.props.children
 	            );
+	        }
+	    }, {
+	        key: 'handleClick',
+	        value: function handleClick(event) {
+	            this.props.selectLine(this.props.lineId);
 	        }
 	    }]);
 
@@ -22959,18 +23004,20 @@
 	            };
 	            return _react2.default.createElement(_reactAutosuggest2.default, {
 	                theme: _autosuggestStyle2.default,
-	                suggestions: this.props.suggestions,
+	                suggestions: suggestions,
 	                onSuggestionsFetchRequested: this.onSuggestionsFetchRequested.bind(this),
-	                onSuggestionsUpdateRequested: this.onSuggestionsUpdateRequested.bind(this),
 	                onSuggestionsClearRequested: this.onSuggestionsClearRequested.bind(this),
+	                onSuggestionSelected: this.props.onSuggestionSelected,
 	                getSuggestionValue: this.getSuggestionValue.bind(this),
 	                renderSuggestion: this.renderSuggestion.bind(this),
 	                shouldRenderSuggestions: this.shouldRenderSuggestions.bind(this),
+	                pasteSuggestion: this.props.pasteSuggestion,
 	                inputProps: inputProps });
 	        }
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            console.log('componentDidMount()');
 	            this.setState({
 	                suggestions: this.props.getSuggestions("")
 	            });
@@ -22980,6 +23027,7 @@
 	        value: function onChange(event, _ref) {
 	            var newValue = _ref.newValue;
 
+	            console.log('onChange()');
 	            this.setState({
 	                value: newValue
 	            });
@@ -22989,30 +23037,24 @@
 	        value: function onSuggestionsFetchRequested(_ref2) {
 	            var value = _ref2.value;
 
-	            console.log('on fetch requested:');
-	            console.log(this.props.getSuggestions(value));
+	            console.log('onSuggestionsFetchRequested with value [' + value + ']');
+	            var hints = this.props.getSuggestions(value);
+	            console.log('hints with size ' + hints.length + ':');
+	            hints.forEach(function (hint) {
+	                return console.log('\t[' + hint.word + ']');
+	            });
 	            this.setState({
-	                suggestions: this.props.getSuggestions(value)
+	                suggestions: hints
 	            });
 	            console.log('suggestions updated to:');
-	            console.log(this.state.suggestions);
-	        }
-	    }, {
-	        key: 'onSuggestionsUpdateRequested',
-	        value: function onSuggestionsUpdateRequested(_ref3) {
-	            var value = _ref3.value;
-
-	            console.log('on fetch requested:');
-	            console.log(this.props.getSuggestions(value));
-	            this.setState({
-	                suggestions: this.props.getSuggestions(value)
+	            this.state.suggestions.forEach(function (s) {
+	                return console.log('\t[' + s.word + ']');
 	            });
-	            console.log('suggestions updated to:');
-	            console.log(this.state.suggestions);
 	        }
 	    }, {
 	        key: 'onSuggestionsClearRequested',
 	        value: function onSuggestionsClearRequested() {
+	            console.log('onSuggestionsClearRequested()');
 	            this.setState({
 	                suggestions: []
 	            });
@@ -24894,7 +24936,7 @@
 
 
 	// module
-	exports.push([module.id, ".cNgBvsDO46DYjjcTjI5h7 {\r\n    display: inline-block;\r\n}\r\n.OZftDxjuVjyECp3EFHbjY {\r\n    position: absolute;\r\n    left: 0;\r\n    z-index: 1;\r\n    box-sizing: border-box;\r\n    list-style: none;\r\n    padding: 5px;\r\n    margin: .2em 0 0;\r\n    border: 1px solid rgba(0, 0, 1, .3);\r\n    box-shadow: .05em .2em .6em rgba(0, 0, 0, .2);\r\n    text-shadow: none;\r\n}\r\n._31Izyis9h0x0ET9MY_55qJ {\r\n    border: none;\r\n    outline:none;\r\n}", ""]);
+	exports.push([module.id, ".cNgBvsDO46DYjjcTjI5h7 {\r\n    display: inline-block;\r\n\tposition: relative;\r\n}\r\n.OZftDxjuVjyECp3EFHbjY {\r\n    position: absolute;\r\n    left: 0;\r\n    z-index: 5;\r\n    box-sizing: border-box;\r\n    list-style: none;\r\n    padding: 5px;\r\n\tbackground-color: white;\r\n    margin: .2em 0 0;\r\n    border: 1px solid rgba(0, 0, 1, .3);\r\n    box-shadow: .05em .2em .6em rgba(0, 0, 0, .2);\r\n    text-shadow: none;\r\n}\r\n._31Izyis9h0x0ET9MY_55qJ {\r\n    border: none;\r\n    outline:none;\r\n}", ""]);
 
 	// exports
 	exports.locals = {
@@ -25301,8 +25343,11 @@
 
 	    _createClass(StateManager, [{
 	        key: 'putState',
-	        value: function putState(projectName, name, state) {
-	            console.log("put state");
+	        value: function putState(_ref, state) {
+	            var projectName = _ref.projectName,
+	                name = _ref.name;
+
+	            console.log('putState with projectName [' + projectName + '], name [' + name + ']');
 	            var project = this.projects.get(projectName);
 	            if (project == undefined) {
 	                project = new Map();
@@ -25312,7 +25357,10 @@
 	        }
 	    }, {
 	        key: 'getState',
-	        value: function getState(projectName, name) {
+	        value: function getState(_ref2) {
+	            var projectName = _ref2.projectName,
+	                name = _ref2.name;
+
 	            var project = this.projects.get(projectName);
 	            var stateFromMap = project == undefined ? undefined : project.get(name);
 	            if (stateFromMap == undefined) {

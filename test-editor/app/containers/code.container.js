@@ -12,10 +12,10 @@ import {stateManager} from '../editor/statemanager'
 class CodeLogic extends React.Component {
     constructor(props) {
         super(props);
-        this.state = stateManager.getState(this.props.projectName, this.props.name);
+		this.stateId = { projectName: this.props.projectName, 
+						name: this.props.name };
+        this.state = stateManager.getState(this.stateId);
         this.context = this.state.context;
-		this.awesomplete = {};
-		this.input = {};
         console.log("initial state of codelogic:");
         console.log(this.state);
     }
@@ -38,7 +38,9 @@ class CodeLogic extends React.Component {
                     {
                         this.state.lines.map((line, index) =>
 
-                                <Line lineId={line.id} key={index+1}>
+                                <Line lineId={line.id} 
+									  key={index+1}
+									  selectLine={this.selectLine.bind(this)}>
                                 {
                                     [line.words.map(word =>
                                         <span className={ClassNames({
@@ -50,7 +52,9 @@ class CodeLogic extends React.Component {
                                             key="1"
                                             ref="mainInput"
                                             suggestions={this.state.context.currentHints}
-                                            getSuggestions={this.getSuggestions.bind(this)}/>]
+                                            getSuggestions={this.getSuggestions.bind(this)}
+											onSuggestionSelected={this.onSuggestionSelected.bind(this)}
+											pasteSuggestion={this.pasteSuggestion.bind(this)}/>]
                                 }
                                 </Line>
                         )
@@ -137,6 +141,19 @@ class CodeLogic extends React.Component {
         }
     }
 
+	onSuggestionSelected(event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) {
+		console.log(`onSuggestionSelected with suggestion [${suggestion.word}], method [${method}]`);
+		this.pasteSuggestion(suggestion);
+		console.log(`state updated:`);
+		console.log(this.state);
+	}
+
+	selectLine(index) {
+		this.setState({
+			currentLine: index
+		});
+	}
+
     /*****UTILITY FUNCTIONS*****/
 
     static filter(hint, input) {
@@ -171,7 +188,7 @@ class CodeLogic extends React.Component {
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
         let allHints = this.state.context.currentHints;
-        console.log(`get suggestions by value ${value}`);
+        console.log(`getSuggestions by value [${value}]`);
         console.log(`returning:`);
         console.log((inputLength === 0 ? allHints : allHints.filter(hint =>
             hint.word.toLowerCase().slice(0, inputLength) === inputValue)));
@@ -191,6 +208,20 @@ class CodeLogic extends React.Component {
     getClassnameByWord(word) {
         return 'ordinary';
     }
+
+	pasteSuggestion(suggestion) {
+		let line = this.state.lines[this.state.currentLine-1];
+		line.words.push(suggestion.word);
+		let lines = this.state.lines;
+		lines[this.state.currentLine-1].words = line.words;
+		this.setState({
+			lines: lines
+		});
+		this.refs.mainInput.setState({
+			value: ''
+		});
+		stateManager.putState(this.stateId, this.state);
+	}
 }
 
-export default  CodeLogic
+export default CodeLogic

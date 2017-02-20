@@ -7,8 +7,8 @@ class StateManager {
         this.projects = new Map();
     }
 
-    putState(projectName, name, state) {
-        console.log("put state");
+    putState({ projectName, name }, state) {
+        console.log(`putState with projectName [${projectName}], name [${name}]`);
         let project = this.projects.get(projectName);
         if (project == undefined) {
             project = new Map();
@@ -17,7 +17,7 @@ class StateManager {
         this.projects.set(projectName, project);
     }
 
-    getState(projectName, name) {
+    getState({ projectName, name }) {
         let project = this.projects.get(projectName);
         let stateFromMap = project == undefined ? undefined : project.get(name);
         if (stateFromMap == undefined) {
