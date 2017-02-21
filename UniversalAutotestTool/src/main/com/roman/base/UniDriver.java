@@ -104,6 +104,10 @@ public class UniDriver {
         return find(element, index);
     }
 
+    public List<WebElement> findOptions(SelectElement element) {
+        return driver.findElements(toPaths(element).get(1));
+    }
+
     public UniDriver click(BaseElement element) {
         return click(element, 1);
     }
@@ -174,14 +178,13 @@ public class UniDriver {
     public boolean isElementVisible(BaseElement element) {
         List<WebElement> foundElements = driver.findElements(toPaths(element).get(0));
         if (foundElements.size() > 0) {
-            if (foundElements.get(0).isDisplayed()) {
-                return true;
-            } else {
-                return false;
-            }
-
+            return foundElements.get(0).isDisplayed();
         }
         return false;
+    }
+
+    public IOption select(SelectElement selectElement) {
+        return new SelectActionBuilder(new SelectAction(this).element(selectElement));
     }
 
 

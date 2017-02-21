@@ -62,7 +62,8 @@ public class PathReader {
 //            throw new UniFrameworkException(String.format("Element with class '%s' and name '%s' was not found.", elementClass, elementName));
 //        }
         try {
-            List<Element> elementsByType = (List)Elements.class.getField(elementClass).get(elements);
+            List<Element> elementsByType = (List)Elements.class.getDeclaredField(elementClass).get(elements);
+            System.out.print(elementsByType.toString());
             return elementsByType
                     .stream()
                     .filter(element -> element.name.equals(elementName))
@@ -89,10 +90,10 @@ public class PathReader {
     }
 
     private class Elements {
-        private List<Element> Button;
-        private List<Element> TextField;
-        private List<Element> Select;
-        private List<Element> Table;
+        public List<Element> Button;
+        public List<Element> TextField;
+        public List<Element> Select;
+        public List<Element> Table;
         public String toString() {
             StringBuffer result = new StringBuffer();
             result.append("Elements:\n");
@@ -105,8 +106,8 @@ public class PathReader {
     }
 
     private class Element {
-        private String name;
-        private List<String> paths;
+        public String name;
+        public List<String> paths;
         public String toString() {
             return String.format("\tName: [%s], paths length: [%d]\n", name, paths.size());
         }

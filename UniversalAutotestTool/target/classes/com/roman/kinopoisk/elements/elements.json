@@ -1,1 +1,20 @@
-{"Button":{"SEARCH_BTN":"css.searchButton1","COMMUNICATION_TAB":"css#li4top>p","SUBMIT_REGISTRATION":"cssinput[type='submit']","Vote":"xpath.\/\/*[@id='poll']\/div[2]\/button","REGISTRATION":"css.button","Save_poll":"css#save-poll"},"CheckBox":{"AGREE_WITH_RULES":"css#cb_rules_agree"},"Label":{"VERIFY_MESSAGE":"css#reg_verif_div","NO_RESULTS":"xpath.\/\/*[@id='block_left_pad']\/div\/table[1]\/tbody\/tr[1]\/td\/h2"},"TextField":{"SEARCH_INPUT":"css#search_input","Variant":"xpath.\/\/*[@id='poll-choices']\/div[1]\/table\/tbody\/tr[2]\/td[1]\/input","CAPTCHA":"css#recaptcha_response_field","EMAIL_CONFIRM":"cssinput[name='emailconfirm']","Variant2":"xpath.\/\/*[@id='poll-choices']\/div[2]\/table\/tbody\/tr[2]\/td[1]\/input","PASSWORD":"cssinput[name='password']","Question":"css#poll-question-text","PASSWORD_CONFIRM":"cssinput[name='passwordconfirm']","EMAIL":"cssinput[name='email']","REG_USERNAME":"css#regusername"},"Option":{"Poll_first":"xpath.\/\/*[@id='select_1']"},"ListItem":{"REG_FAILURE":"cssul>li"},"Image":{"LOGO":"css.logo"},"Link":{"REGISTER":"cssa[href='register.php']","MOST_WANTED_RESULT":"xpath.\/\/*[@id='block_left_pad']\/div\/div[3]\/div\/div[2]\/p\/a","Poll":"xpath.\/\/*[@id='poll-integrate']\/div[1]\/span\/a","FORUM":"cssa[href='https:\/\/forum.kinopoisk.ru\/']"}}
+{
+  "Button" : [
+    {
+      "name" : "SEARCH",
+      "paths" : ["css.searchBtn"]
+    }
+  ],
+  "TextField" : [
+
+  ],
+  "Select" : [
+    {
+      "name" : "AFISHA_SELECT",
+      "paths" : ["cssul.menu p", "cssul.menu div>a"]
+    }
+  ],
+  "Table" : [
+
+  ]
+}
