@@ -16,10 +16,30 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.opera.OperaDriver;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by roman on 12.11.2016.
+ */
+/* TODO:
+1) Разделить методы на публичные и приватные
+2) Ввести классы билдеров действий
+Пример использования:
+driver.click(TextField.USERNAME).withSeconds(Config.getTimeout()).end();
+driver.fillWith("Рубин")
+.table(Table.GAME_RESULTS)
+.rowWhere().columnEquals("Место", "1").columnWithName("Команда").asTextField().end();
+driver.select(Select.SORTING).optionWhere().optionContains("возрастанию").withSeconds(5).end();
+wait(() -> driver.get(Label.INDICATOR).isDisplayed(), 5)
+    .else().message(ERROR_MESSAGE).end();
+assertThat(driver.table(Table.DOCUMENTS)
+.rowWhere().columnWithName("Статус").equals("Обработано")
+.and().columnWithName("Дата").contains(LocalDate.now().format())
+.columnWithIndex(5).asString().equals("Expected"))
+.describedAs("wtf");
  */
 public class UniDriver {
     private static final String XPATH_PREFIX = "xpath";
@@ -62,7 +82,7 @@ public class UniDriver {
     }
 
     public WebElement find(BaseElement element, int index) {
-        List<WebElement> foundElements = driver.findElements(toPath(element));
+        List<WebElement> foundElements = driver.findElements(toPaths(element).get(0));
         return foundElements.get(index-1);
     }
 
@@ -74,7 +94,7 @@ public class UniDriver {
         int ySize = driver.manage().window().getSize().getHeight();
         int step = 200;
         int totalPassed = 0;
-        while (driver.findElements(toPath(element)).size() == 0) {
+        while (driver.findElements(toPaths(element).get(0)).size() == 0) {
             scrollY(step);
             totalPassed += step;
             if (Math.abs(totalPassed - ySize) < step) {
@@ -119,19 +139,20 @@ public class UniDriver {
         return driver;
     }
 
-    private By toPath(BaseElement element) {
-        String result = "";
+    private List<By> toPaths(BaseElement element) {
         try {
-            String pathWithPrefix = PathReader.getInstance(element.getClass().getPackage().getName()).getPath(element.getClass().getSimpleName(), element.getName());
-            if (pathWithPrefix.startsWith(XPATH_PREFIX)) {
-                result = pathWithPrefix.replace(XPATH_PREFIX, "");
-                return By.xpath(result);
-            } else if (pathWithPrefix.startsWith(CSS_PREFIX)) {
-                result = pathWithPrefix.replace(CSS_PREFIX, "");
-                return By.cssSelector(result);
-            } else {
-                throw new UniFrameworkException("No prefix found");
-            }
+            List<String> paths = PathReader.getInstance(element.getClass().getPackage().getName())
+                    .getPaths(element.getClass().getSimpleName(), element.getName());
+             return paths
+                    .stream()
+                    .map(path -> {
+                        if (path.startsWith(XPATH_PREFIX)) {
+                            return By.xpath(path.replace(XPATH_PREFIX, ""));
+                        } else {
+                            return By.cssSelector(path.replace(CSS_PREFIX, ""));
+                        }
+                    })
+                    .collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ParseException e) {
@@ -151,7 +172,7 @@ public class UniDriver {
     }
 
     public boolean isElementVisible(BaseElement element) {
-        List<WebElement> foundElements = driver.findElements(toPath(element));
+        List<WebElement> foundElements = driver.findElements(toPaths(element).get(0));
         if (foundElements.size() > 0) {
             if (foundElements.get(0).isDisplayed()) {
                 return true;
