@@ -61,10 +61,11 @@ public class PathReader {
 //            }
 //            throw new UniFrameworkException(String.format("Element with class '%s' and name '%s' was not found.", elementClass, elementName));
 //        }
+        List<String> resultPaths = null;
         try {
             List<Element> elementsByType = (List)Elements.class.getDeclaredField(elementClass).get(elements);
-            System.out.print(elementsByType.toString());
-            return elementsByType
+            elementsByType.forEach(e -> System.out.println(e.toString()));
+            resultPaths = elementsByType
                     .stream()
                     .filter(element -> element.name.equals(elementName))
                     .map(element -> element.paths)
@@ -75,7 +76,7 @@ public class PathReader {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } finally {
-            return null;
+            return resultPaths;
         }
     }
 

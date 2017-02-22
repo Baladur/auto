@@ -3,6 +3,7 @@ package com.roman.base;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by roman on 21.02.2017.
@@ -12,16 +13,29 @@ public class SelectAction implements Action {
     private SelectElement element;
     private Match match;
     private String optionValue;
+    private int time;
+
+    public int getTime() {
+        return time;
+    }
+
+    public TimeUnit getTimeUnit() {
+        return timeUnit;
+    }
+
+    private TimeUnit timeUnit;
 
     public SelectAction(UniDriver driver) {
         this.driver = driver;
+        time = 1;
+        timeUnit = TimeUnit.SECONDS;
     }
 
     @Override
-    public void execute() {
+    public void execute() throws UniFrameworkException {
         driver.click(element);
         List<WebElement> options = driver.findOptions(element);
-        options
+        WebElement foundOption = options
                 .stream()
                 .filter(option -> {
                     switch (match) {
@@ -33,7 +47,8 @@ public class SelectAction implements Action {
                     }
                 })
                 .findFirst()
-                .ifPresent(WebElement::click);
+                .orElseThrow(() -> new UniFrameworkException("option not found"));
+        foundOption.click();
     }
 
     public SelectAction element(SelectElement element) {
@@ -48,6 +63,12 @@ public class SelectAction implements Action {
 
     public SelectAction optionValue(String optionValue) {
         this.optionValue = optionValue;
+        return this;
+    }
+
+    public SelectAction withTime(int time, TimeUnit timeUnit) {
+        this.time = time;
+        this.timeUnit = timeUnit;
         return this;
     }
 }

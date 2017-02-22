@@ -29,9 +29,12 @@ import java.util.stream.Stream;
 2) Ввести классы билдеров действий
 Пример использования:
 driver.click(TextField.USERNAME).withSeconds(Config.getTimeout()).end();
-driver.fillWith("Рубин")
-.table(Table.GAME_RESULTS)
-.rowWhere().columnEquals("Место", "1").columnWithName("Команда").asTextField().end();
+driver.fill(
+driver.table(Table.GAME_RESULTS)
+.rowWhere().columnEquals("Место", "1").columnWithName("Команда")
+.asTextField())
+.withText("Рубин")
+.end();
 driver.select(Select.SORTING).optionWhere().optionContains("возрастанию").withSeconds(5).end();
 wait(() -> driver.get(Label.INDICATOR).isDisplayed(), 5)
     .else().message(ERROR_MESSAGE).end();
@@ -77,77 +80,11 @@ public class UniDriver {
         }
     }
 
-    public WebElement find(BaseElement element) {
-        return find(element, 1);
-    }
-
-    public WebElement find(BaseElement element, int index) {
-        List<WebElement> foundElements = driver.findElements(toPaths(element).get(0));
-        return foundElements.get(index-1);
-    }
-
-    public WebElement findOnPage(BaseElement element) {
-        return findOnPage(element, 1);
-    }
-
-    public WebElement findOnPage(BaseElement element, int index) {
-        int ySize = driver.manage().window().getSize().getHeight();
-        int step = 200;
-        int totalPassed = 0;
-        while (driver.findElements(toPaths(element).get(0)).size() == 0) {
-            scrollY(step);
-            totalPassed += step;
-            if (Math.abs(totalPassed - ySize) < step) {
-                break;
-            }
-        }
-        return find(element, index);
-    }
-
-    public List<WebElement> findOptions(SelectElement element) {
-        return driver.findElements(toPaths(element).get(1));
-    }
-
-    public UniDriver click(BaseElement element) {
-        return click(element, 1);
-    }
-
-    public UniDriver click(BaseElement element, int index) {
-        findOnPage(element, index).click();
-        return this;
-    }
-
-    public void scrollY(int y) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
-        js.executeScript(String.format("window.scrollBy(0,%d)", y), "");
-    }
-
-    public void scrollX(int x) {
-        JavascriptExecutor js = (JavascriptExecutor)driver;
-        js.executeScript(String.format("window.scrollBy(%d, 0)", x), "");
-    }
-
-    public WebDriver.Navigation navigate() {
-        return driver.navigate();
-    }
-
-    public WebDriver.Options manage() { return driver.manage(); }
-
-    public TableObject table(BaseElement element) {
-        return new TableObject(this, element);
-    }
-
-    public TextField textfield(BaseElement element) { return new TextField(this, element); }
-
-    public WebDriver baseDriver() {
-        return driver;
-    }
-
     private List<By> toPaths(BaseElement element) {
         try {
             List<String> paths = PathReader.getInstance(element.getClass().getPackage().getName())
                     .getPaths(element.getClass().getSimpleName(), element.getName());
-             return paths
+            return paths
                     .stream()
                     .map(path -> {
                         if (path.startsWith(XPATH_PREFIX)) {
@@ -166,6 +103,74 @@ public class UniDriver {
         }
         return null;
     }
+
+    private void scrollY(int y) {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript(String.format("window.scrollBy(0,%d)", y), "");
+    }
+
+    private void scrollX(int x) {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript(String.format("window.scrollBy(%d, 0)", x), "");
+    }
+
+    public WebElement find(BaseElement element, int index) {
+        List<WebElement> foundElements = driver.findElements(toPaths(element).get(0));
+        return foundElements.get(index-1);
+    }
+
+    public WebElement findOnPage(BaseElement element, int index) {
+        int ySize = driver.manage().window().getSize().getHeight();
+        int step = 200;
+        int totalPassed = 0;
+        while (driver.findElements(toPaths(element).get(0)).size() == 0) {
+            scrollY(step);
+            totalPassed += step;
+            if (Math.abs(totalPassed - ySize) < step) {
+                break;
+            }
+        }
+        return find(element, index);
+    }
+
+    public WebElement find(BaseElement element) {
+        return find(element, 1);
+    }
+
+    public WebElement findOnPage(BaseElement element) {
+        return findOnPage(element, 1);
+    }
+
+    public List<WebElement> findOptions(SelectElement element) {
+        return driver.findElements(toPaths(element).get(1));
+    }
+
+    public UniDriver click(BaseElement element, int index) {
+        findOnPage(element, index).click();
+        return this;
+    }
+
+    public UniDriver click(BaseElement element) {
+        return click(element, 1);
+    }
+
+    public WebDriver.Navigation navigate() {
+        return driver.navigate();
+    }
+
+    public WebDriver.Options manage() { return driver.manage(); }
+
+    public TableObject table(BaseElement element) {
+        return new TableObject(this, element);
+    }
+
+    public TextField textfield(BaseElement element) { return new TextField(this, element); }
+
+    public WebDriver baseDriver() {
+        return driver;
+    }
+
+    public void close() { driver.close(); }
 
     public void wait(Time time, int amount) {
         try {

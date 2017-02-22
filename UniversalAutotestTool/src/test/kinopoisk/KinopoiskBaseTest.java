@@ -2,6 +2,7 @@ package kinopoisk;
 
 import com.roman.base.Time;
 import com.roman.base.UniDriver;
+import com.roman.base.UniFrameworkException;
 import com.roman.kinopoisk.elements.*;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -31,9 +32,14 @@ public class KinopoiskBaseTest extends TestCase {
     }
 
     @Test
-    public void test1() {
+    public void test1() throws UniFrameworkException {
         driver.navigate().to("https://www.kinopoisk.ru/");
-        driver.select(Select.AFISHA_SELECT).option().contains("сегодня в кино").end();
+        driver.select(Select.AFISHA_SELECT).option().startsWith("awefawe").withSeconds(10);
+    }
+
+    @After
+    public void after() {
+        driver.close();
     }
 }
 
