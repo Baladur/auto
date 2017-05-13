@@ -1,45 +1,42 @@
 package kinopoisk;
 
-import com.roman.base.Time;
-import com.roman.base.UniDriver;
-import com.roman.base.UniFrameworkException;
-import com.roman.kinopoisk.elements.*;
-import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
+import com.roman.base.*;
+import com.roman.kinopoisk.elements.Button;
+import com.roman.kinopoisk.elements.Select;
+import com.roman.kinopoisk.elements.TextField;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 /**
  * Created by roman on 19.11.2016.
  */
-public class KinopoiskBaseTest extends TestCase {
-    private UniDriver driver;
-    private final String SHORT_USERNAME = "aw";
-    private final String VALID_USERNAME = "awef";
-    private final String PASSWORD = "1";
-    private final String INVALID_EMAIL = "1";
-    private final String VALID_EMAIL = "waef@gmail.com";
-    private final String RANDOM_CAPTCHA = "awef";
-
-    private final String CORRECT_FILM = "Большой куш";
-    private final String INCORRECT_FILM = "aewfiuaewhfiuhiiuoawefh";
-
-    public void setUp() {
-        driver = new UniDriver(UniDriver.TYPE.CHROME);
-        driver.manage().window().maximize();
-    }
+@Slf4j
+@TestInfo(name = "КИНОПОИСК1", description = "Базовые проверки.")
+public class KinopoiskBaseTest extends BaseTest {
 
     @Test
-    public void test1() throws UniFrameworkException {
-        driver.navigate().to("https://www.kinopoisk.ru/");
-        driver.select(Select.AFISHA_SELECT).option().startsWith("awefawe").withSeconds(10);
+    public void test() throws UniFrameworkException {
+        execute();
     }
 
-    @After
-    public void after() {
-        driver.close();
+    @StepInfo(name = "Вход на кинопоиск.")
+    public void step1() throws UniFrameworkException {
+        driver.navigate().to("https://www.kinopoisk.ru/top");
+        log.info("Заходим на сайт.");
+        driver.fill(TextField.SEARCH).withText("Большой куш").duringMinutes(5).end();
+        driver.click(Button.SEARCH_BTN).end();
+        driver.select(Select.AFISHA_SELECT).optionStartsWith("сегодня").duringSeconds(15).end();
+//        driver.select(Select.RATINGS_SELECT).option().contains("Top250").end();
+//        driver.table(Table.RATING_TABLE)
+//                .rowWhere().column(2).startsWith("8.7")
+//                .and().column("фильм").startsWith("Бо")
+//                .cellByHeader("фильм").asElement()
+//                .findElement(By.tagName("a")).click();
+//        Shutterbug.shootPage(driver.baseDriver())
+//                .highlightWithText(driver.find(TextField.SEARCH), Color.orange, 3, "Главное поле поиска", Color.orange, new Font("SansSerif", Font.BOLD, 20))
+//                .highlightWithText(driver.find(Select.AFISHA_SELECT), Color.orange, 3, "Главное поле поиска", Color.orange, new Font("SansSerif", Font.BOLD, 20))
+//                .save();
     }
+
 }
 

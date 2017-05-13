@@ -38,7 +38,7 @@ class Sequence {
      * @param obj
      */
     push(obj) {
-        this.sequences[seq.i].push(obj);
+        this.sequences[this.i].push(obj);
     }
 
     /**
@@ -144,7 +144,7 @@ class Sequence {
         console.log(obj.seq);
         for (let i in obj.seq) {
             if ('seq' in obj.seq[i]) {
-                _makeSequence(obj.seq[i]);
+                this._makeSequence(obj.seq[i]);
             } else {
                 if (obj.seq[i] != Context.END) {
                     this.push(obj.seq[i]);

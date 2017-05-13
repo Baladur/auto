@@ -1,0 +1,11 @@
+type : java.lang.String = string
+
+method : indexOf(String str) > String = index of str as string returns string
+method : length() > Integer = length returns int
+method : substring(int startIndex, int endIndex) > String = substr(startIndex as int, endIndex as int) returns string
+
+type : WebElement = webelement
+
+method : isDisplayed() > boolean = is displayed returns bool
+method : findElement(By.Css, String str) > WebElement = css str as string returns webelement
+method : findElement(By.Xpath, String str) > WebElement = xpath str as string returns webelement 

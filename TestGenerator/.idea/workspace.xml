@@ -1,0 +1,1418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="60512fea-93bd-439f-963d-923f3e88b6ad" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Waiter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Select.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Button.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/AbstractElement.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/TableRow.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/test-classes/rzhd/RzhdBaseTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/test/rzhd/RzhdBaseTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/TextField.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/TableColumn.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/ClassResolver.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/TableObject.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Time.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/Action.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/AbstractElement.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/test/uspn/USPNBaseTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_4.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/test-classes/uspn/USPNBaseTest.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/Select.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/TableRow.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/SelectActionBuilder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/TextField.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/IEnd.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/IMatch.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/IEnd.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/ClassResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/Button.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/IMatch.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Action.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/UniversalAutotestTool-1.0-SNAPSHOT.jar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/ElementDefaultClassBook.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/SelectAction$1.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/TableObject.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/Waiter.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/ElementDefaultClassBook.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/maven-archiver/pom.properties" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/TableColumn.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/PathReader.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/PathReader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/Match.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/Match.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/test/kinopoisk/KinopoiskBaseTest.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/test/kinopoisk/KinopoiskBaseTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/kinopoisk/elements/Button.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/kinopoisk/elements/Button.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/compiler.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/PathReader$Element.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/PathReader$Element.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/pom.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/UniDriver$1.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/UniDriver$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/kinopoisk/elements/Button.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/kinopoisk/elements/Button.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/SelectAction.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/SelectAction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/kinopoisk/elements/elements.json" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/kinopoisk/elements/elements.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/UniDriver.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/UniDriver.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Примеры.txt" afterPath="$PROJECT_DIR$/../Примеры.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/SelectAction.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/SelectAction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/IWithTime.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/IWithTime.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/UniDriver.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/UniDriver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/kinopoisk/elements/elements.json" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/kinopoisk/elements/elements.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/IOption.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/IOption.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/IWithTime.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/IWithTime.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/kinopoisk/elements/Select.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/kinopoisk/elements/Select.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/encodings.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/encodings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/kinopoisk/elements/Select.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/kinopoisk/elements/Select.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/IOption.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/IOption.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/test-classes/kinopoisk/KinopoiskBaseTest.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/test-classes/kinopoisk/KinopoiskBaseTest.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/uiDesigner.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestGen/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestGen/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/misc.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/PathReader$Elements.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/PathReader$Elements.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Match.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/Match.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/modules.xml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/UniDriver$TYPE.class" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/target/classes/com/roman/base/UniDriver$TYPE.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/PathReader.java" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/src/main/com/roman/base/PathReader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../UniversalAutotestTool/UniversalAutotestTool.iml" afterPath="$PROJECT_DIR$/../UniversalAutotestTool/UniversalAutotestTool.iml" />
+    </list>
+    <ignored path="TestGenerator.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/TestGenerator$Main.coverage" NAME="Main Coverage Results" MODIFIED="1491820820879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.roman.*</FILTER>
+    </SUITE>
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="TestGenerator" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ElseOperator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/ElseOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="23" column="85" selection-start-line="23" selection-start-column="85" selection-end-line="23" selection-end-column="85" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#510#511#0" expanded="false" />
+                <element signature="e#558#559#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IfOperator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/IfOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Context.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/base/Context.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArithmeticInterpreter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/ArithmeticInterpreter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="123">
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PriorityOneInterpreter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/PriorityOneInterpreter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GoOperator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/GoOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClickOperator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/ClickOperator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Singleton" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/MaxInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/NumberConstantInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/OneArgumentInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/PriorityOneInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/PriorityThreeInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/PriorityTwoInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/StringConcatInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/StringConstantInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/StringInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/VariableInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/AssignmentCommandInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/ElseInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/FillInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/GoInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/IfInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/OrElseInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/SelectInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/StepInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/WhileInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/AssignmentCommandOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/ElseOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/FillOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/OneOperandExpression.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/util/OutputTestWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/SelectOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/TestOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/AndOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/EndsWithOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/EqualsOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/LessOrEqualsOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/LessThanOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/MoreOrEqualsOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/MoreThanOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/NegationOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/OrOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/StartsWithOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/ConstantOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/GroupOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/ParameterOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/FunctionOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/model/Variable.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/AssignmentInterpreter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/expression/AssignmentOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/util/BaseTestWriter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/IfOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/WhileOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/OrElseOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/operation/command/GoOperator.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/roman/util/JavaTestWriter.java" />
+        <option value="$PROJECT_DIR$/USPN1.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Bundled (Maven 3)" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="784" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <ConfirmationsSetting value="1" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="roman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="roman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="operation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="roman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="interpretation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TestGenerator" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="roman" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Android Instrumentation Tests" />
+        <subPane subId="Changed Files" />
+        <subPane subId="Default" />
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../BencMachine-master/BencMachine-master/pom.xml" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="SearchEverywhereHistoryKey" value="JavaT&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/JavaTestWriter.java&#10;IF&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/command/IfOperator.java&#10;OrElse&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/command/OrElseOperator.java&#10;Bas&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/BaseTestWriter.java&#10;Ass&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/expression/AssignmentOperator.java&#10;AssignmentI&#9;PSI&#9;JAVA://com.roman.interpretation.expression.AssignmentInterpreter&#10;ElseIn&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/command/ElseInterpreter.java&#10;ElseOp&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/command/ElseOperator.java&#10;Base&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/BaseTestWriter.java&#10;Java&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/JavaTestWriter.java&#10;Output&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/OutputTestWriter.java&#10;Asse&#9;PSI&#9;JAVA://com.roman.operation.command.AssertOperator&#10;Main&#9;PSI&#9;JAVA://com.roman.Main&#10;Ins&#9;PSI&#9;JAVA://com.roman.interpretation.command.InstructionInterpreter&#10;Conte&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/Context.java&#10;ExpressionI&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/ExpressionInterpreter.java&#10;CommandO&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/CommandOperator.java&#10;CommandI&#9;PSI&#9;JAVA://com.roman.interpretation.CommandInterpreter&#10;Express&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/ExpressionProcessor.java&#10;Outp&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/OutputTestWriter.java&#10;IW&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/ITestWriter.java&#10;Operator&#9;PSI&#9;JAVA://com.roman.operation.Operator&#10;Ex&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/ExpressionProcessor.java&#10;TestI&#9;PSI&#9;JAVA://com.roman.interpretation.command.TestInterpreter&#10;ExpressionPr&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/ExpressionProcessor.java&#10;Input&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/InputTestReader.java&#10;Ke&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/Keywords.java&#10;AndOr&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/expression/AndOrInterpreter.java&#10;Type&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/model/Type.java&#10;sta&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/standard.json&#10;Sta&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/standard.json&#10;Inst&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/command/InstructionInterpreter.java&#10;Pri&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/PrimitiveTypes.java&#10;IfI&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/command/IfInterpreter.java&#10;InputT&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/InputTestReader.java&#10;readLine&#9;PSI&#9;JAVA://com.roman.util.InputTestReader#readLine&#10;Ste&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/command/StepInterpreter.java&#10;test&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/command/TestInterpreter.java&#10;Var&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/Variable.java&#10;ErrorO&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/ErrorOperator.java&#10;err&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/ErrorOperator.java&#10;Value&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/operation/expression/Value.java&#10;countOf&#9;PSI&#9;JAVA://com.roman.util.InputTestReader#countOfIndents&#10;In&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/util/InputTestReader.java&#10;Context&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/Context.java&#10;Cont&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/CommandInterpreter.java&#10;Prim&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/base/PrimitiveTypes.java&#10;standa&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/standard.json&#10;Click&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/src/main/java/com/roman/interpretation/command/ClickInterpreter.java&#10;stand&#9;FILE&#9;file://C:/Users/roman/Documents/auto/TestGenerator/standard.json" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.roman.util" />
+      <recent name="com.roman.model" />
+      <recent name="com.roman.operation.expression.common" />
+      <recent name="com.roman.operation.expression.bool" />
+      <recent name="com.roman.operation.expression.arithmetic" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.roman.operation" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\roman\Documents\auto\TestGenerator" />
+      <recent name="C:\Users\roman\Documents\auto\TestGenerator\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.roman.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="com.roman.Main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="TestGenerator" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <method />
+    </configuration>
+    <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
+      <module name="" />
+      <option name="DEPLOY" value="true" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+      <option name="MODE" value="default_activity" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="" />
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="EXTRA_OPTIONS" value="" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
+      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
+      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="DEBUGGER_TYPE" value="Java" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
+      <option name="PREFERRED_AVD" value="" />
+      <Java />
+      <Profilers>
+        <option name="GAPID_DISABLE_PCS" value="false" />
+      </Profilers>
+      <method>
+        <option name="Make" enabled="true" />
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnitTestDiscovery" factoryName="JUnit Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="TestGenerator" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNGTestDiscovery" factoryName="TestNG Test Discovery" changeList="All">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="false" name="compile" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean" />
+                <option value="compile" />
+              </list>
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method />
+    </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Maven.compile" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Main" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="60512fea-93bd-439f-963d-923f3e88b6ad" name="Default" comment="" />
+      <created>1490536995058</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1490536995058</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36953" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30151516" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39059967" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/TestOperator.java</url>
+          <line>70</line>
+          <properties />
+          <option name="timeStamp" value="110" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/PriorityOneInterpreter.java</url>
+          <line>31</line>
+          <properties />
+          <option name="timeStamp" value="112" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="113" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/test1.test">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/FillOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="37" column="9" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/SelectOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="31" column="36" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/GoInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/AssertOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/arithmetic/DivideOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/arithmetic/MaxOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/arithmetic/MinusOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/arithmetic/MultiplyOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/arithmetic/PowerOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/AndOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/EndsWithOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/EqualsOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/LessOrEqualsOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/LessThanOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/MoreOrEqualsOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/MoreThanOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/NegationOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="61" selection-start-line="19" selection-start-column="61" selection-end-line="19" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/OrOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="35" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/bool/StartsWithOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/ConstantOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/GroupOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="22" column="62" selection-start-line="22" selection-start-column="62" selection-end-line="22" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/OneOperandExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/PlusOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/common/TwoOperandExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/ParameterOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/Value.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-441">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/model/Variable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding>
+            <element signature="e#1667#1668#0" expanded="false" />
+            <element signature="e#1704#1705#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/AssignmentInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="51" column="30" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/AssignmentOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="22" column="109" selection-start-line="22" selection-start-column="109" selection-end-line="22" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/util/BaseTestWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/expression/FunctionOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="27" column="109" selection-start-line="27" selection-start-column="109" selection-end-line="27" selection-end-column="109" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/WhileOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="26" column="48" selection-start-line="26" selection-start-column="48" selection-end-line="26" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/CommandOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/command/ElseInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/base/ExpressionProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/TestOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/StepOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/ElseOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="23" column="85" selection-start-line="23" selection-start-column="85" selection-end-line="23" selection-end-column="85" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#510#511#0" expanded="false" />
+            <element signature="e#558#559#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/IfOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="23" column="38" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/ClickOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/util/OutputTestWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/OrElseOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="30" column="32" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#498#499#0" expanded="false" />
+            <element signature="e#546#547#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/GoOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="25" column="50" selection-start-line="25" selection-start-column="50" selection-end-line="25" selection-end-column="50" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/util/JavaTestWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1853">
+          <caret line="116" column="21" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+          <folding>
+            <element signature="e#364#365#0" expanded="false" />
+            <element signature="e#389#390#0" expanded="false" />
+            <element signature="e#5813#5814#0" expanded="false" />
+            <element signature="e#5843#5844#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="59" column="12" selection-start-line="10" selection-start-column="8" selection-end-line="59" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/USPN1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="29" column="79" selection-start-line="29" selection-start-column="79" selection-end-line="29" selection-end-column="79" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/operation/command/AssignmentCommandOperator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/base/Context.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/ArithmeticInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/roman/interpretation/expression/PriorityOneInterpreter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>TestGenerator</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: ch.qos.logback:logback-classic:1.2.1</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

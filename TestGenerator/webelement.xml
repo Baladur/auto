@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8">
+<type name="webelement" result="org.openqa.selenium.WebElement">
+	<method name="is displayed" result="isDisplayed" returns="bool"/>
+	<index position="1" type="vector" returns="webelement" result="findElement(By.(css|)">
+		<param name="locatorType" concreteValue="(css|xpath)"/>
+		<param name="locator" type="string"/>
+	</index>
+	<index
+</type>

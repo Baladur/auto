@@ -1,0 +1,20 @@
+{
+  "Button" : [
+
+  ],
+  "TextField" : [
+
+  ],
+  "Select" : [
+    {
+      "name" : "AFISHA_SELECT",
+      "paths" : ["xpath//ul[@class = 'menu']//p[contains(text(), 'афиша')]/..", "xpath//ul[@class = 'menu']//p[contains(text(), 'афиша')]/..//a"]
+    }
+  ],
+  "Table" : [
+    {
+      "name" : "TURNIR",
+      "paths" : ["xpath//table[2]//tr[position() > 1]//td", "xpath//table[2]//tr[1]//td"]
+    }
+  ]
+}

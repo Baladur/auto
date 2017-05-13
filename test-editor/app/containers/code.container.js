@@ -29,7 +29,7 @@ class CodeLogic extends React.Component {
                             this.state.lines.map((line, index) =>
                             <LineNumber key={index+1}>
                                 {[index+1,
-                                this.state.done && index+1 == this.state.currentLine && <Tick key="1"/>]}
+                                this.state.context.done && index+1 == this.state.currentLine && <Tick key="1"/>]}
                             </LineNumber>
                             )
                         }
@@ -73,16 +73,19 @@ class CodeLogic extends React.Component {
 
     handleKeyDown(event) {
         const keyCode = event.keyCode ? event.keyCode : event.which;
-        this.excludeWrongCharacters(event);
+        //this.excludeWrongCharacters(event);
+
         switch (keyCode) {
             case EditorKeys.NEW_LINE : this.handleNewLineEvent(); break;
             case EditorKeys.DELETE : this.handleDeleteEvent(); break;
-            default: console.log(keyCode); break;
+            //TODO: handle space
+            default: this.handleKey(event); break;
         }
+
     }
 
     handleNewLineEvent() {
-        if (this.state.done) {
+        if (this.state.context.done) {
             this.setState({
                 lines: this.state.lines.concat([{
                     id: this.state.lineCount+1,
@@ -117,6 +120,33 @@ class CodeLogic extends React.Component {
         }
     }
 
+    /**
+     * This method handles last input character.
+     */
+    handleKey(event) {
+        let inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
+        if (inputChar >= 'A' && inputChar <= 'Z') {
+            inputChar = inputChar.toLowerCase();
+        }
+        if (this.state.context.shouldExcludeCharacters) {
+            if (this.state.context.allowedCharacters.indexOf(inputChar) < 0) {
+                event.preventDefault();
+                return;
+            }
+        } else {
+            //handle cases when we are in expression or variable declaration
+        }
+        //mainInput contains old value yet, so pass old value + input character to context and try to move pointer
+        if (this.state.context.currentHints.length == 1) {
+            console.log("one hint");
+            this.pasteSuggestion(this.state.context.currentHints[0]);
+            console.log('current input: ' + this.state.context.input);
+        }
+
+        this.state.context.updateInput(this.refs.mainInput.state.value + inputChar);
+        this.state.context.forward();
+    }
+
     excludeWrongCharacters(event) {
         console.log(`excludeWrongCharacters()`);
         if (this.state.context.shouldExcludeCharacters) {
@@ -137,6 +167,7 @@ class CodeLogic extends React.Component {
 		this.pasteSuggestion(suggestion);
 		console.log(`state updated:`);
 		console.log(this.state);
+
 	}
 
 	selectLine(index) {
@@ -202,7 +233,8 @@ class CodeLogic extends React.Component {
 
 	pasteSuggestion(suggestion) {
 		let line = this.state.lines[this.state.currentLine-1];
-		line.words.push(suggestion.word);
+		line.words.push(suggestion.word + ' '); //check space requirement
+        this.state.context.updateInput(suggestion.word);
 		let lines = this.state.lines;
 		lines[this.state.currentLine-1].words = line.words;
 		this.setState({

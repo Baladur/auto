@@ -21,8 +21,8 @@ class MainInput extends React.Component {
         if (suggestions.length == 0) {
             suggestions = this.props.getSuggestions("");
         }
-        console.log(`going to render following suggestions:`);
-        suggestions.forEach(s => console.log(`\t[${s.word}]`));
+        //console.log(`going to render following suggestions:`);
+        //suggestions.forEach(s => console.log(`\t[${s.word}]`));
         return (
             <Autosuggest
                 theme={theme}
@@ -39,14 +39,16 @@ class MainInput extends React.Component {
     }
 
     componentDidMount() {
-		console.log(`componentDidMount()`);
+		//console.log(`componentDidMount()`);
         this.setState({
             suggestions: this.props.getSuggestions("")
         });
     }
 
     onChange(event, { newValue }) {
-		console.log(`onChange()`);
+		//
+        console.log(`onChange()`);
+        console.log(newValue);
         this.setState({
             value: newValue
         });

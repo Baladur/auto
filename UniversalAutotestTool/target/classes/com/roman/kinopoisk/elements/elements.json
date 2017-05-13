@@ -1,20 +1,50 @@
 {
   "Button" : [
     {
-      "name" : "SEARCH",
-      "paths" : ["css.searchBtn"]
+      "name" : "SEARCH_BTN",
+      "paths" : ["xpath//input[contains(@class, 'searchButton')]"]
+    },
+    {
+      "name" : "MOST_WANTED",
+      "paths" : ["css.search_results > .most_wanted .info a"]
+    },
+    {
+      "name" : "CHANCE_BTN",
+      "paths" : ["cssdiv.casual_link_nav a[href='/chance/']"]
+    },
+    {
+      "name" : "RANDOM_MOVIE_BTN",
+      "paths" : ["css.randomMovieButton input"]
+    },
+    {
+      "name" : "RANDOM_FILM_NAME",
+      "paths" : ["css.filmName"]
     }
   ],
   "TextField" : [
-
+    {
+      "name" : "SEARCH",
+      "paths" : ["css#search_input"]
+    }
   ],
   "Select" : [
     {
       "name" : "AFISHA_SELECT",
-      "paths" : ["cssul.menu p", "cssul.menu div>a"]
+      "paths" : ["xpath//ul[@class= 'menu']//p[contains(text(),'афиша')]", "xpath//ul[@class= 'menu']//p[contains(text(),'афиша')]/../div/a"]
+    },
+    {
+      "name" : "RATINGS_SELECT",
+      "paths" : ["xpath//*[text()='рейтинги']", "xpath//*[text()='рейтинги']/../div/*"]
+    },
+    {
+      "name" : "CHANCE_COUNTRY_SELECT",
+      "paths" : ["css#countryListTitle", "css#countryListTitle + ul li"]
     }
   ],
   "Table" : [
-
+    {
+      "name" : "RATING_TABLE",
+      "paths" : ["xpath//table[3]//table//td", "xpath//table[3]//table//tr[1]//td"]
+    }
   ]
 }

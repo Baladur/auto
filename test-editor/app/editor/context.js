@@ -61,13 +61,16 @@ const comparators = ["==", "!=", "<", ">"];
 
 class Context {
     constructor(elementsJson, initialData) {
+        this.input = "";
         this.elementsJson = elementsJson;
         this.seq = new Sequence();
         this.localVariables = initialData.localVariables;
         this.globalVariables = initialData.globalVariables;
         this.types = initialData.types;
         this.methods = initialData.methods;
-        this.seq = {};
+        this.done = false;
+        this.forceContextUpdate = false;
+        this.endOption = false;
         this.sequenceHistory = [];
 
         //Value objects
@@ -287,8 +290,79 @@ class Context {
         this._initObjs();
     }
 
-    forward() {
+    /**
+     * This method updates context input.
+     * @param input
+     */
+    updateInput(input) {
+        this.input = input;
+    }
 
+    /**
+     * This method moves context pointer if next input is one of expected.
+     */
+    forward() {
+        console.log("in context walker");
+        const lastWord = this.input;
+        if (this.words.length > 0) {
+            if (this.shouldExcludeCharacters && words[words.length-1] == lastWord[0] && this._currentHints.indexOf(lastWord.substr(1, lastWord.length)) >= 0) {
+                this.forceContextUpdate = true;
+            }
+        }
+        if (this._currentHints.indexOf(lastWord) >= 0 || this.forceContextUpdate) {
+            this.forceContextUpdate = false;
+            //change operator
+            this._currentOperator = this._getNextOperator(this._currentOperator);
+
+            if (this.words.length > 0) {
+                if (this.words[words.length-1] == lastWord[0]) {
+                    this.words.push(lastWord.substr(1, lastWord.length));
+                } else {
+                    this.words.push(lastWord);
+                }
+            } else {
+                this.words.push(lastWord);
+            }
+
+            //objs.push(currentOperator);
+            console.log("after change of currentOperator");
+
+            this._currentHints = [];
+
+            if (this._currentOperator == END) {
+                this.done = true;
+
+                //initContext();
+
+            } else {
+                this.done = false;
+                this._currentHints = this._collectHints(this._currentOperator);
+                this._handleEnd();
+                //handleConstString();
+                /*if (currentSeq.length > 0 && seqIndex < currentSeq.length-1) {
+                 if (currentValues.length == 0) {
+                 currentValues = currentValues.concat(getVariants(currentSeq[seqIndex + 1]));
+                 seqIndex++;
+                 }
+                 }*/
+                //////alert("currentValues: " + currentValues);
+            }
+            //window.awesomplete.filter = showAllFilter;
+            //window.awesomplete.list = currentValues;
+            //////alert(words);
+            this._initAllowedChars();
+            //colorizer();
+        } else {
+            //window.awesomplete.filter = myFilter;
+        }
+        if (this._currentHints.length == 1 && !this.endOption && this._currentOperator != END) {
+            //myReplace(currentValues[0]);
+            this.forceContextUpdate = true;
+            this.forward();
+        } else {
+            this.endOption = false;
+        }
+        console.log("context walker finished");
     }
 
     /****PRIVATE METHODS****/
@@ -301,6 +375,68 @@ class Context {
         this.buttonValuesObj.prod.forEach(b => b = "#" + b);
 
         this.elementsValuesObj.prod = this.textfieldValuesObj.prod.concat(this.buttonValuesObj.prod);
+    }
+
+    _initAllowedChars() {
+        this.allowedChars = [];
+        for (let i = 0; i < this._currentHints.length; i++) {
+            let hint = this._currentHints[i];
+            for (let j = 0; j < hint.length; j++) {
+                if (hint == 'end') {
+                    continue;
+                }
+                let char = hint[j];
+                if (this.allowedChars.indexOf(char) < 0) {
+                    this.allowedChars.push(char.toLowerCase());
+                }
+
+            }
+        }
+    }
+
+    /**
+     * This method calculates next context object relative to parameter.
+     * @param obj
+     * @returns {*}
+     * @private
+     */
+    _getNextOperator(obj) {
+        if (obj == Context.END) {
+            return this._getNextOperator(this.seq.forward());
+        }
+        if ('nt' in obj) {
+            if ('variants' in obj) {
+                for (let variant of obj.variants) {
+                    if (this._getWord(variant).indexOf(this.input) >= 0) {
+                        return this._getNextOperator(variant);
+                    }
+                }
+                return obj;
+            } else if ('seq' in obj) {
+                this.seq.makeSequence(obj);
+                return this._getNextOperator(this.seq.current());
+            }
+        } else {
+            if (this.seq.inSequence()) {
+                let next = this.seq.next();
+                if (this.seq.current() == CONST_STRING) {
+                    return this.seq.current();
+                }
+                if ('nt' in next) {
+                    return this.seq.forward();
+                } else {
+                    if (this._getWord(next).indexOf(this.input) >= 0) {
+                        return this._getNextOperator(this.seq.forward());
+                    }
+                    return this.seq.current();
+                }
+
+            } else {
+                console.log("unexpected");
+                return null;
+            }
+        }
+
     }
 
     _getWord(obj) {
@@ -340,6 +476,25 @@ class Context {
             }
         }
         return result;
+    }
+
+    _handleEnd() {
+        if (this._currentHints.indexOf("end") >= 0) {
+            this.endOption = true;
+            if (!this.seq.inSequence() || (this.seq.next() == END)) {
+                this.done = true;
+            }
+            this._currentHints.splice(this._currentHints.indexOf("end"), 1);
+            console.log("condition of variants concat: ");
+            //if (sequences[seq.i].length > 0 && seq.j < sequences[seq.i].length-1) {
+                //currentValues = currentValues.concat(_collectHints(seq.next));
+                //currentOperator = currentSeq[seqIndex + 1];
+                //currentValues = currentValues.concat(_collectHints(currentSeq[seqIndex + 1]));
+                //seqIndex++;
+                //console.log("currentValues after concat: " + currentValues);
+            //}
+        }
+
     }
 }
 

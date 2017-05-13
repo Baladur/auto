@@ -1,0 +1,100 @@
+test Kinopoisk1
+Название: КИНОПОИСК-1
+Описание: фщшуащшцоуащшо
+
+step 1 (name : "Переход по ссылке"):
+
+go $link
+assert title contains "Кинопоиск" described as "Перешли не на ту страницу."
+report pass "Успешно перешли по ссылке."
+
+-------------------------------------------------------------------------------
+
+test Kinopoisk2
+Название: КИНОПОИСК-2
+Описание: Поиск существующего фильма.
+Параметры:
+movie : "Большой куш"
+
+step (1, name : "weoij")
+
+execute Kinopoisk1
+
+step 2:
+
+fill #SEARCH with _movie during 5 sec
+
+step 3:
+
+click #SEARCH_BTN during 5 sec
+
+step 4:
+
+execute Kinopoisk3 with (movie : _movie, shouldBeEquals : true)
+
+---------------------------------------------------------------------------------
+
+test Kinopoisk3
+Параметры:
+movie : ""
+shouldBeEquals : true
+
+step 1:
+
+assert shouldBeEquals and #MOST_WANTED -> text -> equals _movie
+	described as "Отрицательная проверка."
+pass "Проверка результата поиска пройдена."
+
+step 2:
+
+execute Kinopoisk4
+
+------------------------------------------------------------------------------------
+
+test Kinopoisk4
+
+step 1:
+
+click #MOST_WANTED during 2 sec
+
+step 2:
+
+fill #SEARCH with "awef" during 2 sec
+assert #SEARCH -> attribute "value" has size 0 described as "Резльутат запроса не очищен."
+
+-------------------------------------------------------------------------------------
+
+test Kinopoisk6
+
+step1:
+
+execute Kinopoisk1
+click #CHANCE_BTN
+
+step2:
+
+wait #AFISHA_SELECT -> is displayed during 5 seconds
+or else
+	report log "Селект афиша не появился."
+click #RANDOM_MOVIE_BTN
+assert #RANDOM_FILM_NAME -> is displayed described as "Случайный фильм не появился."
+
+step3:
+
+click #RANDOM_MOVIE_BTN
+wait #RANDOM_FILM_NAME -> is displayed during 1 seconds
+or else
+	error "Беда."
+
+step4:
+
+select #CHANCE_COUNTRY_SELECT option contains _country during 2 seconds
+or else
+	_country : "США"
+	select #CHANCE_COUNTRY_SELECT option contains _country during 2 seconds
+click #RANDOM_MOVIE_BTN
+wait #RANDOM_FILM_NAME -> is displayed during 5 seconds
+_description : [(css, ".filmName+div")]
+report screenshot (_description, "Описание фильма")
+assert _description -> text contains _country described as "Найден фильм, снятый в стране, не указанной в селекторе стран."
+		

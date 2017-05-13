@@ -22469,7 +22469,7 @@
 	                            return _react2.default.createElement(
 	                                _linenumber2.default,
 	                                { key: index + 1 },
-	                                [index + 1, _this2.state.done && index + 1 == _this2.state.currentLine && _react2.default.createElement(_tick2.default, { key: '1' })]
+	                                [index + 1, _this2.state.context.done && index + 1 == _this2.state.currentLine && _react2.default.createElement(_tick2.default, { key: '1' })]
 	                            );
 	                        })
 	                    ),
@@ -22513,20 +22513,22 @@
 	        key: 'handleKeyDown',
 	        value: function handleKeyDown(event) {
 	            var keyCode = event.keyCode ? event.keyCode : event.which;
-	            this.excludeWrongCharacters(event);
+	            //this.excludeWrongCharacters(event);
+
 	            switch (keyCode) {
 	                case _keys2.default.NEW_LINE:
 	                    this.handleNewLineEvent();break;
 	                case _keys2.default.DELETE:
 	                    this.handleDeleteEvent();break;
+	                //TODO: handle space
 	                default:
-	                    console.log(keyCode);break;
+	                    this.handleKey(event);break;
 	            }
 	        }
 	    }, {
 	        key: 'handleNewLineEvent',
 	        value: function handleNewLineEvent() {
-	            if (this.state.done) {
+	            if (this.state.context.done) {
 	                this.setState({
 	                    lines: this.state.lines.concat([{
 	                        id: this.state.lineCount + 1,
@@ -22560,6 +22562,36 @@
 	                });
 	                console.log('deleted last word!');
 	            }
+	        }
+
+	        /**
+	         * This method handles last input character.
+	         */
+
+	    }, {
+	        key: 'handleKey',
+	        value: function handleKey(event) {
+	            var inputChar = String.fromCharCode(event.keyCode ? event.keyCode : event.which);
+	            if (inputChar >= 'A' && inputChar <= 'Z') {
+	                inputChar = inputChar.toLowerCase();
+	            }
+	            if (this.state.context.shouldExcludeCharacters) {
+	                if (this.state.context.allowedCharacters.indexOf(inputChar) < 0) {
+	                    event.preventDefault();
+	                    return;
+	                }
+	            } else {}
+	            //handle cases when we are in expression or variable declaration
+
+	            //mainInput contains old value yet, so pass old value + input character to context and try to move pointer
+	            if (this.state.context.currentHints.length == 1) {
+	                console.log("one hint");
+	                this.pasteSuggestion(this.state.context.currentHints[0]);
+	                console.log('current input: ' + this.state.context.input);
+	            }
+
+	            this.state.context.updateInput(this.refs.mainInput.state.value + inputChar);
+	            this.state.context.forward();
 	        }
 	    }, {
 	        key: 'excludeWrongCharacters',
@@ -22652,7 +22684,8 @@
 	        key: 'pasteSuggestion',
 	        value: function pasteSuggestion(suggestion) {
 	            var line = this.state.lines[this.state.currentLine - 1];
-	            line.words.push(suggestion.word);
+	            line.words.push(suggestion.word + ' '); //check space requirement
+	            this.state.context.updateInput(suggestion.word);
 	            var lines = this.state.lines;
 	            lines[this.state.currentLine - 1].words = line.words;
 	            this.setState({
@@ -22995,10 +23028,8 @@
 	            if (suggestions.length == 0) {
 	                suggestions = this.props.getSuggestions("");
 	            }
-	            console.log('going to render following suggestions:');
-	            suggestions.forEach(function (s) {
-	                return console.log('\t[' + s.word + ']');
-	            });
+	            //console.log(`going to render following suggestions:`);
+	            //suggestions.forEach(s => console.log(`\t[${s.word}]`));
 	            return _react2.default.createElement(_reactAutosuggest2.default, {
 	                theme: _autosuggestStyle2.default,
 	                suggestions: suggestions,
@@ -23014,7 +23045,7 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            console.log('componentDidMount()');
+	            //console.log(`componentDidMount()`);
 	            this.setState({
 	                suggestions: this.props.getSuggestions("")
 	            });
@@ -23024,7 +23055,9 @@
 	        value: function onChange(event, _ref) {
 	            var newValue = _ref.newValue;
 
+	            //
 	            console.log('onChange()');
+	            console.log(newValue);
 	            this.setState({
 	                value: newValue
 	            });
@@ -25560,13 +25593,16 @@
 	    function Context(elementsJson, initialData) {
 	        _classCallCheck(this, Context);
 
+	        this.input = "";
 	        this.elementsJson = elementsJson;
 	        this.seq = new _sequence2.default();
 	        this.localVariables = initialData.localVariables;
 	        this.globalVariables = initialData.globalVariables;
 	        this.types = initialData.types;
 	        this.methods = initialData.methods;
-	        this.seq = {};
+	        this.done = false;
+	        this.forceContextUpdate = false;
+	        this.endOption = false;
 	        this.sequenceHistory = [];
 
 	        //Value objects
@@ -25751,9 +25787,86 @@
 	            this.newVariableBuffer = "";
 	            this._initObjs();
 	        }
+
+	        /**
+	         * This method updates context input.
+	         * @param input
+	         */
+
+	    }, {
+	        key: "updateInput",
+	        value: function updateInput(input) {
+	            this.input = input;
+	        }
+
+	        /**
+	         * This method moves context pointer if next input is one of expected.
+	         */
+
 	    }, {
 	        key: "forward",
-	        value: function forward() {}
+	        value: function forward() {
+	            console.log("in context walker");
+	            var lastWord = this.input;
+	            if (this.words.length > 0) {
+	                if (this.shouldExcludeCharacters && words[words.length - 1] == lastWord[0] && this._currentHints.indexOf(lastWord.substr(1, lastWord.length)) >= 0) {
+	                    this.forceContextUpdate = true;
+	                }
+	            }
+	            if (this._currentHints.indexOf(lastWord) >= 0 || this.forceContextUpdate) {
+	                this.forceContextUpdate = false;
+	                //change operator
+	                this._currentOperator = this._getNextOperator(this._currentOperator);
+
+	                if (this.words.length > 0) {
+	                    if (this.words[words.length - 1] == lastWord[0]) {
+	                        this.words.push(lastWord.substr(1, lastWord.length));
+	                    } else {
+	                        this.words.push(lastWord);
+	                    }
+	                } else {
+	                    this.words.push(lastWord);
+	                }
+
+	                //objs.push(currentOperator);
+	                console.log("after change of currentOperator");
+
+	                this._currentHints = [];
+
+	                if (this._currentOperator == END) {
+	                    this.done = true;
+
+	                    //initContext();
+	                } else {
+	                    this.done = false;
+	                    this._currentHints = this._collectHints(this._currentOperator);
+	                    this._handleEnd();
+	                    //handleConstString();
+	                    /*if (currentSeq.length > 0 && seqIndex < currentSeq.length-1) {
+	                     if (currentValues.length == 0) {
+	                     currentValues = currentValues.concat(getVariants(currentSeq[seqIndex + 1]));
+	                     seqIndex++;
+	                     }
+	                     }*/
+	                    //////alert("currentValues: " + currentValues);
+	                }
+	                //window.awesomplete.filter = showAllFilter;
+	                //window.awesomplete.list = currentValues;
+	                //////alert(words);
+	                this._initAllowedChars();
+	                //colorizer();
+	            } else {
+	                    //window.awesomplete.filter = myFilter;
+	                }
+	            if (this._currentHints.length == 1 && !this.endOption && this._currentOperator != END) {
+	                //myReplace(currentValues[0]);
+	                this.forceContextUpdate = true;
+	                this.forward();
+	            } else {
+	                this.endOption = false;
+	            }
+	            console.log("context walker finished");
+	        }
 
 	        /****PRIVATE METHODS****/
 
@@ -25771,6 +25884,91 @@
 	            });
 
 	            this.elementsValuesObj.prod = this.textfieldValuesObj.prod.concat(this.buttonValuesObj.prod);
+	        }
+	    }, {
+	        key: "_initAllowedChars",
+	        value: function _initAllowedChars() {
+	            this.allowedChars = [];
+	            for (var i = 0; i < this._currentHints.length; i++) {
+	                var hint = this._currentHints[i];
+	                for (var j = 0; j < hint.length; j++) {
+	                    if (hint == 'end') {
+	                        continue;
+	                    }
+	                    var char = hint[j];
+	                    if (this.allowedChars.indexOf(char) < 0) {
+	                        this.allowedChars.push(char.toLowerCase());
+	                    }
+	                }
+	            }
+	        }
+
+	        /**
+	         * This method calculates next context object relative to parameter.
+	         * @param obj
+	         * @returns {*}
+	         * @private
+	         */
+
+	    }, {
+	        key: "_getNextOperator",
+	        value: function _getNextOperator(obj) {
+	            if (obj == Context.END) {
+	                return this._getNextOperator(this.seq.forward());
+	            }
+	            if ('nt' in obj) {
+	                if ('variants' in obj) {
+	                    var _iteratorNormalCompletion = true;
+	                    var _didIteratorError = false;
+	                    var _iteratorError = undefined;
+
+	                    try {
+	                        for (var _iterator = obj.variants[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                            var variant = _step.value;
+
+	                            if (this._getWord(variant).indexOf(this.input) >= 0) {
+	                                return this._getNextOperator(variant);
+	                            }
+	                        }
+	                    } catch (err) {
+	                        _didIteratorError = true;
+	                        _iteratorError = err;
+	                    } finally {
+	                        try {
+	                            if (!_iteratorNormalCompletion && _iterator.return) {
+	                                _iterator.return();
+	                            }
+	                        } finally {
+	                            if (_didIteratorError) {
+	                                throw _iteratorError;
+	                            }
+	                        }
+	                    }
+
+	                    return obj;
+	                } else if ('seq' in obj) {
+	                    this.seq.makeSequence(obj);
+	                    return this._getNextOperator(this.seq.current());
+	                }
+	            } else {
+	                if (this.seq.inSequence()) {
+	                    var next = this.seq.next();
+	                    if (this.seq.current() == CONST_STRING) {
+	                        return this.seq.current();
+	                    }
+	                    if ('nt' in next) {
+	                        return this.seq.forward();
+	                    } else {
+	                        if (this._getWord(next).indexOf(this.input) >= 0) {
+	                            return this._getNextOperator(this.seq.forward());
+	                        }
+	                        return this.seq.current();
+	                    }
+	                } else {
+	                    console.log("unexpected");
+	                    return null;
+	                }
+	            }
 	        }
 	    }, {
 	        key: "_getWord",
@@ -25800,27 +25998,27 @@
 	            var result = [];
 	            if ('nt' in obj) {
 	                if ('variants' in obj) {
-	                    var _iteratorNormalCompletion = true;
-	                    var _didIteratorError = false;
-	                    var _iteratorError = undefined;
+	                    var _iteratorNormalCompletion2 = true;
+	                    var _didIteratorError2 = false;
+	                    var _iteratorError2 = undefined;
 
 	                    try {
-	                        for (var _iterator = obj.variants[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                            var variant = _step.value;
+	                        for (var _iterator2 = obj.variants[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	                            var variant = _step2.value;
 
 	                            result = result.concat(this._getWord(variant));
 	                        }
 	                    } catch (err) {
-	                        _didIteratorError = true;
-	                        _iteratorError = err;
+	                        _didIteratorError2 = true;
+	                        _iteratorError2 = err;
 	                    } finally {
 	                        try {
-	                            if (!_iteratorNormalCompletion && _iterator.return) {
-	                                _iterator.return();
+	                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	                                _iterator2.return();
 	                            }
 	                        } finally {
-	                            if (_didIteratorError) {
-	                                throw _iteratorError;
+	                            if (_didIteratorError2) {
+	                                throw _iteratorError2;
 	                            }
 	                        }
 	                    }
@@ -25833,6 +26031,25 @@
 	                }
 	            }
 	            return result;
+	        }
+	    }, {
+	        key: "_handleEnd",
+	        value: function _handleEnd() {
+	            if (this._currentHints.indexOf("end") >= 0) {
+	                this.endOption = true;
+	                if (!this.seq.inSequence() || this.seq.next() == END) {
+	                    this.done = true;
+	                }
+	                this._currentHints.splice(this._currentHints.indexOf("end"), 1);
+	                console.log("condition of variants concat: ");
+	                //if (sequences[seq.i].length > 0 && seq.j < sequences[seq.i].length-1) {
+	                //currentValues = currentValues.concat(_collectHints(seq.next));
+	                //currentOperator = currentSeq[seqIndex + 1];
+	                //currentValues = currentValues.concat(_collectHints(currentSeq[seqIndex + 1]));
+	                //seqIndex++;
+	                //console.log("currentValues after concat: " + currentValues);
+	                //}
+	            }
 	        }
 	    }, {
 	        key: "allowedCharacters",
@@ -25956,7 +26173,7 @@
 	    }, {
 	        key: 'push',
 	        value: function push(obj) {
-	            this.sequences[seq.i].push(obj);
+	            this.sequences[this.i].push(obj);
 	        }
 
 	        /**
@@ -26071,17 +26288,7 @@
 
 	    }, {
 	        key: '_makeSequence',
-	        value: function (_makeSequence2) {
-	            function _makeSequence(_x) {
-	                return _makeSequence2.apply(this, arguments);
-	            }
-
-	            _makeSequence.toString = function () {
-	                return _makeSequence2.toString();
-	            };
-
-	            return _makeSequence;
-	        }(function (obj) {
+	        value: function _makeSequence(obj) {
 	            if (!('seq' in obj)) throw new _illegalArgError2.default("_makeSequence", "Argument must have 'seq' property", obj);
 	            console.log("making sequence for ");
 	            console.log(obj);
@@ -26089,14 +26296,14 @@
 	            console.log(obj.seq);
 	            for (var i in obj.seq) {
 	                if ('seq' in obj.seq[i]) {
-	                    _makeSequence(obj.seq[i]);
+	                    this._makeSequence(obj.seq[i]);
 	                } else {
 	                    if (obj.seq[i] != _context2.default.END) {
 	                        this.push(obj.seq[i]);
 	                    }
 	                }
 	            }
-	        })
+	        }
 	    }]);
 
 	    return Sequence;

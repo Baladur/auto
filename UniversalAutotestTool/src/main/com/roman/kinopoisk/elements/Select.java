@@ -6,7 +6,7 @@ import com.roman.base.SelectElement;
  * Created by roman on 22.02.2017.
  */
 public enum Select implements SelectElement {
-    AFISHA_SELECT;
+    AFISHA_SELECT, RATINGS_SELECT, CHANCE_COUNTRY_SELECT;
 
     @Override
     public String getName() {

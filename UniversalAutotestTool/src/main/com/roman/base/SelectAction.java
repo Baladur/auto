@@ -1,74 +1,141 @@
 package com.roman.base;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created by roman on 21.02.2017.
  */
-public class SelectAction implements Action {
-    private UniDriver driver;
-    private SelectElement element;
-    private Match match;
+@Slf4j
+@Getter
+public class SelectAction extends ElementAction implements ISelectMatch, IOption {
+    private Match selectMatch;
+    private String selectText;
+    private Match optionMatch;
     private String optionValue;
-    private int time;
+    private int optionIndex;
 
-    public int getTime() {
-        return time;
+    public SelectAction(Driver driver, BaseElement element) {
+        this(driver, element, 1);
     }
 
-    public TimeUnit getTimeUnit() {
-        return timeUnit;
-    }
-
-    private TimeUnit timeUnit;
-
-    public SelectAction(UniDriver driver) {
-        this.driver = driver;
-        time = 1;
-        timeUnit = TimeUnit.SECONDS;
+    public SelectAction(Driver driver, BaseElement element, int elementIndex) {
+        super(driver, element, elementIndex);
+        optionIndex = -1;
+        orElseAction = () -> { throw new AssertionError(LogMessages.failSelectActionWithOptionValue(this)); };
     }
 
     @Override
-    public void execute() throws UniFrameworkException {
-        driver.click(element);
-        List<WebElement> options = driver.findOptions(element);
+    protected void execute() {
+        log.info(LogMessages.selectAction(this));
+        driver.report().log(LogMessages.selectAction(this));
+        try {
+            if (selectText != null && selectMatch != null) {
+                driver.find(element, selectText, selectMatch).click();
+            } else {
+                driver.find(element, elementIndex).click();
+            }
+            driver.report().screenshot(element);
+        } catch (Throwable t) {
+            orElseAction = () -> { throw new AssertionError(LogMessages.failSelectActionMain(this)); };
+            throw new AssertionError(t);
+        }
+
+        List<WebElement> options = null;
+        try {
+            options = driver.findOptions(element);
+        } catch (Throwable t) {
+            orElseAction = () -> { throw new AssertionError(LogMessages.failSelectActionOptions(this)); };
+            throw new AssertionError(t);
+        }
+
+        if (optionIndex >= 0) {
+            if (options.size() <= optionIndex) {
+                orElseAction = () -> { throw new AssertionError(LogMessages.failSelectActionWithIndex(this)); };
+                throw new AssertionError();
+            }
+            options.get(optionIndex).click();
+            return;
+        }
+
         WebElement foundOption = options
                 .stream()
-                .filter(option -> {
-                    switch (match) {
-                        case Contain: return option.getText().contains(optionValue);
-                        case Equal: return option.getText().equals(optionValue);
-                        case StartWith: return option.getText().startsWith(optionValue);
-                        case EndWith: return option.getText().endsWith(optionValue);
-                        default: return false;
-                    }
-                })
+                .filter(option -> optionMatch.compare(option.getText(), optionValue))
                 .findFirst()
-                .orElseThrow(() -> new UniFrameworkException("option not found"));
+                .orElseThrow(() -> new AssertionError());
         foundOption.click();
     }
 
-    public SelectAction element(SelectElement element) {
-        this.element = element;
+    @Override
+    public IWithTime option(String text) {
+        this.optionValue = text;
+        this.optionMatch = Match.Equal;
         return this;
     }
 
-    public SelectAction match(Match match) {
-        this.match = match;
+    @Override
+    public IWithTime option(int index) {
+        this.optionIndex = index - 1;
         return this;
     }
 
-    public SelectAction optionValue(String optionValue) {
-        this.optionValue = optionValue;
+    @Override
+    public IWithTime optionContains(String text) {
+        optionMatch = Match.Contain;
+        optionValue = text;
         return this;
     }
 
-    public SelectAction withTime(int time, TimeUnit timeUnit) {
-        this.time = time;
-        this.timeUnit = timeUnit;
+    @Override
+    public IWithTime optionEquals(String text) {
+        optionMatch = Match.Equal;
+        optionValue = text;
+        return this;
+    }
+
+    @Override
+    public IWithTime optionStartsWith(String text) {
+        optionMatch = Match.StartWith;
+        optionValue = text;
+        return this;
+    }
+
+    @Override
+    public IWithTime optionEndsWith(String text) {
+        optionMatch = Match.EndWith;
+        optionValue = text;
+        return this;
+    }
+
+    @Override
+    public IOption contains(String text) {
+        selectMatch = Match.Contain;
+        selectText = text;
+        return this;
+    }
+
+    @Override
+    public IOption equals(String text) {
+        selectMatch = Match.Equal;
+        selectText = text;
+        return this;
+    }
+
+    @Override
+    public IOption startsWith(String text) {
+        selectMatch = Match.StartWith;
+        selectText = text;
+        return this;
+    }
+
+    @Override
+    public IOption endsWith(String text) {
+        selectMatch = Match.EndWith;
+        selectText = text;
         return this;
     }
 }

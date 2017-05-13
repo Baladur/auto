@@ -1,0 +1,20 @@
+1:
+click table #RATING_TABLE [(2, contains "8.7") and ("фильм", starts with "Бо")]["фильм"][(tag, "a")]
+assert table #RATING_TABLE [(2, contains "8.7")] contains entry ("фильм", "начало")
+	with message "efewfawef"
+
+assert [(xpath, "//div//a")] -> attribute "class" equals "expected" with message "awe"
+_elements : [(css, "a.flex")]
+for _element in _elements:
+	assert _element -> text contains "awe"
+
+assert table #INFO_TABLE [1]["Наименование отдела"] starts with "Администр"
+click table #INFO_TABLE [1]["Задачи и функции"][(tag, "a")] with $config -> timeout sec
+assert table #INFO_TABLE [1]["Начальник отдела"] -> text -> split " " -> length == 3
+	with message "Некорректное ФИО"
+
+###http://www.bgsha.ru/struktura/2012-02-10-07-15-25/%D0%B5%D0%B6%D0%B5%D0%B3%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5-%D1%81%D0%BF%D0%BE%D1%80%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B5-%D0%BC%D0%B5%D1%80%D0%BE%D0%BF%D1%80%D0%B8%D1%8F%D1%82%D0%B8%D1%8F/%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D1%8B-%D1%80%D0%B5%D0%B7%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D1%82%D0%BE%D0%B2.html
+1:
+_points : table #TURNIR [("Команда", contains "ФВМ")]["Шашки"] -> text
+if !["I", "II", "III"] -> any match (s => s equals _points):
+	assert _points as int > 3 with message "Неправильнй формат очков" 

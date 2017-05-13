@@ -41,13 +41,13 @@ public class PathReader {
 //            JSONObject classObj = (JSONObject)elements.keySet()
 //                    .stream()
 //                    .filter(key -> key.equals(elementClass))
-//                    .map(key -> elements.get(key))
+//                    .map(key -> elements.rowAsMap(key))
 //                    .findFirst()
 //                    .orElseThrow(Throwable::new);
 //            Object paths = classObj.keySet()
 //                    .stream()
 //                    .filter(name -> name.equals(elementName))
-//                    .map(name -> classObj.get(name))
+//                    .map(name -> classObj.rowAsMap(name))
 //                    .findFirst()
 //                    .orElseThrow(Throwable::new);
 //            if (paths instanceof JSONArray) {
@@ -64,7 +64,6 @@ public class PathReader {
         List<String> resultPaths = null;
         try {
             List<Element> elementsByType = (List)Elements.class.getDeclaredField(elementClass).get(elements);
-            elementsByType.forEach(e -> System.out.println(e.toString()));
             resultPaths = elementsByType
                     .stream()
                     .filter(element -> element.name.equals(elementName))

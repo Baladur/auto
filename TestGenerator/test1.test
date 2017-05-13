@@ -1,0 +1,29 @@
+test USPN1 with name : "USPN1. Login."
+	with description : "Login by specified role."
+	with role : "admin"
+	with timeout : 3
+	with link : "http://uspn.ru"
+
+step 1 with name : "iaowj"
+	with description : "awefa"
+
+assert role -> length > "eee" -> length with "Input param role must not be empty."
+checkBool : (4 + 6) > (7 + 4) - (9 / 4)
+go link
+click #LOG_OUT
+or else
+	select #menu option "info" during timeout seconds
+fill #USERNAME with role during timeout seconds
+fill #PASSWORD with role during timeout seconds
+click #LOGIN
+if role starts with "a"
+	ab : 4 - 3
+else
+	i : 0
+	while i < 10
+		click #ffff
+
+step 2 with name : "iiiiii"
+	with description : "aaaefaw"
+
+click #efef
