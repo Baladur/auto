@@ -1,0 +1,11 @@
+$<MAIN> --- click #search during 5 seconds
+$<CLICK> --- click #search during 5 seconds
+$<DURING_OR_ELSE_END> <ELEMENT> kcilc --- click #search during 5 seconds
+$<DURING_OR_ELSE_END> <ELEMENT> --- #search during 5 seconds
+$<DURING_OR_ELSE_END> <TEXTFIELD> --- #search during 5 seconds
+$<DURING_OR_ELSE_END> #search --- #search during 5 seconds
+$<DURING_OR_ELSE_END> --- during 5 seconds
+$<DURING> --- during 5 seconds
+$<OR_ELSE_END> <TIME_UNIT> <INT_VALUE> gnirud --- during 5 seconds
+$<OR_ELSE_END> <TIME_UNIT> <INT_VALUE> --- 5 seconds
+$<OR_ELSE_END> <TIME_UNIT> <NUMBER_END><FIRST_DIGIT> --- 5 seconds

@@ -1,0 +1,88 @@
+[
+  {
+  "scriptName" : "string",
+  "javaName" : "String",
+  "description" : "LSTRING_TYPE",
+  "methods" : [
+    {
+      "scriptName" : "length",
+      "javaName" : "length",
+      "description" : "LSTRING_LENGTH",
+      "returnType" : "int",
+      "params" : [
+      ]
+    },
+    {
+      "scriptName" : "index_of",
+      "javaName" : "indexOf",
+      "description" : "LSTRING_INDEX_OF",
+      "returnType" : "int",
+      "params" : [
+        {
+          "name" : "entry",
+          "type" : "string",
+          "description" : "LSTRING_INDEX_OF_ENTRY"
+        }
+      ]
+    },
+    {
+      "scriptName" : "substr",
+      "javaName" : "substring",
+      "description" : "LSTRING_SUBSTR",
+      "returnType" : "string",
+      "params" : [
+        {
+          "name" : "startIndex",
+          "type" : "int",
+          "description" : "LSTRING_SUBSTR_STARTINDEX"
+        },
+        {
+          "name" : "endIndex",
+          "type" : "int",
+          "description" : "LSTRING_SUBSTR_ENDINDEX"
+        }
+      ]
+    },
+    {
+      "scriptName" : "concat",
+      "javaName" : "concat",
+      "description" : "LSTRING_CONCAT",
+      "returnType" : "string",
+      "params" : [
+        {
+          "name" : "str",
+          "type" : "string",
+          "description" : "LSTRING_CONCAT_STR"
+        }
+      ]
+    }
+  ]
+},
+  {
+    "scriptName" : "int",
+    "javaName" : "Integer",
+    "description" : "LINT_TYPE",
+    "methods" : [{
+                                        "scriptName" : "to_str",
+                                        "javaName" : "toString",
+                                        "description" : "LTO_STR",
+                                        "returnType" : "string",
+                                        "params" : [
+
+                                        ]
+                                      }]
+  },
+  {
+    "scriptName" : "bool",
+    "javaName" : "Boolean",
+    "description" : "LBOOL_TYPE",
+    "methods" : [{
+                                                         "scriptName" : "to_str",
+                                                         "javaName" : "toString",
+                                                         "description" : "LTO_STR",
+                                                         "returnType" : "string",
+                                                         "params" : [
+
+                                                         ]
+                                                       }]
+  }]

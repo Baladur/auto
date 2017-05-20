@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style=".list-cell:empty {&#10;    -fx-opacity: 0;&#10;}" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.MainController">
+  <GridPane alignment="TOP_LEFT" gridLinesVisible="false" hgap="5.0" layoutX="0.0" layoutY="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="" vgap="5.0">
+    <children>
+      <MenuBar fx:id="menuBar" cache="true" prefHeight="31.0" prefWidth="1000.0" style=".menu-bar {&#10;  fx-background-color: #D12432;&#10;}" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <Menu mnemonicParsing="false" text="Create">
+                <items>
+                  <MenuItem id="createProjectMenu" mnemonicParsing="false" onAction="#openProjectCreationWindow" text="Project" fx:id="createProjectMenu">
+                    <accelerator>
+                      <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                  </MenuItem>
+                  <MenuItem id="createTestMenu" mnemonicParsing="false" onAction="#openTestCreationWindow" text="Test">
+                    <accelerator>
+                      <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                  </MenuItem>
+                  <MenuItem id="createElementMenu" mnemonicParsing="false" text="Element">
+                    <accelerator>
+                      <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                    </accelerator>
+                  </MenuItem>
+                </items>
+              </Menu>
+              <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open">
+                <accelerator>
+                  <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+              </MenuItem>
+              <MenuItem mnemonicParsing="false" text="Settings" />
+              <MenuItem mnemonicParsing="false" text="Save" />
+              <MenuItem mnemonicParsing="false" text="Save all" />
+              <SeparatorMenuItem mnemonicParsing="false" />
+              <MenuItem mnemonicParsing="false" text="Quit" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+        <GridPane.margin>
+          <Insets />
+        </GridPane.margin>
+      </MenuBar>
+      <HBox cache="false" depthTest="INHERIT" minHeight="22.0" prefHeight="22.0" prefWidth="998.0" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <children>
+          <Label text="Project:" />
+          <Label fx:id="currentProjectLabel" text="" />
+        </children>
+        <padding>
+          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" fx:id="x1" />
+        </padding>
+      </HBox>
+      <HBox minHeight="13.0001220703125" padding="$x1" prefHeight="13.0001220703125" prefWidth="539.0" GridPane.columnIndex="0" GridPane.rowIndex="3">
+        <children>
+          <Label fx:id="messageLabel" text="" />
+        </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <children>
+          <VBox prefHeight="499.0" prefWidth="245.0" />
+          <TabPane fx:id="tabPane" prefHeight="499.0" prefWidth="745.0" style="-fx-border-color: #cccccc" tabClosingPolicy="SELECTED_TAB" />
+        </children>
+      </HBox>
+    </children>
+    <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    </columnConstraints>
+    <padding>
+      <Insets />
+    </padding>
+    <rowConstraints>
+      <RowConstraints maxHeight="196.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="368.0" minHeight="10.0" prefHeight="26.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="501.0" minHeight="10.0" prefHeight="498.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="368.0" minHeight="9.0" prefHeight="22.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+  </GridPane>
+</AnchorPane>
